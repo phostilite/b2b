@@ -34,11 +34,5 @@ python manage.py collectstatic --noinput || { log "Failed to collect static file
 # Apply database migrations 
 python manage.py migrate || { log "Failed to apply database migrations"; exit 1; }
 
-# Restart Gunicorn (assuming systemd)
-sudo systemctl restart gunicorn || { log "Failed to restart Gunicorn"; exit 1; }
-
-# Signal Nginx to reload configuration (optional, but recommended)
-sudo nginx -s reload || { log "Failed to reload Nginx configuration"; exit 1; }
-
 # Deactivate virtual environment
 deactivate
