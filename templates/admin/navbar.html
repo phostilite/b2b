@@ -1,0 +1,56 @@
+<nav class="fixed top-0 z-50 w-full bg-white border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700">
+    <div class="px-3 py-3 lg:px-5 lg:pl-3">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center justify-start rtl:justify-end">
+          <button data-drawer-target="logo-sidebar" data-drawer-toggle="logo-sidebar" aria-controls="logo-sidebar" type="button" class="inline-flex items-center p-2 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600">
+              <span class="sr-only">Open sidebar</span>
+              <svg class="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                 <path clip-rule="evenodd" fill-rule="evenodd" d="M2 4.75A.75.75 0 012.75 4h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 4.75zm0 10.5a.75.75 0 01.75-.75h7.5a.75.75 0 010 1.5h-7.5a.75.75 0 01-.75-.75zM2 10a.75.75 0 01.75-.75h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 10z"></path>
+              </svg>
+           </button>
+          <a href="{% url 'admin_dashboard' %}" class="flex ms-2 md:me-24">
+            <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" class="h-8 me-3" viewBox="0 0 50 50">
+                <path d="M 4 6 L 4 11 L 3.875 11.84375 C 3.839844 12.050781 3 16.945313 3 19.5 C 3 21.117188 3.378906 22.40625 4.0625 23.34375 C 4.042969 23.332031 4.019531 23.324219 4 23.3125 L 4 48 L 46 48 L 46 23.3125 C 45.980469 23.324219 45.960938 23.332031 45.9375 23.34375 C 46.621094 22.40625 47 21.117188 47 19.5 C 47 16.945313 46.160156 12.050781 46.125 11.84375 L 45.96875 11 L 46 11 L 46 6 Z M 5.6875 13 L 10 13 L 10 21.90625 C 9.34375 22.585938 8.421875 23 7.5 23 C 5.839844 23 5 21.820313 5 19.5 C 5 17.710938 5.457031 14.511719 5.6875 13 Z M 12 13 L 17 13 L 17 21.90625 C 16.34375 22.585938 15.421875 23 14.5 23 C 13.578125 23 12.65625 22.582031 12 21.90625 Z M 19 13 L 24 13 L 24 21.90625 C 23.34375 22.585938 22.421875 23 21.5 23 C 20.578125 23 19.65625 22.582031 19 21.90625 Z M 26 13 L 31 13 L 31 21.90625 C 30.34375 22.585938 29.421875 23 28.5 23 C 27.578125 23 26.65625 22.582031 26 21.90625 Z M 33 13 L 38 13 L 38 21.90625 C 37.34375 22.585938 36.421875 23 35.5 23 C 34.578125 23 33.65625 22.582031 33 21.90625 Z M 40 13 L 44.28125 13 C 44.519531 14.511719 45 17.710938 45 19.5 C 45 21.820313 44.160156 23 42.5 23 C 41.578125 23 40.65625 22.582031 40 21.90625 Z M 10 30 L 26 30 L 26 42 L 10 42 Z M 31 30 L 40 30 L 40 46 L 31 46 Z"></path>
+                </svg>
+            <span class="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap dark:text-white">Itease B2B</span>
+          </a>
+        </div>
+        <div class="flex items-center">
+            <div class="flex items-center ms-3">
+              <div>
+                <button type="button" class="flex text-sm bg-white rounded-full focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600" aria-expanded="false" data-dropdown-toggle="dropdown-user">
+                  <span class="sr-only">Open user menu</span>
+                  <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" class="w-8 h-8 rounded-full" viewBox="0 0 30 30">
+                    <path d="M 15 3 C 11.686 3 9 5.686 9 9 L 9 10 C 9 13.314 11.686 16 15 16 C 18.314 16 21 13.314 21 10 L 21 9 C 21 5.686 18.314 3 15 3 z M 14.998047 19 C 10.992047 19 5.8520469 21.166844 4.3730469 23.089844 C 3.4590469 24.278844 4.329125 26 5.828125 26 L 24.169922 26 C 25.668922 26 26.539 24.278844 25.625 23.089844 C 24.146 21.167844 19.004047 19 14.998047 19 z"></path>
+                </svg>
+                </button>
+              </div>
+              <div class="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded shadow dark:bg-gray-700 dark:divide-gray-600" id="dropdown-user">
+                <div class="px-4 py-3" role="none">
+                  <p class="text-sm text-gray-900 dark:text-white" role="none">
+                    {{ request.user.first_name }} {{ request.user.last_name }}
+                  </p>
+                  <p class="text-sm font-medium text-gray-900 truncate dark:text-gray-300" role="none">
+                    {{ request.user.email }}
+                  </p>
+                </div>
+                <ul class="py-1" role="none">
+                  <li>
+                    <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white" role="menuitem">Dashboard</a>
+                  </li>
+                  <li>
+                    <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white" role="menuitem">Settings</a>
+                  </li>
+                  <li>
+                    <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white" role="menuitem">Earnings</a>
+                  </li>
+                  <li>
+                    <a href="{% url 'admin_logout' %}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white" role="menuitem">Sign out</a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+      </div>
+    </div>
+  </nav>

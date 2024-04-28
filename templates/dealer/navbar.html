@@ -1,0 +1,191 @@
+<nav class="fixed top-0 z-50 w-full bg-white border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700">
+    <div class="px-3 py-3 lg:px-5 lg:pl-3">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center justify-start rtl:justify-end">
+          <button data-drawer-target="logo-sidebar" data-drawer-toggle="logo-sidebar" aria-controls="logo-sidebar" type="button" class="inline-flex items-center p-2 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600">
+              <span class="sr-only">Open sidebar</span>
+              <svg class="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                 <path clip-rule="evenodd" fill-rule="evenodd" d="M2 4.75A.75.75 0 012.75 4h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 4.75zm0 10.5a.75.75 0 01.75-.75h7.5a.75.75 0 010 1.5h-7.5a.75.75 0 01-.75-.75zM2 10a.75.75 0 01.75-.75h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 10z"></path>
+              </svg>
+           </button>
+          <a href="{% url 'dealer_dashboard' %}" class="flex ms-2 md:me-24">
+            <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" class="h-8 me-3" viewBox="0 0 50 50">
+                <path d="M 4 6 L 4 11 L 3.875 11.84375 C 3.839844 12.050781 3 16.945313 3 19.5 C 3 21.117188 3.378906 22.40625 4.0625 23.34375 C 4.042969 23.332031 4.019531 23.324219 4 23.3125 L 4 48 L 46 48 L 46 23.3125 C 45.980469 23.324219 45.960938 23.332031 45.9375 23.34375 C 46.621094 22.40625 47 21.117188 47 19.5 C 47 16.945313 46.160156 12.050781 46.125 11.84375 L 45.96875 11 L 46 11 L 46 6 Z M 5.6875 13 L 10 13 L 10 21.90625 C 9.34375 22.585938 8.421875 23 7.5 23 C 5.839844 23 5 21.820313 5 19.5 C 5 17.710938 5.457031 14.511719 5.6875 13 Z M 12 13 L 17 13 L 17 21.90625 C 16.34375 22.585938 15.421875 23 14.5 23 C 13.578125 23 12.65625 22.582031 12 21.90625 Z M 19 13 L 24 13 L 24 21.90625 C 23.34375 22.585938 22.421875 23 21.5 23 C 20.578125 23 19.65625 22.582031 19 21.90625 Z M 26 13 L 31 13 L 31 21.90625 C 30.34375 22.585938 29.421875 23 28.5 23 C 27.578125 23 26.65625 22.582031 26 21.90625 Z M 33 13 L 38 13 L 38 21.90625 C 37.34375 22.585938 36.421875 23 35.5 23 C 34.578125 23 33.65625 22.582031 33 21.90625 Z M 40 13 L 44.28125 13 C 44.519531 14.511719 45 17.710938 45 19.5 C 45 21.820313 44.160156 23 42.5 23 C 41.578125 23 40.65625 22.582031 40 21.90625 Z M 10 30 L 26 30 L 26 42 L 10 42 Z M 31 30 L 40 30 L 40 46 L 31 46 Z"></path>
+                </svg>
+            <span class="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap dark:text-white">B2B Commerce</span>
+          </a>
+        </div>
+        <div class="flex items-center">
+            <div class="flex items-center ms-3">    
+                <button id="cart-button" type="button" class="relative inline-flex items-center p-1 mr-2 text-sm font-medium text-center text-white rounded-lg focus:ring-4 focus:outline-none focus:ring-gray-300 dark:bg-white-600 dark:focus:ring-white-800" data-drawer-target="drawer-disabled-backdrop" data-drawer-show="drawer-disabled-backdrop" data-drawer-backdrop="false" data-drawer-placement="right" aria-controls="drawer-disabled-backdrop" data-popover-target="popover-bottom" data-popover-placement="bottom">
+                    <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" class="h-8 me-3" viewBox="0 0 50 50">
+                        <path d="M 2 2 C 0.894531 2 0 2.894531 0 4 C 0 5.105469 0.894531 6 2 6 C 3.105469 6 4 5.105469 4 4 L 8.65625 4 C 10.742188 4 11.542969 4.667969 12.21875 6.9375 L 20.21875 39.21875 C 20.644531 40.828125 21.125 42.609375 22.9375 43.46875 C 22.367188 44.160156 22 45.035156 22 46 C 22 48.207031 23.792969 50 26 50 C 28.207031 50 30 48.207031 30 46 C 30 45.269531 29.78125 44.589844 29.4375 44 L 35.5625 44 C 35.21875 44.589844 35 45.269531 35 46 C 35 48.207031 36.792969 50 39 50 C 41.207031 50 43 48.207031 43 46 C 43 44.960938 42.589844 44.023438 41.9375 43.3125 C 41.972656 43.210938 42 43.113281 42 43 C 42 42.449219 41.550781 42 41 42 L 25.71875 42 C 23.023438 42 22.730469 40.921875 22.15625 38.75 L 21.46875 36 L 39.8125 36 C 40.226563 36 40.605469 35.730469 40.75 35.34375 L 47.9375 16.34375 C 48.054688 16.039063 47.996094 15.707031 47.8125 15.4375 C 47.628906 15.167969 47.324219 15 47 15 L 16.28125 15 L 14.15625 6.40625 C 13.476563 4.117188 12.320313 2 8.65625 2 Z M 26 44 C 27.101563 44 28 44.898438 28 46 C 28 47.101563 27.101563 48 26 48 C 24.898438 48 24 47.101563 24 46 C 24 44.898438 24.898438 44 26 44 Z M 39 44 C 40.101563 44 41 44.898438 41 46 C 41 47.101563 40.101563 48 39 48 C 37.898438 48 37 47.101563 37 46 C 37 44.898438 37.898438 44 39 44 Z"></path>
+                        </svg>
+                    <span class="sr-only">Notifications</span>
+                    <div id="cart-item-count" class="absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-red-500 border-2 border-white rounded-full -top-2 -end-2 dark:border-gray-900">0</div>
+                </button>
+                <div data-popover id="popover-bottom" role="tooltip" class="absolute z-10 invisible inline-block w-64 text-sm text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0 dark:text-gray-400 dark:border-gray-600 dark:bg-gray-800">
+                  <div class="px-3 py-2 bg-gray-100 border-b border-gray-200 rounded-t-lg dark:border-gray-600 dark:bg-gray-700">
+                      <h3 class="font-semibold text-gray-900 dark:text-white">View All Cart Items</h3>
+                  </div>
+                  <div class="px-3 py-2">
+                      <p>Explore all the items in your cart.</p>
+                  </div>
+                  <div data-popper-arrow></div>
+              </div>
+              <div>
+                <button type="button" class="flex text-sm bg-white rounded-full focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600" aria-expanded="false" data-dropdown-toggle="dropdown-user">
+                  <span class="sr-only">Open user menu</span>
+                  <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" class="w-8 h-8 rounded-full" viewBox="0 0 30 30">
+                    <path d="M 15 3 C 11.686 3 9 5.686 9 9 L 9 10 C 9 13.314 11.686 16 15 16 C 18.314 16 21 13.314 21 10 L 21 9 C 21 5.686 18.314 3 15 3 z M 14.998047 19 C 10.992047 19 5.8520469 21.166844 4.3730469 23.089844 C 3.4590469 24.278844 4.329125 26 5.828125 26 L 24.169922 26 C 25.668922 26 26.539 24.278844 25.625 23.089844 C 24.146 21.167844 19.004047 19 14.998047 19 z"></path>
+                </svg>
+                </button>
+              </div>
+              <div class="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded shadow dark:bg-gray-700 dark:divide-gray-600" id="dropdown-user">
+                <div class="px-4 py-3" role="none">
+                  <p class="text-sm text-gray-900 dark:text-white" role="none">
+                    {{ request.user.first_name }} {{ request.user.last_name }}
+                  </p>
+                  <p class="text-sm font-medium text-gray-900 truncate dark:text-gray-300" role="none">
+                    {{ request.user.email }}
+                  </p>
+                </div>
+                <ul class="py-1" role="none">
+                  <li>
+                    <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white" role="menuitem">Dashboard</a>
+                  </li>
+                  <li>
+                    <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white" role="menuitem">Settings</a>
+                  </li>
+                  <li>
+                    <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white" role="menuitem">Earnings</a>
+                  </li>
+                  <li>
+                    <a href="{% url 'dealer_logout' %}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white" role="menuitem">Sign out</a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+      </div>
+    </div>
+  </nav>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<!-- AJAX code -->
+<script>
+$(document).ready(function() {
+    console.log('Document is ready');
+
+    function updateCart() {
+        $.ajax({
+            url: '/dealers/cart/',  // URL of your view_cart view
+            type: 'get',
+            dataType: 'json',
+            beforeSend: function() {
+                console.log('Sending request to /cart/');
+            },
+            success: function(data) {
+                console.log('Received response:', data);
+
+                // Clear the sidebar
+                $('#cart-sidebar').empty();
+                console.log('Cleared the sidebar');
+
+                // Calculate the number of unique products
+                var numberOfProducts = data.cart_items.length;
+
+                // Update the quantity display
+                $('#cart-item-count').text(numberOfProducts);
+
+                // Variable to store total price
+                let totalPrice = 0;
+
+                // Add each cart item to the sidebar
+                $.each(data.cart_items, function(i, item) {
+                    console.log('Adding item to sidebar:', item);
+                    $('#cart-sidebar').append(`
+                        <div class="flex flex-col items-center bg-white shadow pt-2 md:flex-row md:max-w-xl dark:border-gray-700 dark:bg-gray-800">
+                            <img class="w-10 md:w-20 max-w-full max-h-full" src="${item.image}" alt="">
+                            <div class="flex flex-col justify-between p-4 leading-normal w-full">
+                  
+                            <p class="text-sm text-gray-900 dark:text-white">${item.product}</p>
+                            <p class="text-sm text-gray-900 dark:text-white flex-shrink">Sizes: ${item.size_groups.map(size_group => size_group.id + ': ' + size_group.sizes.join(', ')).join(', ')}</p>
+                            <div class="flex justify-between items-center w-full">
+                                <p class="text-sm text-gray-900 dark:text-white flex-shrink">Qty: ${item.quantity}</p>
+                                <div class="flex-grow ml-2">
+                                <p class="text-sm text-gray-900 dark:text-white text-right">Price by Size Group: ₹${item.price_by_size_group}</p>
+                              </div>
+                                <button class="delete-button" data-product-id="${item.product_id}" data-size-group-id="${item.size_groups[0].id}">
+                                  <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" class="h-4 me-1" viewBox="0 0 24 24">
+                                    <path d="M 10.806641 2 C 10.289641 2 9.7956875 2.2043125 9.4296875 2.5703125 L 9 3 L 4 3 A 1.0001 1.0001 0 1 0 4 5 L 20 5 A 1.0001 1.0001 0 1 0 20 3 L 15 3 L 14.570312 2.5703125 C 14.205312 2.2043125 13.710359 2 13.193359 2 L 10.806641 2 z M 4.3652344 7 L 5.8925781 20.263672 C 6.0245781 21.253672 6.877 22 7.875 22 L 16.123047 22 C 17.121047 22 17.974422 21.254859 18.107422 20.255859 L 19.634766 7 L 4.3652344 7 z"></path>
+                                  </svg>
+                                </button>
+                            </div>
+                            </div>
+                        </div>
+                    `);
+                    // Add the price of the current item to the total price
+                    totalPrice += Number(item.price_by_size_group);
+                });
+                 // Append total price to the sidebar
+                $('#cart-sidebar').append(`
+                    <div class="flex justify-between items-center w-full">
+                        <p class="text-sm text-gray-900 dark:text-white flex-shrink">Total Price:</p>
+                        <div class="flex-grow ml-2">
+                        <p class="text-sm text-gray-900 dark:text-white text-right">₹${totalPrice}</p>
+                        </div>
+                    </div>
+                `);
+            },
+        });
+    }
+
+    // Update the cart when the page is loaded
+    updateCart();
+
+    // Update the cart when the cart button is clicked
+    $('#cart-button').click(function() {
+        console.log('Cart button was clicked');
+        updateCart();
+    });
+});
+
+$(document).on('click', '.delete-button', function() {
+  var productId = $(this).data('product-id');
+  var sizeGroupId = $(this).data('size-group-id');
+  $.ajax({
+      url: '/dealers/cart/' + productId + '/' + sizeGroupId + '/',
+      type: 'DELETE',
+      headers: {
+          'X-CSRFToken': getCookie('csrftoken')
+      },
+      beforeSend: function() {
+          console.log('Sending DELETE request to /dealers/cart/' + productId + '/' + sizeGroupId + '/');
+      },
+      success: function() {
+          console.log('Deleted product from cart:', productId, 'Size Group:', sizeGroupId);
+          location.reload();
+      },
+      error: function(jqXHR, textStatus, errorThrown) {
+          console.error('Error deleting product from cart:', textStatus, errorThrown);
+      }
+  });
+});
+
+function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = jQuery.trim(cookies[i]);
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+</script>

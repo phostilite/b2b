@@ -1,0 +1,20 @@
+{% extends '../_base.html' %}
+{% block content %}
+{% include './navbar.html' %}
+{% include './sidebar.html' %}
+{% include './cart.html' %}
+
+<div class="p-4 sm:ml-64" style="margin-top: 64px;">
+    <h2>Payment Successful</h2>
+  <p>Your payment has been processed successfully. Here are the details:</p>
+
+  <ul>
+    <li>Order ID: {{ payment.order.id }}</li>
+    <li>Payment ID: {{ payment.payment_id }}</li>
+    <li>Amount: {{ payment.amount }}</li>
+  </ul>
+
+  <p>Thank you for your purchase!</p>
+</div>
+
+{% endblock %}

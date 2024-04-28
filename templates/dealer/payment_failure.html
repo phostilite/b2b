@@ -1,0 +1,18 @@
+{% extends '../_base.html' %}
+{% block content %}
+{% include './navbar.html' %}
+{% include './sidebar.html' %}
+{% include './cart.html' %}
+
+<div class="p-4 sm:ml-64" style="margin-top: 64px;">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h1>Payment Failed</h1>
+                <p>Sorry, your payment could not be processed. Please try again.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

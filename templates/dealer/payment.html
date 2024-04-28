@@ -1,0 +1,57 @@
+{% extends '../_base.html' %}
+{% block content %}
+{% include './navbar.html' %}
+{% include './sidebar.html' %}
+{% include './cart.html' %}
+
+<div class="p-4 sm:ml-64" style="margin-top: 64px;">
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <form action="{% url 'payment_success' %}" method="POST">
+        {% csrf_token %}
+       <input type="hidden" name="payment_id" value="{{ payment_id }}">
+       <script>
+        var options = {
+            "key": "{{ settings.RAZORPAY_API_KEY }}",
+            "amount": "{{ amount }}",
+            "currency": "INR",
+            "name": "Your Company Name",
+            "description": "Payment Description",
+            "order_id": "{{ razorpay_order_id }}",
+            "handler": function (response){
+                console.log('Payment handler called', response);
+                var payment_id = response.razorpay_payment_id;
+                var signature = response.razorpay_signature;
+                var razorpay_order_id = "{{ razorpay_order_id }}";
+
+                var csrftoken = $('[name=csrfmiddlewaretoken]').val();
+    
+                // send the payment_id and signature to your backend
+                $.post("/dealers/payment_success/", { 'razorpay_order_id': razorpay_order_id, 'razorpay_payment_id': payment_id, 'signature': signature, 'csrfmiddlewaretoken': csrftoken })
+                .done(function(data) {
+                    console.log('Payment success post completed', data);
+                })
+                .fail(function(jqxhr, textStatus, error) {
+                    var err = textStatus + ", " + error;
+                    console.log("Payment success post failed: " + err);
+                });
+            },
+            "prefill": {
+                "name": "John Doe",
+                "email": "john@example.com",
+                "contact": "9876543210"
+            }
+        };
+        try {
+            var rzp = new Razorpay(options);
+            rzp.open();
+        } catch (error) {
+            console.error('Error creating Razorpay object or opening dialog', error);
+        }
+    </script>
+    </form>
+</div>
+
+{% endblock %}
+
+
+

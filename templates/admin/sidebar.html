@@ -1,0 +1,178 @@
+<aside id="logo-sidebar" class="fixed top-0 left-0 z-40 w-64 h-screen pt-20 transition-transform -translate-x-full bg-white border-r border-gray-200 sm:translate-x-0 dark:bg-gray-800 dark:border-gray-700" aria-label="Sidebar">
+    <div class="h-full px-3 pb-4 overflow-y-auto bg-white dark:bg-gray-800">
+       <ul class="space-y-2 font-medium">
+          <li data-popover-target="popover-right-1" data-popover-placement="right">
+             <a href="{% url 'admin_dashboard' %}" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+               <svg class="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="24" height="24" viewBox="0 0 24 24">
+                   <path d="M9 2H4C2.897 2 2 2.897 2 4v7c0 1.103.897 2 2 2h5c1.103 0 2-.897 2-2V4C11 2.897 10.103 2 9 2zM20 2h-5c-1.103 0-2 .897-2 2v3c0 1.103.897 2 2 2h5c1.103 0 2-.897 2-2V4C22 2.897 21.103 2 20 2zM9 15H4c-1.103 0-2 .897-2 2v3c0 1.103.897 2 2 2h5c1.103 0 2-.897 2-2v-3C11 15.897 10.103 15 9 15zM20 11h-5c-1.103 0-2 .897-2 2v7c0 1.103.897 2 2 2h5c1.103 0 2-.897 2-2v-7C22 11.897 21.103 11 20 11z"></path>
+               </svg>
+                <span class="ms-3">Dashboard</span>
+             </a>
+             <div data-popover id="popover-right-1" role="tooltip" class="absolute z-10 invisible inline-block w-64 text-sm text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0 dark:text-gray-400 dark:border-gray-600 dark:bg-gray-800">
+               <div class="px-3 py-2 bg-gray-100 border-b border-gray-200 rounded-t-lg dark:border-gray-600 dark:bg-gray-700">
+                   <h3 class="font-semibold text-gray-900 dark:text-white">Dashboard</h3>
+               </div>
+               <div class="px-3 py-2">
+                   <p>Monitor key sales metrics, pending orders, and stock levels.</p>
+               </div>
+               <div data-popper-arrow></div>
+             </div>
+          </li>
+          <li data-popover-target="popover-right-2" data-popover-placement="right">
+             <a href="#" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+               <svg class="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="32" height="32" viewBox="0 0 88 88">
+                   <path d="M 44 3.2695312 L 8.0527344 22.701172 L 20.669922 29.521484 L 56.617188 10.091797 L 44 3.2695312 z M 58.720703 11.228516 L 22.771484 30.658203 L 26.132812 32.474609 L 30.330078 34.744141 L 66.279297 15.3125 L 58.720703 11.228516 z M 68.382812 16.449219 L 32.433594 35.880859 L 44 42.134766 L 79.947266 22.701172 L 68.382812 16.449219 z M 7 24.40625 L 7 65.269531 L 43 84.730469 L 43 43.867188 L 31.330078 37.558594 L 31.330078 52.519531 A 1 1 0 0 1 29.511719 53.095703 L 25.113281 46.857422 L 20.988281 48.248047 A 1 1 0 0 1 19.669922 47.300781 L 19.669922 31.255859 L 7 24.40625 z M 81 24.40625 L 45 43.865234 L 45 84.730469 L 81 65.269531 L 81 24.40625 z M 21.669922 32.337891 L 21.669922 45.908203 L 25.181641 44.724609 A 1.0041 1.0041 0 0 1 25.5 44.671875 A 1.0012 1.0012 0 0 1 26.318359 45.095703 L 29.330078 49.367188 L 29.330078 36.476562 L 23.480469 33.314453 L 21.669922 32.337891 z M 10.953125 58.476562 A 1.0002976 1.0002976 0 0 1 11.476562 58.595703 L 24.550781 65.662109 A 1.0007 1.0007 0 0 1 24.953125 67.017578 A 1.0008 1.0008 0 0 1 23.597656 67.421875 L 10.523438 60.355469 A 1.0002976 1.0002976 0 0 1 10.953125 58.476562 z M 10.953125 61.886719 A 1.0002976 1.0002976 0 0 1 11.476562 62.005859 L 16.220703 64.570312 A 1.0006 1.0006 0 0 1 16.623047 65.925781 A 1 1 0 0 1 15.269531 66.330078 L 10.523438 63.765625 A 1.0002976 1.0002976 0 0 1 10.953125 61.886719 z"></path>
+                   </svg>
+                <span class="flex-1 ms-3 whitespace-nowrap">Orders</span>
+             </a>
+             <div data-popover id="popover-right-2" role="tooltip" class="absolute z-10 invisible inline-block w-64 text-sm text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0 dark:text-gray-400 dark:border-gray-600 dark:bg-gray-800">
+               <div class="px-3 py-2 bg-gray-100 border-b border-gray-200 rounded-t-lg dark:border-gray-600 dark:bg-gray-700">
+                   <h3 class="font-semibold text-gray-900 dark:text-white">Orders</h3>
+               </div>
+               <div class="px-3 py-2">
+                   <p>View, search, filter, edit, and approve orders efficiently.</p>
+               </div>
+               <div data-popper-arrow></div>
+             </div>
+          </li>
+          <li data-popover-target="popover-right-3" data-popover-placement="right">
+             <a href="#" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+               <svg class="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"  xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="50" height="50" viewBox="0 0 50 50">
+                   <path d="M6,2v46h38V2H6z M17,35h-4v-3h4V35z M17,30h-4v-4h4V30z M17,24h-4v-3h4V24z M30,26v4H19v-4H30z M19,24v-3h11v3H19z M30,32v3 H19v-3H30z M37,42H25v-2h12V42z M37,35h-5v-3h5V35z M37,30h-5v-4h5V30z M37,24h-5v-3h5V24z M37,13H13v-2h24V13z"></path>
+               </svg>
+                <span class="flex-1 ms-3 whitespace-nowrap">Invoicing</span>
+             </a>
+             <div data-popover id="popover-right-3" role="tooltip" class="absolute z-10 invisible inline-block w-64 text-sm text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0 dark:text-gray-400 dark:border-gray-600 dark:bg-gray-800">
+               <div class="px-3 py-2 bg-gray-100 border-b border-gray-200 rounded-t-lg dark:border-gray-600 dark:bg-gray-700">
+                   <h3 class="font-semibold text-gray-900 dark:text-white">Invoicing</h3>
+               </div>
+               <div class="px-3 py-2">
+                   <p>Generate, view, search, and filter invoices seamlessly.</p>
+               </div>
+               <div data-popper-arrow></div>
+             </div>
+          </li>
+          <li data-popover-target="popover-right-4" data-popover-placement="right">
+           <button type="button" class="flex items-center w-full p-2 text-base text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700" aria-controls="dropdown-example" data-collapse-toggle="dropdown-example">
+               <svg class="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="30" height="30" viewBox="0 0 30 30">
+                   <path d="M 5 0 C 2.243 0 0 2.243 0 5 C 0 7.757 2.243 10 5 10 C 7.757 10 10 7.757 10 5 C 10 2.243 7.757 0 5 0 z M 5 2 C 5.552 2 6 2.448 6 3 L 6 4.5859375 L 6.7050781 5.2910156 C 7.0960781 5.6820156 7.0960781 6.3140781 6.7050781 6.7050781 C 6.5090781 6.9000781 6.2530469 6.9980469 5.9980469 6.9980469 C 5.7430469 6.9980469 5.4860156 6.9000781 5.2910156 6.7050781 L 4.2402344 5.6542969 C 4.0852344 5.5002969 4 5.2922188 4 5.0742188 L 4 3 C 4 2.448 4.448 2 5 2 z M 24 3 L 24 5 L 21 5 A 1.0001 1.0001 0 0 0 20.199219 5.4003906 L 17.5 9 L 15 9 A 1.0001 1.0001 0 0 0 14.292969 9.2929688 L 11.585938 12 L 9 12 A 1.0001 1.0001 0 0 0 8.4453125 12.167969 L 5.6972656 14 L 5 14 A 1.0001 1.0001 0 1 0 5 16 L 6 16 A 1.0001 1.0001 0 0 0 6.5546875 15.832031 L 9.3027344 14 L 12 14 A 1.0001 1.0001 0 0 0 12.707031 13.707031 L 15.414062 11 L 18 11 A 1.0001 1.0001 0 0 0 18.800781 10.599609 L 21.5 7 L 24 7 L 24 9 L 27 6 L 24 3 z M 23 11 C 22.448 11 22 11.448 22 12 L 22 26 L 26 26 L 26 12 C 26 11.448 25.552 11 25 11 L 23 11 z M 17 14 C 16.448 14 16 14.448 16 15 L 16 26 L 20 26 L 20 15 C 20 14.448 19.552 14 19 14 L 17 14 z M 11 17 C 10.448 17 10 17.448 10 18 L 10 26 L 14 26 L 14 18 C 14 17.448 13.552 17 13 17 L 11 17 z M 5 20 C 4.448 20 4 20.448 4 21 L 4 26 L 8 26 L 8 21 C 8 20.448 7.552 20 7 20 L 5 20 z"></path>
+                   </svg>
+                 <span class="flex-1 ms-3 text-left rtl:text-right whitespace-nowrap">Sales</span>
+                 <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
+                 </svg>
+           </button>
+           <ul id="dropdown-example" class="hidden py-2 space-y-2">
+                 <li>
+                    <a href="#" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Sales Reports</a>
+                 </li>
+                 <li>
+                    <a href="{% url 'employee_list' %}" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Sales Team Management</a>
+                 </li>
+           </ul>
+           <div data-popover id="popover-right-4" role="tooltip" class="absolute z-10 invisible inline-block w-64 text-sm text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0 dark:text-gray-400 dark:border-gray-600 dark:bg-gray-800">
+            <div class="px-3 py-2 bg-gray-100 border-b border-gray-200 rounded-t-lg dark:border-gray-600 dark:bg-gray-700">
+                <h3 class="font-semibold text-gray-900 dark:text-white">Sales</h3>
+            </div>
+            <div class="px-3 py-2">
+                <p>Access sales reports and manage your sales team.</p>
+            </div>
+            <div data-popper-arrow></div>
+          </div>
+        </li>
+          <li data-popover-target="popover-right-5" data-popover-placement="right">
+             <a href="{% url 'dealer_list' %}" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+               <svg class="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="50" height="50" viewBox="0 0 50 50">
+                   <path d="M 27 4 C 18.71 4 15.001953 9.273 15.001953 14.5 C 15.001953 15.619 15.240797 16.812688 15.716797 18.054688 C 15.320797 18.551687 15.013 19.251 15 20.125 C 14.998 20.25 14.998766 20.377766 15.009766 20.509766 C 15.267766 22.405766 16.024656 23.531047 16.847656 23.998047 C 17.176656 25.762047 18.117 27.558078 19 28.455078 L 19 32.326172 C 18.418 33.787172 16.370766 34.579141 14.009766 35.494141 C 10.144766 36.991141 5.3329531 38.854312 5.0019531 44.945312 C 4.9869531 45.219313 5.0844375 45.4885 5.2734375 45.6875 C 5.4624375 45.8865 5.726 46 6 46 L 26 46 L 26 49 A 1.0001 1.0001 0 0 0 27 50 L 49 50 A 1.0001 1.0001 0 0 0 50 49 L 50 28 A 1.0001 1.0001 0 0 0 49 27 L 31.994141 27 C 32.415079 26.211958 32.860175 25.159156 33.113281 24.056641 C 33.850281 23.730641 34.788094 22.865031 34.996094 20.582031 C 35.005094 20.469031 35 20.359 35 20.25 C 35.003 19.368 34.728547 18.633859 34.310547 18.130859 C 34.751547 17.153859 35.006 15.850094 35 14.496094 C 34.984 10.456094 33.001859 6.3823906 28.630859 6.0253906 L 27.894531 4.5527344 C 27.724531 4.2147344 27.379 4 27 4 z M 28 29 L 48 29 L 48 48 L 28 48 L 28 29 z M 34 31 A 1.0001 1.0001 0 1 0 34 33 L 42 33 A 1.0001 1.0001 0 1 0 42 31 L 34 31 z"></path>
+                   </svg>
+                <span class="flex-1 ms-3 whitespace-nowrap">Dealers</span>
+             </a>
+             <div data-popover id="popover-right-5" role="tooltip" class="absolute z-10 invisible inline-block w-64 text-sm text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0 dark:text-gray-400 dark:border-gray-600 dark:bg-gray-800">
+               <div class="px-3 py-2 bg-gray-100 border-b border-gray-200 rounded-t-lg dark:border-gray-600 dark:bg-gray-700">
+                   <h3 class="font-semibold text-gray-900 dark:text-white">Dealers</h3>
+               </div>
+               <div class="px-3 py-2">
+                   <p>Add, view, edit, and monitor dealer onboarding status.</p>
+               </div>
+               <div data-popper-arrow></div>
+             </div>
+          </li>
+          <li data-popover-target="popover-right-6" data-popover-placement="right">
+            <a href="{% url 'retailer_list' %}" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                <svg class="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="50" height="50" viewBox="0 0 50 50">
+                    <path d="M 34.800781 33.800781 C 33.101563 33.101563 31 32.199219 31 31.5 L 31 27 C 33.5 25.101563 35 22.101563 35 19 L 35 13 C 35 7.5 30.5 3 25 3 C 19.5 3 15 7.5 15 13 L 15 19 C 15 22.101563 16.5 25.199219 19 27 L 19 31.5 C 19 32.101563 16.898438 33 15.199219 33.800781 C 11.101563 35.5 5 38.101563 5 45 L 5 46 L 45 46 L 45 45 C 45 38.101563 38.898438 35.5 34.800781 33.800781 Z"></path>
+                </svg>
+               <span class="flex-1 ms-3 whitespace-nowrap">Retailers</span>
+            </a>
+            <div data-popover id="popover-right-6" role="tooltip" class="absolute z-10 invisible inline-block w-64 text-sm text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0 dark:text-gray-400 dark:border-gray-600 dark:bg-gray-800">
+               <div class="px-3 py-2 bg-gray-100 border-b border-gray-200 rounded-t-lg dark:border-gray-600 dark:bg-gray-700">
+                   <h3 class="font-semibold text-gray-900 dark:text-white">Retailers</h3>
+               </div>
+               <div class="px-3 py-2">
+                   <p>Add, view, edit, and monitor retailer onboarding status.</p>
+               </div>
+               <div data-popper-arrow></div>
+             </div>
+         </li>
+          <li data-popover-target="popover-right-7" data-popover-placement="right">
+             <a href="{% url 'product_list' %}" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+               <svg class="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="50" height="50" viewBox="0 0 50 50">
+                   <path d="M 2 2 C 0.894531 2 0 2.894531 0 4 C 0 5.105469 0.894531 6 2 6 C 3.105469 6 4 5.105469 4 4 L 8.65625 4 C 10.738281 4 11.542969 4.667969 12.21875 6.9375 L 20.21875 39.21875 C 20.644531 40.832031 21.121094 42.609375 22.9375 43.46875 C 22.359375 44.164063 22 45.035156 22 46 C 22 48.199219 23.800781 50 26 50 C 28.199219 50 30 48.199219 30 46 C 30 45.265625 29.785156 44.59375 29.4375 44 L 35.5625 44 C 35.214844 44.59375 35 45.265625 35 46 C 35 48.199219 36.800781 50 39 50 C 41.199219 50 43 48.199219 43 46 C 43 44.957031 42.570313 44.027344 41.90625 43.3125 C 41.941406 43.207031 42 43.117188 42 43 C 42 42.445313 41.554688 42 41 42 L 25.71875 42 C 23.027344 42 22.730469 40.886719 22.15625 38.71875 L 21.71875 37 L 49 37 C 49.554688 37 50 36.554688 50 36 L 50 12 C 50 11.449219 49.554688 11 49 11 L 15.375 11 C 15.34375 11 15.3125 11.027344 15.28125 11.03125 L 14.15625 6.40625 C 13.476563 4.113281 12.328125 2 8.65625 2 Z M 29.5 16 L 36.5 16 C 37.328125 16 38 16.671875 38 17.5 C 38 18.328125 37.328125 19 36.5 19 L 29.5 19 C 28.671875 19 28 18.328125 28 17.5 C 28 16.671875 28.671875 16 29.5 16 Z M 26 44 C 27.117188 44 28 44.882813 28 46 C 28 47.117188 27.117188 48 26 48 C 24.882813 48 24 47.117188 24 46 C 24 44.882813 24.882813 44 26 44 Z M 39 44 C 40.117188 44 41 44.882813 41 46 C 41 47.117188 40.117188 48 39 48 C 37.882813 48 37 47.117188 37 46 C 37 44.882813 37.882813 44 39 44 Z"></path>
+                   </svg>
+                <span class="flex-1 ms-3 whitespace-nowrap">Stock</span>
+             </a>
+             <div data-popover id="popover-right-7" role="tooltip" class="absolute z-10 invisible inline-block w-64 text-sm text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0 dark:text-gray-400 dark:border-gray-600 dark:bg-gray-800">
+               <div class="px-3 py-2 bg-gray-100 border-b border-gray-200 rounded-t-lg dark:border-gray-600 dark:bg-gray-700">
+                   <h3 class="font-semibold text-gray-900 dark:text-white">Stock</h3>
+               </div>
+               <div class="px-3 py-2">
+                   <p>View, update stock quantities, and set low-stock thresholds.</p>
+               </div>
+               <div data-popper-arrow></div>
+             </div>
+          </li>
+          <li data-popover-target="popover-right-9" data-popover-placement="right">
+            <a href="{% url 'adminuser_profile' %}" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+              <svg class="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="50" height="50" viewBox="0 0 50 50">
+                  <path d="M 21.980469 2 C 18.136719 2.085938 15.375 3.199219 13.765625 5.3125 C 11.949219 7.703125 11.632813 11.265625 12.796875 16.195313 C 12.386719 16.726563 12.011719 17.574219 12.109375 18.734375 C 12.402344 20.898438 13.230469 21.789063 13.898438 22.152344 C 14.234375 23.953125 15.21875 25.863281 16.101563 26.765625 C 16.105469 26.988281 16.109375 27.203125 16.113281 27.417969 C 16.132813 28.375 16.144531 29.203125 16.019531 30.265625 C 15.816406 30.792969 15.402344 31.234375 14.839844 31.632813 L 17.984375 35.421875 L 20.921875 31.773438 C 21.1875 31.445313 21.617188 31.140625 22 31.257813 C 22.378906 31.140625 22.8125 31.445313 23.078125 31.773438 L 23.742188 32.597656 C 23.9375 32.800781 24.132813 33.039063 24.316406 33.3125 L 26.75 36.25 L 29.152344 31.648438 C 28.601563 31.265625 28.179688 30.84375 27.960938 30.339844 C 27.902344 29.128906 27.800781 27.191406 27.800781 26.753906 C 28.667969 25.839844 29.585938 23.925781 29.96875 22.191406 C 30.6875 21.851563 31.589844 20.96875 31.796875 18.683594 C 31.890625 17.558594 31.582031 16.734375 31.15625 16.199219 C 31.816406 14.128906 32.9375 9.535156 31.09375 6.488281 C 30.253906 5.101563 28.941406 4.230469 27.183594 3.882813 C 26.214844 2.664063 24.398438 2 21.980469 2 Z M 22 4 C 23.890625 4 25.253906 4.476563 25.734375 5.304688 L 25.980469 5.722656 L 26.457031 5.789063 C 27.835938 5.984375 28.792969 6.550781 29.378906 7.523438 C 30.664063 9.640625 30.007813 13.5 29.058594 16.160156 L 28.742188 16.984375 L 29.535156 17.382813 C 29.625 17.445313 29.863281 17.789063 29.804688 18.507813 C 29.667969 19.988281 29.199219 20.382813 29.097656 20.402344 L 28.234375 20.402344 L 28.109375 21.261719 C 27.835938 23.183594 26.683594 25.15625 26.304688 25.433594 L 25.800781 25.71875 L 25.800781 26.300781 C 25.800781 27.335938 25.804688 28.183594 25.832031 29.125 L 22 31.253906 L 18.109375 29.09375 C 18.128906 28.503906 18.121094 27.945313 18.109375 27.378906 C 18.105469 27.035156 18.097656 26.679688 18.097656 26.296875 L 18.035156 25.734375 L 17.609375 25.4375 C 17.214844 25.167969 15.972656 23.171875 15.796875 21.304688 L 15.78125 20.40625 L 14.875 20.40625 C 14.730469 20.351563 14.285156 19.878906 14.09375 18.515625 C 14.027344 17.679688 14.453125 17.332031 14.453125 17.332031 L 15.046875 16.9375 L 14.871094 16.253906 C 13.707031 11.667969 13.867188 8.484375 15.359375 6.523438 C 16.578125 4.921875 18.820313 4.070313 22 4 Z M 45.015625 30 C 44.25 30 43.484375 30.289063 42.902344 30.875 C 42.902344 30.875 42.726563 31.050781 42.578125 31.199219 L 42.574219 31.195313 L 31.328125 42.441406 C 31.203125 42.566406 31.113281 42.71875 31.066406 42.890625 L 30.03125 46.738281 C 29.941406 47.085938 30.039063 47.453125 30.292969 47.707031 C 30.480469 47.894531 30.738281 48 31 48 C 31.085938 48 31.175781 47.988281 31.261719 47.96875 L 35.109375 46.933594 C 35.28125 46.886719 35.433594 46.796875 35.558594 46.671875 L 46.804688 35.421875 L 46.800781 35.421875 C 46.949219 35.269531 47.125 35.09375 47.125 35.09375 C 48.289063 33.929688 48.292969 32.039063 47.125 30.875 C 46.542969 30.289063 45.777344 30 45.015625 30 Z M 30.921875 32.546875 L 27.636719 37.636719 C 27.445313 37.867188 27.160156 38 26.859375 38 C 26.859375 38 26.285156 38.050781 25.894531 37.601563 L 23.253906 35.15625 L 22.5 35.769531 C 22.5 35.769531 24.277344 38.746094 24.769531 42 C 24.769531 42 24.769531 42 24.765625 42 L 19.238281 42 C 19.742188 38.8125 21.5 35.800781 21.5 35.800781 L 20.742188 35.1875 L 18.78125 37.625 C 18.589844 37.859375 18.308594 37.996094 18.007813 38 L 18 38 C 17.703125 38 17.421875 37.867188 17.230469 37.640625 L 13.042969 32.597656 C 12.4375 32.871094 11.78125 33.132813 11.09375 33.40625 C 7.191406 34.949219 2.335938 36.875 2 42.945313 L 1.945313 44 L 25.664063 44 L 28.984375 44.019531 L 29.65625 41.65625 C 29.65625 41.65625 33.15625 38.09375 36.0625 34.96875 C 34.722656 34.203125 34.21875 33.882813 32.882813 33.355469 C 32.191406 33.082031 31.53125 32.816406 30.921875 32.546875 Z M 43.808594 32.792969 L 45.207031 34.191406 L 34.332031 45.070313 L 32.414063 45.585938 L 32.929688 43.667969 Z"></path>
+                  </svg>
+               <span class="flex-1 ms-3 whitespace-nowrap">Profile</span>
+            </a>
+            <div data-popover id="popover-right-9" role="tooltip" class="absolute z-10 invisible inline-block w-64 text-sm text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0 dark:text-gray-400 dark:border-gray-600 dark:bg-gray-800">
+                 <div class="px-3 py-2 bg-gray-100 border-b border-gray-200 rounded-t-lg dark:border-gray-600 dark:bg-gray-700">
+                     <h3 class="font-semibold text-gray-900 dark:text-white">Profile</h3>
+                 </div>
+                 <div class="px-3 py-2">
+                     <p>View or edit your profile details to ensure accuracy.</p>
+                 </div>
+                 <div data-popper-arrow></div>
+             </div>
+         </li>
+          <li data-popover-target="popover-right-8" data-popover-placement="right">
+             <a href="#" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+               <svg class="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="50" height="50" viewBox="0 0 50 50">
+                   <path d="M47.16,21.221l-5.91-0.966c-0.346-1.186-0.819-2.326-1.411-3.405l3.45-4.917c0.279-0.397,0.231-0.938-0.112-1.282 l-3.889-3.887c-0.347-0.346-0.893-0.391-1.291-0.104l-4.843,3.481c-1.089-0.602-2.239-1.08-3.432-1.427l-1.031-5.886 C28.607,2.35,28.192,2,27.706,2h-5.5c-0.49,0-0.908,0.355-0.987,0.839l-0.956,5.854c-1.2,0.345-2.352,0.818-3.437,1.412l-4.83-3.45 c-0.399-0.285-0.942-0.239-1.289,0.106L6.82,10.648c-0.343,0.343-0.391,0.883-0.112,1.28l3.399,4.863 c-0.605,1.095-1.087,2.254-1.438,3.46l-5.831,0.971c-0.482,0.08-0.836,0.498-0.836,0.986v5.5c0,0.485,0.348,0.9,0.825,0.985 l5.831,1.034c0.349,1.203,0.831,2.362,1.438,3.46l-3.441,4.813c-0.284,0.397-0.239,0.942,0.106,1.289l3.888,3.891 c0.343,0.343,0.884,0.391,1.281,0.112l4.87-3.411c1.093,0.601,2.248,1.078,3.445,1.424l0.976,5.861C21.3,47.647,21.717,48,22.206,48 h5.5c0.485,0,0.9-0.348,0.984-0.825l1.045-5.89c1.199-0.353,2.348-0.833,3.43-1.435l4.905,3.441 c0.398,0.281,0.938,0.232,1.282-0.111l3.888-3.891c0.346-0.347,0.391-0.894,0.104-1.292l-3.498-4.857 c0.593-1.08,1.064-2.222,1.407-3.408l5.918-1.039c0.479-0.084,0.827-0.5,0.827-0.985v-5.5C47.999,21.718,47.644,21.3,47.16,21.221z M25,32c-3.866,0-7-3.134-7-7c0-3.866,3.134-7,7-7s7,3.134,7,7C32,28.866,28.866,32,25,32z"></path>
+               </svg>
+                <span class="flex-1 ms-3 whitespace-nowrap">System Settings</span>
+             </a>
+             <div data-popover id="popover-right-8" role="tooltip" class="absolute z-10 invisible inline-block w-64 text-sm text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0 dark:text-gray-400 dark:border-gray-600 dark:bg-gray-800">
+               <div class="px-3 py-2 bg-gray-100 border-b border-gray-200 rounded-t-lg dark:border-gray-600 dark:bg-gray-700">
+                   <h3 class="font-semibold text-gray-900 dark:text-white">System Settings</h3>
+               </div>
+               <div class="px-3 py-2">
+                   <p>Configure site-wide settings, pricing rules, and invoice rules.</p>
+               </div>
+               <div data-popper-arrow></div>
+             </div>
+          </li>
+          <li>
+             <a href="{% url 'admin_logout' %}" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+               <svg class="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="30" height="30" viewBox="0 0 30 30">
+                   <path d="M 5 3 C 3.897 3 3 3.897 3 5 L 3 25 C 3 26.103 3.897 27 5 27 L 19 27 C 20.103 27 21 26.103 21 25 L 21 16 L 13 16 C 12.448 16 12 15.552 12 15 C 12 14.448 12.448 14 13 14 L 21 14 L 21 5 C 21 3.897 20.103 3 19 3 L 5 3 z M 21 14 L 21 16 L 26.585938 16 L 24.292969 18.292969 A 1.0001 1.0001 0 1 0 25.707031 19.707031 L 29.707031 15.707031 A 1.0001 1.0001 0 0 0 29.707031 14.292969 L 25.707031 10.292969 A 1.0001 1.0001 0 0 0 24.990234 9.9902344 A 1.0001 1.0001 0 0 0 24.292969 11.707031 L 26.585938 14 L 21 14 z"></path>
+                   </svg>
+                <span class="flex-1 ms-3 whitespace-nowrap">Sign Out</span>
+             </a>
+          </li>
+       </ul>
+    </div>
+ </aside>
