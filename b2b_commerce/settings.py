@@ -30,7 +30,7 @@ SECRET_KEY = 'django-insecure-)ahcb(!%1%!s4v+#rupxf0k)nd22)9em&5@+sbh(sgt7yxj9+v
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['b2b.paroshiltex.com', '64.23.164.125', 'localhost']
 
 
 # Application definition
@@ -140,6 +140,8 @@ STATIC_URL = 'static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
 ]
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 
 # Default primary key field type
