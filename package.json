@@ -6,6 +6,7 @@
   },
   "dependencies": {
     "apexcharts": "^3.49.0",
-    "flowbite": "^2.3.0"
+    "flowbite": "^2.3.0",
+    "lodash": "^4.17.21"
   }
 }
