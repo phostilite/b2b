@@ -5,6 +5,7 @@ from dealers import views as dealer_views
 from sales import views as sales_views
 from stock import views as stock_views
 from retailers import views as retailer_views
+from orders import views as order_views
 
 urlpatterns = [
     path('login/', views.admin_login_view, name='admin_login'),
@@ -18,7 +19,8 @@ urlpatterns = [
     path('create-product/', stock_views.create_product, name='create_product'),
     path('create-dealer/', dealer_views.create_dealer, name='create_dealer'),
     path('create-retailer/', retailer_views.create_retailer, name='create_retailer'),
-    path('create-employee/', sales_views.create_employee, name='create_employee'), 
+    path('create-employee/', sales_views.create_employee, name='create_employee'),
+    path('order-list/', order_views.order_list_view, name='order_list'), 
     
-    path('profile/', views.update_profile, name='adminuser_profile')
+    path('profile/', views.update_profile, name='adminuser_profile'),
 ]
