@@ -36,9 +36,9 @@
                 });
             },
             "prefill": {
-                "name": "John Doe",
-                "email": "john@example.com",
-                "contact": "9876543210"
+                "name": "{{ billing_address.first_name }} {{ billing_address.last_name }}",
+                "email": "{{ billing_address.email }}",
+                "contact": "{{ billing_address.phone }}",
             }
         };
         try {

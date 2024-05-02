@@ -4,17 +4,45 @@
 {% include './sidebar.html' %}
 {% include './cart.html' %}
 
-<div class="p-4 sm:ml-64" style="margin-top: 64px;">
-    <h2>Payment Successful</h2>
-  <p>Your payment has been processed successfully. Here are the details:</p>
+<div class="p-4 sm:ml-64 mt-14">
+    <div class="w-full h-full bg-white rounded-lg shadow dark:bg-gray-800 p-4 md:p-6">
+        <div class="flex justify-between pb-4 mb-4 border-b border-gray-200 dark:border-gray-700">
+            <div class="flex items-center">
+                <div class="w-12 h-12 rounded-lg dark:bg-gray-700 flex items-center justify-center me-3">
+                    <svg class="w-6 h-6 text-green-500 dark:text-green-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                    </svg>
+                </div>
+                <div>
+                    <h5 class="leading-none text-2xl font-bold text-gray-900 dark:text-white pb-1">Payment Successful</h5>
+                    <p class="text-sm font-normal text-gray-500 dark:text-gray-400">Your payment has been processed successfully.</p>
+                </div>
+            </div>
+        </div>
 
-  <ul>
-    <li>Order ID: {{ payment.order.id }}</li>
-    <li>Payment ID: {{ payment.payment_id }}</li>
-    <li>Amount: {{ payment.amount }}</li>
-  </ul>
+        <div class="grid grid-cols-2 gap-4">
+            <div>
+                <h6 class="text-xl font-semibold text-gray-900 dark:text-white">Order Details</h6>
+                <ul class="mt-2 text-gray-600 dark:text-gray-400">
+                    <li>Order ID: {{ payment.order_number }}</li>
+                    <li>Order Date: {{ payment.order.order_date }}</li>
+                    <li>Retailer: {{ payment.order.retailer.first_name }} {{ payment.order.retailer.last_name }}</li>
+                </ul>
+            </div>
+            <div>
+                <h6 class="text-xl font-semibold text-gray-900 dark:text-white">Payment Details</h6>
+                <ul class="mt-2 text-gray-600 dark:text-gray-400">
+                    <li>Payment ID: {{ payment.payment_id }}</li>
+                    <li>Amount: {{ payment.amount }}</li>
+                    <li>Payment Method: {{ payment.payment_method }}</li>
+                </ul>
+            </div>
+        </div>
 
-  <p>Thank you for your purchase!</p>
+        <div class="mt-6 flex justify-between items-center">
+            <a href="{% url 'dealer_order_list' %}" class="text-blue-600 hover:text-blue-700 dark:hover:text-blue-500 font-semibold">View Order History</a>
+            <a href="{% url 'dealer_dashboard' %}" class="text-green-600 hover:text-green-700 dark:hover:text-green-500 font-semibold">Continue Shopping</a>
+        </div>
+    </div>
 </div>
-
 {% endblock %}

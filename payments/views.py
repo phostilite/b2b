@@ -50,10 +50,20 @@ def payment_view(request, order_id):
         return redirect('error_page')  
 
     amount = int(order.grand_total_amount * 100)  
+
+    try:
+        billing_address = order.billing_addresses.first() 
+        if billing_address is None:
+            raise ValueError("No billing address associated with this order.")
+    except ValueError as e:
+        logger.error(f"Failed to get billing address: {e}")
+        return redirect('error_page')
+
     context = {
         'order_id': order_id,  
         'razorpay_order_id': razorpay_order_id,  
-        'amount': amount
+        'amount': amount,
+        'billing_address': billing_address,
     }
     logger.info(f"Rendering payment page with context {context}")
     return render(request, 'dealer/payment.html', context)
@@ -87,15 +97,26 @@ def payment_success_view(request):
             order=order, 
             payment_id=razorpay_payment_id, 
             razorpay_order_id=razorpay_order_id, 
-            amount=order.grand_total_amount
+            amount=order.grand_total_amount,
+            status='Paid'
         )
-        payment.status = 'Paid'
-        payment.save()
+        order.payment_status = 'Paid'  
+        order.save()
         context = {'payment': payment}
         logger.info(f"Rendering payment success page with context {context}")
         return render(request, 'dealer/payment_success.html', context)
     except razorpay.errors.SignatureVerificationError as e:
         logger.error("Payment signature verification failed")
+        payment = Payment.objects.create(
+            order=order, 
+            payment_id=razorpay_payment_id, 
+            razorpay_order_id=razorpay_order_id, 
+            amount=order.grand_total_amount,
+            status='Failed',
+            error_message=str(e)
+        )
+        order.payment_status = 'Failed'  
+        order.save()
         return render(request, 'dealer/payment_failure.html')
     
 def error_page_view(request):

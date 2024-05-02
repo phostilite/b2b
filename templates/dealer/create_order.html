@@ -6,7 +6,7 @@
 
 <div class="p-4 sm:ml-64" style="margin-top: 64px;">
   <form class="max-w-screen-md mx-auto" method="post">
-    <h2 class="text-4xl font-extrabold dark:text-white">Place Order</h2>
+    <h2 class="text-4xl font-extrabold">Place Order</h2>
     {% csrf_token %}
     <div class="mb-5 mt-10">
       <label for="{{ form.retailer.id_for_label }}" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ form.retailer.label }}</label>

@@ -49,9 +49,6 @@ def order_list_view(request):
         return render(request, 'error.html', {'message': 'An error occurred.'})
 
 
-import logging
-
-logger = logging.getLogger(__name__)
 
 @login_required
 @allowed_users(allowed_roles=["Dealer"])
@@ -67,10 +64,11 @@ def create_order(request):
                 order.employee = None  
                 order.admin = AdminUser.objects.first()  
                 order.order_date = timezone.now()
-                order.status = 'Pending'
+                order.status = 'Pending Approval'
                 order.order_number = generate_order_number()  
                 order.name = generate_order_name(order.order_number)  
                 order.description = generate_order_description()  
+                order.payment_status = 'Not Paid'
                 order.save()
 
                 billing_formset.instance = order
