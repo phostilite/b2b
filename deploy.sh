@@ -32,7 +32,7 @@ npx tailwindcss -i ./static/dist/input.css -o ./static/dist/output.css --watch |
 python manage.py collectstatic --noinput || { log "Failed to collect static files"; exit 1; }
 
 # Apply database migrations 
-python mamage.py makemigrations || { log "Failed to make database migrations"; exit 1; }
+python manage.py makemigrations || { log "Failed to make database migrations"; exit 1; }
 python manage.py migrate || { log "Failed to apply database migrations"; exit 1; }
 
 # Deactivate virtual environment
