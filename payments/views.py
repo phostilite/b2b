@@ -69,7 +69,7 @@ def payment_view(request, order_id):
     logger.info(f"Rendering payment page with context {context}")
     return render(request, 'dealer/payment.html', context)
 
-def payment_success_view(request):
+def payment_processing_view(request):
     logger.info(f"Received POST data: {request.POST}")
     
     logger.info("Processing payment success view")
@@ -105,7 +105,7 @@ def payment_success_view(request):
         order.save()
         context = {'payment': payment}
         logger.info(f"Rendering payment success page with context {context}")
-        return redirect('payment_success_view', payment_id=payment.payment_id)
+        return redirect('payment_success', payment_id=payment.payment_id)
     except razorpay.errors.SignatureVerificationError as e:
         logger.error("Payment signature verification failed")
         payment = Payment.objects.create(

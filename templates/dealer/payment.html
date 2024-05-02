@@ -6,7 +6,7 @@
 
 <div class="p-4 sm:ml-64" style="margin-top: 64px;">
     <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
-    <form action="{% url 'payment_success' %}" method="POST">
+    <form action="{% url 'payment_processing' %}" method="POST">
         {% csrf_token %}
        <input type="hidden" name="payment_id" value="{{ payment_id }}">
        <script>
@@ -26,7 +26,7 @@
                 var csrftoken = $('[name=csrfmiddlewaretoken]').val();
     
                 // send the payment_id and signature to your backend
-                $.post("/dealers/payment_success/", { 'razorpay_order_id': razorpay_order_id, 'razorpay_payment_id': payment_id, 'signature': signature, 'csrfmiddlewaretoken': csrftoken })
+                $.post("/dealers/payment_processing/", { 'razorpay_order_id': razorpay_order_id, 'razorpay_payment_id': payment_id, 'signature': signature, 'csrfmiddlewaretoken': csrftoken })
                 .done(function(data) {
                     console.log('Payment success post completed', data);
                 })

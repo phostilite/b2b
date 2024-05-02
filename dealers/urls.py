@@ -24,8 +24,9 @@ urlpatterns = [
     
     path('create_payment/<int:order_id>/', payment_views.create_payment, name='create_payment'),
     path('payment_view/<int:order_id>/', payment_views.payment_view, name='payment_view'),
-    path('payment_success/', payment_views.payment_success_view, name='payment_success'),
-    path('payment_success/<str:payment_id>/', payment_views.payment_success, name='payment_success_view'),
+
+    path('payment_processing/', payment_views.payment_processing_view, name='payment_processing'),
+    path('payment_success/<str:payment_id>/', payment_views.payment_success, name='payment_success'),
 
     path('payment/error/', payment_views.error_page_view, name='error_page'),
     
