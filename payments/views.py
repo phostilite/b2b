@@ -8,6 +8,7 @@ from django.http import HttpResponseServerError
 from django.core import serializers
 from django.http import JsonResponse
 import json
+from django.shortcuts import get_object_or_404
 
 
 client = razorpay.Client(auth=(settings.RAZORPAY_API_KEY, settings.RAZORPAY_API_SECRET))
@@ -104,7 +105,7 @@ def payment_success_view(request):
         order.save()
         context = {'payment': payment}
         logger.info(f"Rendering payment success page with context {context}")
-        return render(request, 'dealer/payment_success.html', context)
+        return redirect('payment_success_view', payment_id=payment.payment_id)
     except razorpay.errors.SignatureVerificationError as e:
         logger.error("Payment signature verification failed")
         payment = Payment.objects.create(
@@ -122,3 +123,7 @@ def payment_success_view(request):
 def error_page_view(request):
     logger.info("Rendering error page")
     return render(request, 'dealer/error.html')
+
+def payment_success(request, payment_id):
+    payment = get_object_or_404(Payment, payment_id=payment_id)
+    return render(request, 'dealer/payment_success.html', {'payment': payment})
