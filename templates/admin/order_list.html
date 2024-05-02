@@ -138,6 +138,9 @@
                         Order Status
                     </th>
                     <th scope="col" class="px-6 py-3">
+                        Order Payment Status
+                    </th>
+                    <th scope="col" class="px-6 py-3">
                         Order Total
                     </th>
                     <th scope="col" class="px-6 py-3">
@@ -167,6 +170,9 @@
                     </td>
                     <td class="px-6 py-4">
                         {{ order.status }}
+                    </td>
+                    <td class="px-6 py-4">
+                        {{ order.payment_status }}
                     </td>
                     <td class="px-6 py-4">
                         {{ order.grand_total_amount }}
