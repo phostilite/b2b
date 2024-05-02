@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.http import require_POST
 
 import logging
 
@@ -118,3 +119,49 @@ def create_order(request):
     except Exception as e:
         logger.error(f'Error in create_order: {e}')
         return render(request, 'error.html', {'message': 'An error occurred while creating the order.'})
+    
+    
+@login_required
+@allowed_users(allowed_roles=["Admin", "Sales", "Dealer"])
+def order_details_view(request, order_id):
+    try:
+        order = Order.objects.get(id=order_id)
+        billing_address = order.billing_addresses.first()  
+        shipping_address = order.shipping_addresses.first()  
+        order_items = order.orderitem_set.all()  
+
+        context = {
+            'order': order,
+            'billing_address': billing_address,
+            'shipping_address': shipping_address,
+            'order_items': order_items,
+        }
+
+        return render(request, 'admin/order_details.html', context)
+
+    except Order.DoesNotExist:
+        logger.error(f'Order with id {order_id} does not exist.')
+        return render(request, 'error.html', {'message': 'Order does not exist.'})
+
+    except Exception as e:
+        logger.error(f'Error in order_details_view: {e}')
+        return render(request, 'error.html', {'message': 'An error occurred.'})
+    
+@require_POST
+@login_required
+@allowed_users(allowed_roles=["Admin"])
+def approve_order(request, order_id):
+    try:
+        order = Order.objects.get(id=order_id)
+        order.is_approved = True
+        order.save()
+
+        return redirect('order_details', order_id=order.id)
+
+    except Order.DoesNotExist:
+        logger.error(f'Order with id {order_id} does not exist.')
+        return render(request, 'error.html', {'message': 'Order does not exist.'})
+
+    except Exception as e:
+        logger.error(f'Error in approve_order: {e}')
+        return render(request, 'error.html', {'message': 'An error occurred.'})

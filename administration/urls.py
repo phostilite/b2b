@@ -21,6 +21,9 @@ urlpatterns = [
     path('create-retailer/', retailer_views.create_retailer, name='create_retailer'),
     path('create-employee/', sales_views.create_employee, name='create_employee'),
     path('order-list/', order_views.order_list_view, name='order_list'), 
+    path('order/<int:order_id>/details/', order_views.order_details_view, name='order_details'),
+    path('order/<int:order_id>/approve/', order_views.approve_order, name='approve_order'),
+
     
     path('profile/', views.update_profile, name='adminuser_profile'),
 ]
