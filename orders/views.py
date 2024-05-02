@@ -154,6 +154,7 @@ def approve_order(request, order_id):
     try:
         order = Order.objects.get(id=order_id)
         order.is_approved = True
+        order.status = 'Approved'
         order.save()
 
         return redirect('order_details', order_id=order.id)
