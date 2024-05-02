@@ -1,5 +1,6 @@
 from django import forms
 from django.contrib.auth.models import User
+from django.contrib.auth.models import Group
 
 from .models import Employee
 
@@ -38,6 +39,8 @@ class EmployeeForm(forms.ModelForm):
         Employee.user = user
         if commit:
             Employee.save()
+            group, created = Group.objects.get_or_create(name='Sales')
+            group.user_set.add(user)
         return Employee
     
 class EmployeeProfileForm(forms.ModelForm):

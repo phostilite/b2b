@@ -1,5 +1,6 @@
 from django import forms
 from django.contrib.auth.models import User
+from django.contrib.auth.models import Group
 
 from .models import Dealer
 
@@ -38,6 +39,8 @@ class DealerForm(forms.ModelForm):
         dealer.user = user
         if commit:
             dealer.save()
+            group, created = Group.objects.get_or_create(name='Dealer')
+            group.user_set.add(user)
         return dealer
     
 
