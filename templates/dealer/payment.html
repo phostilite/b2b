@@ -14,7 +14,7 @@
             "key": "{{ settings.RAZORPAY_API_KEY }}",
             "amount": "{{ amount }}",
             "currency": "INR",
-            "name": "Your Company Name",
+            "name": "Itease B2B",
             "description": "Payment Description",
             "order_id": "{{ razorpay_order_id }}",
             "handler": function (response){
@@ -29,6 +29,8 @@
                 $.post("/dealers/payment_processing/", { 'razorpay_order_id': razorpay_order_id, 'razorpay_payment_id': payment_id, 'signature': signature, 'csrfmiddlewaretoken': csrftoken })
                 .done(function(data) {
                     console.log('Payment success post completed', data);
+                    // Redirect to the payment success page
+                    window.location.href = "/dealers/payment_success/" + payment_id + "/";
                 })
                 .fail(function(jqxhr, textStatus, error) {
                     var err = textStatus + ", " + error;
@@ -52,6 +54,3 @@
 </div>
 
 {% endblock %}
-
-
-
