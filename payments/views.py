@@ -11,6 +11,13 @@ import json
 from django.shortcuts import get_object_or_404
 import requests
 
+import requests
+import base64
+from django.shortcuts import get_object_or_404, render
+from django.conf import settings  # To access your Django settings
+from .models import Payment
+from orders.models import Order
+
 client = razorpay.Client(auth=(settings.RAZORPAY_API_KEY, settings.RAZORPAY_API_SECRET))
 
 import logging
@@ -125,31 +132,43 @@ def error_page_view(request):
     return render(request, 'dealer/error.html')
 
 def payment_success(request, payment_id):
-    
+    api_key_id = settings.RAZORPAY_API_KEY
+    api_key_secret = settings.RAZORPAY_API_SECRET
+
+    auth_credentials = f"{api_key_id}:{api_key_secret}"
+    encoded_credentials = base64.b64encode(auth_credentials.encode('utf-8'))
+    headers = {"Authorization": f"Basic {encoded_credentials.decode('utf-8')}"}
+
+    api_url = f"https://api.razorpay.com/v1/payments/{payment_id}/"
+
     try:
-        api_url = f"https://api.razorpay.com/v1/payments/{payment_id}/"
-        headers = {"Authorization": f"Basic {settings.RAZORPAY_API_KEY}:{settings.RAZORPAY_API_SECRET}"}
         response = requests.get(api_url, headers=headers)
-        response.raise_for_status()
-        logger.debug(response.text)
+        response.raise_for_status()  
+        payment_response = response.json()
+
+        payment = get_object_or_404(Payment, payment_id=payment_id)
+        order = payment.order
+        billing_address = order.billing_addresses.first()  
+        shipping_address = order.shipping_addresses.first()  
+        order_items = order.orderitem_set.all()
+
+        context = {
+            'payment': payment,
+            'payment_response': payment_response,
+            'order': order,
+            'billing_address': billing_address,
+            'shipping_address': shipping_address,
+            'order_items': order_items,
+        }
+        return render(request, 'dealer/payment_success.html', context)
+
     except requests.exceptions.HTTPError as err:
-        logger.error(f"Error fetching payment details: {err}")   
+        logger.error(f"Error fetching payment details: {err}") 
+        # Handle error (e.g., redirect to error page, display message)
+
     except Exception as e:
         logger.error(f"Error occurred in Razorpay API call: {e}") 
-    
-    payment = get_object_or_404(Payment, payment_id=payment_id)
-    payment_response = response.json()
-    order = payment.order
-    billing_address = order.billing_addresses.first()
-    shipping_address = order.shipping_addresses.first()
-    order_items = order.orderitem_set.all()
-    
-    context = {
-        'payment': payment,
-        'payment_response': payment_response,
-        'order': order,
-        'billing_address': billing_address,
-        'shipping_address': shipping_address,
-        'order_items': order_items,
-    }
-    return render(request, 'dealer/payment_success.html', context)
+        # Handle error (e.g., redirect to error page, display message)
+
+    # If errors occur, handle them appropriately (e.g., render an error template)
+    return render(request, 'dealer/error.html')  # Example error template
