@@ -68,7 +68,6 @@ def create_order(request):
                 order.status = 'Pending Approval'
                 order.order_number = generate_order_number()  
                 order.name = generate_order_name(order.order_number)  
-                order.description = generate_order_description()  
                 order.payment_status = 'Not Paid'
                 order.save()
 
@@ -81,6 +80,9 @@ def create_order(request):
 
                 cart = Cart.objects.get(user=request.user)
                 cart_items = CartItem.objects.filter(cart=cart)
+                
+                order.description = generate_order_description(cart_items)  
+                
                 grand_total = 0
                 for item in cart_items:
                     order_item = OrderItem.objects.create(

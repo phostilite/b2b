@@ -130,9 +130,6 @@
                         Order Number
                     </th>
                     <th scope="col" class="px-6 py-3">
-                        Order Title
-                    </th>
-                    <th scope="col" class="px-6 py-3">
                         Order Date
                     </th>
                     <th scope="col" class="px-6 py-3">
@@ -158,11 +155,8 @@
                         </div>
                     </td>
                     <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                        {{ order.order_number }}
+                        #{{ order.order_number }}
                     </th>
-                    <td class="px-6 py-4">
-                        {{ order.name }}
-                    </td>
                     <td class="px-6 py-4">
                         {{ order.order_date }}
                     </td>
@@ -170,7 +164,7 @@
                         {{ order.status }}
                     </td>
                     <td class="px-6 py-4">
-                        {{ order.grand_total_amount }}
+                        ₹{{ order.grand_total_amount }}
                     </td>
                     <td class="px-6 py-4">
                         {% if order.payment_status == 'Paid' %}
