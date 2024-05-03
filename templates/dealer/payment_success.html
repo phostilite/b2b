@@ -77,6 +77,50 @@
                 </ul>
             </div>
         </div>
+        <div class="mt-4">
+            <h6 class="text-xl font-semibold text-gray-900 dark:text-white">Order Items</h6>
+            <div class="relative overflow-x-auto shadow-md sm:rounded-lg mt-4">
+                <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                    <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                        <tr>
+                            <th scope="col" class="px-6 py-3">
+                                Product
+                            </th>
+                            <th scope="col" class="px-6 py-3">
+                                Quantity
+                            </th>
+                            <th scope="col" class="px-6 py-3">
+                                Net Amount
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in order_items %}
+                        <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                            <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                <div class="flex items-center">
+                                    {% if item.product.images.first %}
+                                    <img class="w-10 h-10 rounded-full" src="{{ item.product.images.first.image.url }}" alt="{{ item.product.title }}">
+                                    {% else %}
+                                    <div class="w-10 h-10 rounded-full bg-gray-300"></div>
+                                    {% endif %}
+                                    <div class="pl-3">
+                                        <div class="text-base font-semibold">{{ item.product.title }}</div>
+                                    </div>
+                                </div>
+                            </th>
+                            <td class="px-6 py-4">
+                                {{ item.quantity }}
+                            </td>
+                            <td class="px-6 py-4">
+                                {{ item.net_amount }}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
         <div class="mt-6 flex justify-between items-center">
             <a href="{% url 'dealer_order_list' %}" class="text-blue-600 hover:text-blue-700 dark:hover:text-blue-500 font-semibold">View Order History</a>
             <a href="{% url 'dealer_dashboard' %}" class="text-green-600 hover:text-green-700 dark:hover:text-green-500 font-semibold">Continue Shopping</a>

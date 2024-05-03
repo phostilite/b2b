@@ -129,11 +129,13 @@ def payment_success(request, payment_id):
     order = payment.order
     billing_address = order.billing_addresses.first()
     shipping_address = order.shipping_addresses.first()
+    order_items = order.orderitem_set.all()
     
     context = {
         'payment': payment,
         'order': order,
         'billing_address': billing_address,
-        'shipping_address': shipping_address
+        'shipping_address': shipping_address,
+        'order_items': order_items,
     }
     return render(request, 'dealer/payment_success.html', context)
