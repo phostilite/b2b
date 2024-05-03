@@ -22,11 +22,18 @@
                 var payment_id = response.razorpay_payment_id;
                 var signature = response.razorpay_signature;
                 var razorpay_order_id = "{{ razorpay_order_id }}";
+                var payment_method = response.method;
 
                 var csrftoken = $('[name=csrfmiddlewaretoken]').val();
     
                 // send the payment_id and signature to your backend
-                $.post("/dealers/payment_processing/", { 'razorpay_order_id': razorpay_order_id, 'razorpay_payment_id': payment_id, 'signature': signature, 'csrfmiddlewaretoken': csrftoken })
+                $.post("/dealers/payment_processing/", { 
+                    'razorpay_order_id': razorpay_order_id, 
+                    'razorpay_payment_id': payment_id, 
+                    'payment_method': payment_method,
+                    'signature': signature, 
+                    'csrfmiddlewaretoken': csrftoken 
+                })
                 .done(function(data) {
                     console.log('Payment success post completed', data);
                     // Redirect to the payment success page
