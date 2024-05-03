@@ -126,4 +126,14 @@ def error_page_view(request):
 
 def payment_success(request, payment_id):
     payment = get_object_or_404(Payment, payment_id=payment_id)
-    return render(request, 'dealer/payment_success.html', {'payment': payment})
+    order = payment.order
+    billing_address = order.billing_addresses.first()
+    shipping_address = order.shipping_addresses.first()
+    
+    context = {
+        'payment': payment,
+        'order': order,
+        'billing_address': billing_address,
+        'shipping_address': shipping_address
+    }
+    return render(request, 'dealer/payment_success.html', context)

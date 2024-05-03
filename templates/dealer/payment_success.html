@@ -3,7 +3,6 @@
 {% include './navbar.html' %}
 {% include './sidebar.html' %}
 {% include './cart.html' %}
-
 <div class="p-4 sm:ml-64 mt-14">
     <div class="w-full h-full bg-white rounded-lg shadow dark:bg-gray-800 p-4 md:p-6">
         <div class="flex justify-between pb-4 mb-4 border-b border-gray-200 dark:border-gray-700">
@@ -19,14 +18,14 @@
                 </div>
             </div>
         </div>
-
-        <div class="grid grid-cols-2 gap-4">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
                 <h6 class="text-xl font-semibold text-gray-900 dark:text-white">Order Details</h6>
                 <ul class="mt-2 text-gray-600 dark:text-gray-400">
-                    <li>Order ID: {{ payment.order_number }}</li>
-                    <li>Order Date: {{ payment.order.order_date }}</li>
-                    <li>Retailer: {{ payment.order.retailer.first_name }} {{ payment.order.retailer.last_name }}</li>
+                    <li>Order ID: {{ order.order_number }}</li>
+                    <li>Order Date: {{ order.order_date }}</li>
+                    <li>Retailer: {{ order.retailer.first_name }} {{ order.retailer.last_name }}</li>
+                    <li>Dealer: {{ order.dealer.first_name }} {{ order.dealer.last_name }}</li>
                 </ul>
             </div>
             <div>
@@ -38,7 +37,24 @@
                 </ul>
             </div>
         </div>
-
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+            <div>
+                <h6 class="text-xl font-semibold text-gray-900 dark:text-white">Billing Address</h6>
+                <ul class="mt-2 text-gray-600 dark:text-gray-400">
+                    <li>{{ billing_address.street_address }}</li>
+                    <li>{{ billing_address.city }}, {{ billing_address.state }} {{ billing_address.zip_code }}</li>
+                    <li>{{ billing_address.country }}</li>
+                </ul>
+            </div>
+            <div>
+                <h6 class="text-xl font-semibold text-gray-900 dark:text-white">Shipping Address</h6>
+                <ul class="mt-2 text-gray-600 dark:text-gray-400">
+                    <li>{{ shipping_address.street_address }}</li>
+                    <li>{{ shipping_address.city }}, {{ shipping_address.state }} {{ shipping_address.zip_code }}</li>
+                    <li>{{ shipping_address.country }}</li>
+                </ul>
+            </div>
+        </div>
         <div class="mt-6 flex justify-between items-center">
             <a href="{% url 'dealer_order_list' %}" class="text-blue-600 hover:text-blue-700 dark:hover:text-blue-500 font-semibold">View Order History</a>
             <a href="{% url 'dealer_dashboard' %}" class="text-green-600 hover:text-green-700 dark:hover:text-green-500 font-semibold">Continue Shopping</a>

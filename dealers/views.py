@@ -9,6 +9,12 @@ from django.contrib.auth.decorators import login_required
 from django.utils import timezone
 from django.db.models import Count, Sum
 from django.db.models.functions import ExtractWeekDay
+from django.views.decorators.csrf import csrf_exempt
+from django.core.exceptions import ObjectDoesNotExist
+from django.core.cache import cache
+
+
+
 
 from .models import Dealer
 from orders.models import Order
@@ -17,6 +23,8 @@ from .forms import DealerForm, DealerProfileForm
 from accounts.decorators import allowed_users
 from django.http import JsonResponse
 from datetime import datetime, timedelta
+from .utils import send_otp, verify_otp  # You need to implement these functions
+
 
 logger = logging.getLogger(__name__)
 
@@ -70,17 +78,48 @@ def dealer_dashboard_view(request):
   
 
 def dealer_login_view(request):
-    if request.method == 'POST':
+    try:
+        if request.method == 'POST':
             username = request.POST.get('username')
             password = request.POST.get('password')
-            
             user = authenticate(request, username=username, password=password)
             if user is not None:
                 login(request, user)
-                return redirect('dealer_dashboard')
+                try:
+                    dealer = Dealer.objects.get(user=user)
+                    if dealer.agreement_accepted:  
+                        return redirect('dealer_dashboard')  
+                    else:
+                        return redirect('agreement_view')  
+                except ObjectDoesNotExist:
+                    logger.error('Dealer object does not exist for the authenticated user.')
             else:
                 messages.error(request, 'Invalid username or password.')
-    return render(request, 'authentication/dealer_login.html')
+        return render(request, 'authentication/dealer_login.html')
+    except Exception as e:
+        logger.error(f'An error occurred in dealer_login_view: {e}')
+        return render(request, 'authentication/dealer_login.html')  
+
+@csrf_exempt
+def agreement_view(request):
+    try:
+        if request.method == 'POST':
+            agreement = request.POST.get('agreement')
+            if agreement == 'accept':
+                dealer = Dealer.objects.get(user=request.user)
+                dealer.agreement_accepted = True
+                dealer.save()
+                return redirect('dealer_dashboard')  
+            elif agreement == 'decline':
+                logout(request)
+                return redirect('dealer_login')  
+            else:
+                messages.error(request, 'Invalid agreement option.')
+        return render(request, 'dealer/agreement.html')
+    except Exception as e:
+        logger.error(f'An error occurred in agreement_view: {e}')
+        return render(request, 'dealer/agreement.html')  
+
 
 def dealer_logout_view(request):
     logout(request)
@@ -136,3 +175,5 @@ def update_profile(request):
     return render(request, 'dealer/profile.html', {
         'form': form
     })
+    
+

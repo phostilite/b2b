@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dealer Agreement OTP</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            .dark-mode {
+                --bg-color: #1a1a1a;
+                --text-color: #d4d4d4;
+                --input-bg: #2d2d2d;
+                --input-border: #404040;
+                --input-text: #d4d4d4;
+                --button-bg: #3b82f6;
+                --button-hover: #2563eb;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-100 dark:bg-gray-900 dark:dark-mode">
+    <div class="p-4" style="margin-top: 128px;">
+        <div class="max-w-screen-md mx-auto bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 dark:text-white">
+            <h2 class="text-4xl font-bold mb-4">Verify OTP for Dealer Agreement</h2>
+            <p class="text-gray-700 dark:text-gray-300 text-sm mb-6">
+                A One-Time Password (OTP) has been sent to your registered phone number and email address for security verification. Please enter the OTP below to proceed with the Dealer Agreement.
+            </p>
+            <form method="post">
+                {% csrf_token %}
+                <div class="mb-5 mt-5 form-group">
+                    <label for="otp" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">OTP</label>
+                    <input type="text" id="otp" name="otp" class="bg-gray-50 dark:bg-input-bg border border-gray-300 dark:border-input-border text-gray-900 dark:text-input-text text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Enter 6-digit OTP" required />
+                    <p class="mt-2 text-sm text-gray-500 dark:text-gray-400">
+                        The OTP is valid for 10 minutes. If you haven't received the OTP, please check your email/phone and spam folders. You can also request a new OTP after the current one expires.
+                    </p>
+                </div>
+                <button type="submit" class="text-white bg-blue-700 dark:bg-button-bg hover:bg-blue-800 dark:hover:bg-button-hover focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center">Verify OTP</button>
+            </form>
+            {% if messages %}
+            <div class="messages mt-4">
+                {% for message in messages %}
+                <div{% if message.tags %} class="{{ message.tags }}"{% endif %}>
+                    {{ message }}
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>

@@ -31,4 +31,7 @@ urlpatterns = [
     path('payment/error/', payment_views.error_page_view, name='error_page'),
     
     path('profile/', views.update_profile, name='dealer_profile'),
+    
+    path('agreement/', views.agreement_view, name='agreement_view'),
+
 ]
