@@ -30,7 +30,7 @@ SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['b2b.paroshiltex.com', '64.23.164.125', 'localhost']
+ALLOWED_HOSTS = ['b2b.paroshiltex.com', '64.23.164.125', '64-23-164-125.ipv4.staticdns3.io', 'localhost']
 
 
 # Application definition
