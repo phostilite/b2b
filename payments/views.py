@@ -146,6 +146,8 @@ def payment_success(request, payment_id):
         response.raise_for_status()  
         payment_response = response.json()
 
+        logger.info(f"Payment response: {payment_response}")
+
         payment = get_object_or_404(Payment, payment_id=payment_id)
         order = payment.order
         billing_address = order.billing_addresses.first()  
