@@ -87,6 +87,8 @@ def create_order(request):
                         order=order, 
                         product=item.product, 
                         quantity=item.quantity, 
+                        item_size_group=item.size_groups.first(),
+                        unit_price = item.product_price,
                         net_amount=item.product_price_by_size_group
                     )
                     grand_total += order_item.net_amount

@@ -91,7 +91,13 @@
                                 Quantity
                             </th>
                             <th scope="col" class="px-6 py-3">
-                                Net Amount
+                                Product Size Group
+                            </th>
+                            <th scope="col" class="px-6 py-3">
+                                Unit Price
+                            </th>
+                            <th scope="col" class="px-6 py-3">
+                                Net AmountNet Amount
                             </th>
                         </tr>
                     </thead>
@@ -112,6 +118,12 @@
                             </th>
                             <td class="px-6 py-4">
                                 {{ item.quantity }}
+                            </td>
+                            <td class="px-6 py-4">
+                                {{ item.item_size_group }}
+                            </td>
+                            <td class="px-6 py-4">
+                                {{ item.unit_price }}
                             </td>
                             <td class="px-6 py-4">
                                 {{ item.net_amount }}

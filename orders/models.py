@@ -49,6 +49,8 @@ class OrderItem(models.Model):
     product = models.ForeignKey(Product, on_delete=models.SET_NULL, null=True)
     
     quantity = models.IntegerField()
+    item_size_group = models.CharField(max_length=255, null=True, blank=True)  
+    unit_price = models.DecimalField(max_digits=10, decimal_places=2, default=0.00, null=True, blank=True)
     net_amount = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
     
     def __str__(self):
