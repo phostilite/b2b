@@ -24,8 +24,8 @@
                 <ul class="mt-2 text-gray-600 dark:text-gray-400">
                     <li>Order ID: {{ order.order_number }}</li>
                     <li>Order Date: {{ order.order_date }}</li>
-                    <li>Retailer: {{ order.retailer.first_name }} {{ order.retailer.last_name }}</li>
-                    <li>Dealer: {{ order.dealer.first_name }} {{ order.dealer.last_name }}</li>
+                    <li>Retailer: {{ order.retailer.first_name }} {{ order.retailer.last_name }} ({{ order.retailer.email }}, {{ order.retailer.phone }})</li>
+                    <li>Dealer: {{ order.dealer.first_name }} {{ order.dealer.last_name }} ({{ order.dealer.email }}, {{ order.dealer.phone }})</li>
                 </ul>
             </div>
             <div>
@@ -41,16 +41,38 @@
             <div>
                 <h6 class="text-xl font-semibold text-gray-900 dark:text-white">Billing Address</h6>
                 <ul class="mt-2 text-gray-600 dark:text-gray-400">
-                    <li>{{ billing_address.street_address }}</li>
-                    <li>{{ billing_address.city }}, {{ billing_address.state }} {{ billing_address.zip_code }}</li>
+                    <li>{{ billing_address.first_name }} {{ billing_address.last_name }}</li>
+                    {% if billing_address.company %}
+                    <li>{{ billing_address.company }}</li>
+                    {% endif %}
+                    <li>{{ billing_address.address_1 }}</li>
+                    {% if billing_address.address_2 %}
+                    <li>{{ billing_address.address_2 }}</li>
+                    {% endif %}
+                    <li>{{ billing_address.city }}</li>
+                    {% if billing_address.state %}
+                    <li>{{ billing_address.state }}</li>
+                    {% endif %}
+                    <li>{{ billing_address.postcode }}</li>
                     <li>{{ billing_address.country }}</li>
                 </ul>
             </div>
             <div>
                 <h6 class="text-xl font-semibold text-gray-900 dark:text-white">Shipping Address</h6>
                 <ul class="mt-2 text-gray-600 dark:text-gray-400">
-                    <li>{{ shipping_address.street_address }}</li>
-                    <li>{{ shipping_address.city }}, {{ shipping_address.state }} {{ shipping_address.zip_code }}</li>
+                    <li>{{ shipping_address.first_name }} {{ shipping_address.last_name }}</li>
+                    {% if shipping_address.company %}
+                    <li>{{ shipping_address.company }}</li>
+                    {% endif %}
+                    <li>{{ shipping_address.address_1 }}</li>
+                    {% if shipping_address.address_2 %}
+                    <li>{{ shipping_address.address_2 }}</li>
+                    {% endif %}
+                    <li>{{ shipping_address.city }}</li>
+                    {% if shipping_address.state %}
+                    <li>{{ shipping_address.state }}</li>
+                    {% endif %}
+                    <li>{{ shipping_address.postcode }}</li>
                     <li>{{ shipping_address.country }}</li>
                 </ul>
             </div>
