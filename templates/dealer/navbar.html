@@ -75,7 +75,6 @@
 <!-- AJAX code -->
 <script>
 $(document).ready(function() {
-    console.log('Document is ready');
 
     function updateCart() {
         $.ajax({
@@ -86,11 +85,9 @@ $(document).ready(function() {
                 console.log('Sending request to /cart/');
             },
             success: function(data) {
-                console.log('Received response:', data);
 
                 // Clear the sidebar
                 $('#cart-sidebar').empty();
-                console.log('Cleared the sidebar');
 
                 // Calculate the number of unique products
                 var numberOfProducts = data.cart_items.length;
@@ -103,7 +100,6 @@ $(document).ready(function() {
 
                 // Add each cart item to the sidebar
                 $.each(data.cart_items, function(i, item) {
-                    console.log('Adding item to sidebar:', item);
                     $('#cart-sidebar').append(`
                         <div class="flex flex-col items-center bg-white shadow pt-2 md:flex-row md:max-w-xl dark:border-gray-700 dark:bg-gray-800">
                             <img class="w-10 md:w-20 max-w-full max-h-full" src="${item.image}" alt="">
@@ -146,7 +142,6 @@ $(document).ready(function() {
 
     // Update the cart when the cart button is clicked
     $('#cart-button').click(function() {
-        console.log('Cart button was clicked');
         updateCart();
     });
 });

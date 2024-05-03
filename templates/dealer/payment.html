@@ -18,7 +18,6 @@
             "description": "Payment Description",
             "order_id": "{{ razorpay_order_id }}",
             "handler": function (response){
-                console.log('Payment handler called', response);
                 var payment_id = response.razorpay_payment_id;
                 var signature = response.razorpay_signature;
                 var razorpay_order_id = "{{ razorpay_order_id }}";
@@ -34,14 +33,10 @@
                     'csrfmiddlewaretoken': csrftoken 
                 })
                 .done(function(data) {
-                    console.log('Payment success post completed', data);
-                    // Redirect to the payment success page
                     window.location.href = "/dealers/payment_success/" + payment_id + "/";
-                    console.log('Payment handler called', response);
                 })
                 .fail(function(jqxhr, textStatus, error) {
                     var err = textStatus + ", " + error;
-                    console.log("Payment success post failed: " + err);
                 });
             },
             "prefill": {
