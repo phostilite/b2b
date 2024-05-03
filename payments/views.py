@@ -9,7 +9,7 @@ from django.core import serializers
 from django.http import JsonResponse
 import json
 from django.shortcuts import get_object_or_404
-
+import requests
 
 client = razorpay.Client(auth=(settings.RAZORPAY_API_KEY, settings.RAZORPAY_API_SECRET))
 
@@ -125,7 +125,20 @@ def error_page_view(request):
     return render(request, 'dealer/error.html')
 
 def payment_success(request, payment_id):
+    
+    try:
+        api_url = f"https://api.razorpay.com/v1/payments/{payment_id}"
+        headers = {"Authorization": f"Basic {settings.RAZORPAY_API_KEY}:{settings.RAZORPAY_API_SECRET}"}
+        response = requests.get(api_url, headers=headers)
+        response.raise_for_status()
+        logger.debug(response.text)
+    except requests.exceptions.HTTPError as err:
+        logger.error(f"Error fetching payment details: {err}")   
+    except Exception as e:
+        logger.error(f"Error occurred in Razorpay API call: {e}") 
+    
     payment = get_object_or_404(Payment, payment_id=payment_id)
+    payment_response = response.json()
     order = payment.order
     billing_address = order.billing_addresses.first()
     shipping_address = order.shipping_addresses.first()
@@ -133,6 +146,7 @@ def payment_success(request, payment_id):
     
     context = {
         'payment': payment,
+        'payment_response': payment_response,
         'order': order,
         'billing_address': billing_address,
         'shipping_address': shipping_address,

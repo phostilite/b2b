@@ -26,7 +26,6 @@
 
                 var csrftoken = $('[name=csrfmiddlewaretoken]').val();
     
-                // send the payment_id and signature to your backend
                 $.post("/dealers/payment_processing/", { 
                     'razorpay_order_id': razorpay_order_id, 
                     'razorpay_payment_id': payment_id, 
