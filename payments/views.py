@@ -127,7 +127,7 @@ def error_page_view(request):
 def payment_success(request, payment_id):
     
     try:
-        api_url = f"https://api.razorpay.com/v1/payments/{payment_id}"
+        api_url = f"https://api.razorpay.com/v1/payments/{payment_id}/"
         headers = {"Authorization": f"Basic {settings.RAZORPAY_API_KEY}:{settings.RAZORPAY_API_SECRET}"}
         response = requests.get(api_url, headers=headers)
         response.raise_for_status()
