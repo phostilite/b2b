@@ -38,6 +38,7 @@
                     console.log('Payment success post completed', data);
                     // Redirect to the payment success page
                     window.location.href = "/dealers/payment_success/" + payment_id + "/";
+                    console.log('Payment handler called', response);
                 })
                 .fail(function(jqxhr, textStatus, error) {
                     var err = textStatus + ", " + error;
