@@ -20,6 +20,9 @@
           <th class="px-4 py-2">Name</th>
           <th class="px-4 py-2">Quantity</th>
           <th class="px-4 py-2">Price</th>
+          <th class="px-4 py-2">SGST</th>
+          <th class="px-4 py-2">CGST</th>
+          <th class="px-4 py-2">IGST</th>
           <th class="px-4 py-2">Total</th>
         </tr>
       </thead>
@@ -29,6 +32,9 @@
           <td class="border px-4 py-2">{{ line_item.name }}</td>
           <td class="border px-4 py-2">{{ line_item.quantity }}</td>
           <td class="border px-4 py-2">{{ line_item.price }}</td>
+          <td class="border px-4 py-2">{{ line_item.sgst }}</td>
+          <td class="border px-4 py-2">{{ line_item.cgst }}</td>
+          <td class="border px-4 py-2">{{ line_item.igst }}</td>
           <td class="border px-4 py-2">{{ line_item.total }}</td>
         </tr>
         {% endfor %}

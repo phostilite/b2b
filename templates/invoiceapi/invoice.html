@@ -8,74 +8,103 @@
     <link href="{% static 'dist/output.css' %}" rel="stylesheet" />
 </head>
 <body class="bg-gray-100">
-    <div class="container mx-auto py-8">
-    <div class="bg-white p-8 shadow-md">
-        <div class="flex justify-between items-center mb-8">
-        <div>
-            <img src="{% static 'img/icon.png' %}" alt="Company Logo" class="h-12">
-            <p class="text-gray-600">{{ company_address }}</p>
-            <p class="text-gray-600">{{ company_phone }}</p>
-        </div>
-        <div>
-            <h1 class="text-3xl font-bold">Invoice</h1>
-            <p class="text-gray-600">Invoice Number: {{ order.order_id }}</p>
-            <p class="text-gray-600">Date: {{ order.date_created }}</p>
-        </div>
-        </div>
+    <div class="container mx-auto py-8 border">
+        <div class="bg-white p-8 shadow-md border">
+            <div class="flex justify-between items-center mb-8 border p-4">
+                <div class="flex items-start border p-4">
+                    <img src="{% static 'img/icon.png' %}" alt="Company Logo" class="h-16 mr-4">
+                    <div>
+                        <p class="text-gray-600 font-bold">PAROSHIL TEX LLP</p>
+                        <p class="text-gray-600"><strong>Regd Office:</strong> Vidyasagar Residency, 5</p>
+                        <p class="text-gray-600">Vidyasagar Road, Nabagram, Hooghly:</p>
+                        <p class="text-gray-600">712246, West Bengal, India</p>
+                        <p class="text-gray-600"><strong>GSTIN:</strong> 19ABDFP3467A1ZC</p>
+                        <p class="text-gray-600"><strong>Contact:</strong> +91 980431229</p>
+                        <p class="text-gray-600"><strong>Email:</strong> itease@paroshiltex.com</p>
+                    </div>
+                </div>
+                <div class="border p-4">
+                    <h1 class="text-3xl font-bold">Invoice</h1>
+                    <p class="text-gray-600"><strong>Invoice Number:</strong> {{ order.order_id }}</p>
+                    <p class="text-gray-600"><strong>Date:</strong> {{ order.date_created }}</p>
+                </div>
+            </div>
 
-        <div class="mb-8">
-        <h2 class="text-xl font-bold mb-2">Bill To:</h2>
-        <p>{{ order.billing_details.first_name }} {{ order.billing_details.last_name }}</p>
-        <p>{{ order.billing_details.address_1 }}</p>
-        <p>{{ order.billing_details.address_2 }}</p>
-        <p>{{ order.billing_details.city }}, {{ order.billing_details.state }} {{ order.billing_details.postcode }}</p>
-        <p>{{ order.billing_details.country }}</p>
-        </div>
+            <div class="mb-8 border p-4">
+                <h2 class="text-xl font-bold mb-2">Bill To:</h2>
+                <p>{{ order.billing_details.first_name }} {{ order.billing_details.last_name }}</p>
+                <p>{{ order.billing_details.address_1 }}</p>
+                <p>{{ order.billing_details.address_2 }}</p>
+                <p>{{ order.billing_details.city }}, {{ order.billing_details.state }} {{ order.billing_details.postcode }}</p>
+                <p>{{ order.billing_details.country }}</p>
+            </div>
 
-        <table class="table-auto w-full">
-        <thead>
-            <tr>
-            <th class="px-4 py-2">Description</th>
-            <th class="px-4 py-2">Quantity</th>
-            <th class="px-4 py-2">Price</th>
-            <th class="px-4 py-2">Total</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for line_item in line_items %}
-            <tr>
-            <td class="border px-4 py-2">{{ line_item.name }}</td>
-            <td class="border px-4 py-2">{{ line_item.quantity }}</td>
-            <td class="border px-4 py-2">{{ line_item.price }}</td>
-            <td class="border px-4 py-2">{{ line_item.total }}</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-        <tfoot>
-            <tr>
-            <th colspan="3" class="text-right px-4 py-2">Subtotal:</th>
-            <td class="border px-4 py-2">{{ order.total }}</td>
-            </tr>
-            <tr>
-            <th colspan="3" class="text-right px-4 py-2">Tax:</th>
-            <td class="border px-4 py-2">{{ tax_amount }}</td>
-            </tr>
-            <tr>
-            <th colspan="3" class="text-right px-4 py-2">Total:</th>
-            <td class="border px-4 py-2 font-bold">{{ total_due }}</td>
-            </tr>
-        </tfoot>
-        </table>
+            <table class="table-auto w-full border">
+                <thead class="border">
+                    <tr class="border">
+                    <th class="border px-4 py-2">Description</th>
+                    <th class="border px-4 py-2">Quantity</th>
+                    <th class="border px-4 py-2">Price</th>
+                    <th class="border px-4 py-2">SGST</th>
+                    <th class="border px-4 py-2">CGST</th>
+                    <th class="border px-4 py-2">IGST</th>
+                    <th class="border px-4 py-2">Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for line_item in line_items %}
+                    <tr class="border">
+                    <td class="border px-4 py-2">{{ line_item.name }}</td>
+                    <td class="border px-4 py-2">{{ line_item.quantity }}</td>
+                    <td class="border px-4 py-2">₹{{ line_item.price }}</td>
+                    <td class="border px-4 py-2">
+                        {% if line_item.sgst %}
+                        ₹{{ line_item.sgst }}
+                        {% else %}
+                            _
+                        {% endif %}
+                    </td>
+                    <td class="border px-4 py-2">
+                        {% if line_item.cgst %}
+                            ₹{{ line_item.cgst }}
+                        {% else %}
+                            _
+                        {% endif %}
+                    </td>
+                    <td class="border px-4 py-2">
+                        {% if line_item.igst %}
+                        ₹{{ line_item.igst }}
+                        {% else %}
+                            _
+                        {% endif %}
+                    </td>
+                    <td class="border px-4 py-2">₹{{ line_item.subtotal_2 }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+                <tfoot class="border">
+                    <tr class="border">
+                    <th colspan="6" class="text-right px-4 py-2 border">Subtotal:</th>
+                    <td class="border px-4 py-2">₹{{ subtotal }}</td>
+                    </tr>
+                    <tr class="border">
+                    <th colspan="6" class="text-right px-4 py-2 border">Tax:</th>
+                    <td class="border px-4 py-2">₹{{ total_tax }}</td>
+                    </tr>
+                    <tr class="border">
+                    <th colspan="6" class="text-right px-4 py-2 border">Total:</th>
+                    <td class="border px-4 py-2 font-bold">₹{{ order.total }}</td>
+                    </tr>
+                    <tr class="border">
+                    <th colspan="7" class="text-center px-4 py-2 border">Total Amount in Words: {{ total_in_words }} RUPEES ONLY</th>
+                    </tr>
+                </tfoot>
+            </table>
 
-        <div class="mt-8">
-        <h2 class="text-xl font-bold mb-2">Payment Instructions:</h2>
-        <p>{{ payment_instructions }}</p>
+            <div class="border p-4" style="margin-top: 2rem; text-align: center;">
+                <p class="text-gray-600">Thank you for shopping with us! We hope you enjoy your purchase. If you have any questions or need further assistance, don't hesitate to contact us. Happy shopping!</p>
+            </div>
         </div>
-
-        <div class="mt-8 text-center">
-        <p class="text-gray-600">Thank you for your business!</p>
-        </div>
-    </div>
     </div>
 </body>
 </html>

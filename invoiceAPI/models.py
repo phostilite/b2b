@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils import timezone
 
 class Payment(models.Model):
     payment_id = models.CharField(max_length=100, unique=True)
@@ -18,7 +19,7 @@ class Payment(models.Model):
     upi_details = models.JSONField(null=True, blank=True)
     
     def __str__(self):
-        return self.payment_id
+        return f'{self.payment_id} - {self.order_id}'
     
 class Order(models.Model):
     order_id = models.IntegerField(unique=True)
@@ -43,8 +44,20 @@ class Order(models.Model):
     payment = models.ForeignKey(Payment, on_delete=models.CASCADE, related_name='orders')
     
     def __str__(self):
-        return str(self.order_id)
+        return f'{str(self.order_id)} - {self.payment.payment_id}'
     
+class Invoice(models.Model):
+    order = models.OneToOneField(Order, on_delete=models.CASCADE)
+    invoice_number = models.CharField(max_length=100, unique=True)
+
+    def save(self, *args, **kwargs):
+        if not self.invoice_number:
+            # Generate invoice number as YYYYMMDD + order_id
+            self.invoice_number = timezone.now().strftime('%Y%m%d') + str(self.order.order_id)
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return self.invoice_number
 
 class LineItem(models.Model):
     line_item_id = models.IntegerField()
@@ -53,12 +66,49 @@ class LineItem(models.Model):
     variation_id = models.IntegerField(null=True, blank=True)
     quantity = models.IntegerField()
     subtotal = models.DecimalField(max_digits=10, decimal_places=2)
+    subtotal_2 = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
     total = models.DecimalField(max_digits=10, decimal_places=2)
     sku = models.CharField(max_length=100)
     price = models.DecimalField(max_digits=10, decimal_places=2)
     image_data = models.JSONField(null=True, blank=True)
     meta_data = models.JSONField()
     order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name='line_items')
+    sgst = models.DecimalField(max_digits=10, decimal_places=3, null=True, blank=True)
+    cgst = models.DecimalField(max_digits=10, decimal_places=3, null=True, blank=True)
+    igst = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+    total_tax = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+    
+    def calculate_taxes(self):
+        total_product_amount = float(self.total)
+        shipping_state = self.order.shipping_details.get('state', '')
+
+        if shipping_state == 'WB':
+            if total_product_amount < 1000:
+                sgst = total_product_amount * 0.025
+                cgst = total_product_amount * 0.025
+            else:
+                sgst = total_product_amount * 0.06
+                cgst = total_product_amount * 0.06
+
+            self.price = self.price - (sgst + cgst)
+            self.sgst = sgst
+            self.cgst = cgst
+            self.igst = None
+            self.total_tax = sgst + cgst
+        else:
+            if total_product_amount < 1000:
+                igst = total_product_amount * 0.05
+            else:
+                igst = total_product_amount * 0.12
+
+            self.price = self.price - igst
+            self.sgst = None
+            self.cgst = None
+            self.igst = igst
+            self.total_tax = igst
+            
+        self.subtotal_2 = self.quantity * self.price
+        self.save()
     
     def __str__(self):
         return str(self.line_item_id)

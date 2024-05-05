@@ -12,6 +12,7 @@ from django.shortcuts import get_object_or_404, render, redirect
 from django.template.loader import render_to_string
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
+from django_ratelimit.decorators import ratelimit
 import requests
 import traceback
 
@@ -19,6 +20,7 @@ import traceback
 from accounts.decorators import allowed_users
 from .models import Payment, Order, LineItem
 from django_renderpdf.views import PDFView
+from .utils import convert_amount_to_words
 
 logger = logging.getLogger(__name__)
 
@@ -44,12 +46,13 @@ def get_order_details(order_id):
         print(f"Error fetching order details: {e}")
         return None
 
+@ratelimit(group='transactions_group', key='ip', block=True)
 def transactions(request):
     try:
         logger.info('Starting transactions function')
 
         current_date = datetime.now()
-        three_months_ago = current_date - relativedelta(months=3)
+        three_months_ago = current_date - relativedelta(months=4)
         current_timestamp = int(current_date.timestamp())
         three_months_ago_timestamp = int(three_months_ago.timestamp())
         url = f"https://api.razorpay.com/v1/payments?from={three_months_ago_timestamp}&to={current_timestamp}&count=100"
@@ -119,7 +122,7 @@ def transactions(request):
                     logger.info(f'Created order for transaction {transaction["id"]}')
                     
                     for line_item_data in order_data['line_items']:
-                        LineItem.objects.create(
+                        line_item = LineItem.objects.create(
                             order=order,
                             line_item_id=line_item_data['id'],
                             name=line_item_data['name'],
@@ -133,6 +136,7 @@ def transactions(request):
                             image_data=line_item_data['image'],
                             meta_data=line_item_data['meta_data'],
                         )
+                        line_item.calculate_taxes()
                         
                     logger.info(f'Created line items for transaction {transaction["id"]}')
 
@@ -174,27 +178,19 @@ def order_detail(request, order_id):
 def invoice(request, order_id):
     order = get_object_or_404(Order, order_id=order_id)
     line_items = order.line_items.all()
-
-    # Calculate tax and total due
-    tax_rate = Decimal('0.08')  # Replace with your actual tax rate
-    tax_amount = order.total * tax_rate
-    total_due = order.total + tax_amount
-
-    # Company details
-    company_address = "123 Main Street, Anytown USA"
-    company_phone = "+1 555-555-5555"
-
-    # Payment instructions
-    payment_instructions = "Please make the payment within 30 days via bank transfer or credit card."
-
+    
+     # Calculate subtotal
+    subtotal = sum([item.price * item.quantity for item in line_items])
+    
+    # Calculate total tax
+    total_tax = order.total - subtotal
+    
     context = {
         'order': order,
         'line_items': line_items,
-        'tax_amount': tax_amount,
-        'total_due': total_due,
-        'company_address': company_address,
-        'company_phone': company_phone,
-        'payment_instructions': payment_instructions,
+        'subtotal': subtotal,
+        'total_tax': total_tax,
+        'total_in_words': convert_amount_to_words(order.total),
     }
 
     return render(request, 'invoiceapi/invoice.html', context)
@@ -203,7 +199,7 @@ def invoice(request, order_id):
 @method_decorator(allowed_users(allowed_roles=["Admin"]), name='dispatch')
 class DownloadInvoicePDFView(PDFView):
     template_name = 'invoiceapi/invoice.html'
-    base_url = None  
+    base_url = None 
 
     def get_filename(self):
         order_id = self.kwargs.get('order_id')
@@ -215,26 +211,19 @@ class DownloadInvoicePDFView(PDFView):
         order = get_object_or_404(Order, order_id=order_id)
         line_items = order.line_items.all()
 
-        # Calculate tax and total due
-        tax_rate = Decimal('0.08')  # Replace with your actual tax rate
-        tax_amount = order.total * tax_rate
-        total_due = order.total + tax_amount
+        # Calculate subtotal
+        subtotal = sum([item.price * item.quantity for item in line_items])
+        
+        # Calculate total tax
+        total_tax = order.total - subtotal
 
-        # Company details
-        company_address = "123 Main Street, Anytown USA"
-        company_phone = "+1 555-555-5555"
-
-        # Payment instructions
-        payment_instructions = "Please make the payment within 30 days via bank transfer or credit card."
 
         context.update({  # Update context with all necessary variables
             'order': order,
             'line_items': line_items,
-            'tax_amount': tax_amount,
-            'total_due': total_due,
-            'company_address': company_address,
-            'company_phone': company_phone,
-            'payment_instructions': payment_instructions,
+            'subtotal': subtotal,
+            'total_tax': total_tax,
+            'total_in_words': convert_amount_to_words(order.total),
         })
         return context
    

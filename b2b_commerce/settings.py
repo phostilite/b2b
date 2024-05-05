@@ -190,8 +190,16 @@ TWILIO_ACCOUNT_SID = os.getenv('TWILIO_ACCOUNT_SID')
 TWILIO_AUTH_TOKEN1 = os.getenv('TWILIO_AUTH_TOKEN1')
 TWILIO_PHONE_NUMBER = os.getenv('TWILIO_PHONE_NUMBER')
 
-SESSION_COOKIE_AGE = 60 * 12
+SESSION_COOKIE_AGE = 60 * 30
 LOGIN_URL = '/landing_page/'
 
 WOOCOMMERCE_API_KEY = os.getenv('WOOCOMMERCE_API_KEY')
 WOOCOMMERCE_API_SECRET = os.getenv('WOOCOMMERCE_API_SECRET')
+
+
+RATELIMIT_RATES = {
+    'transactions_api': {
+        'rate': '15/m',  # 10 requests per minute for transactions view
+        'group': 'transactions_group'
+    },
+}
