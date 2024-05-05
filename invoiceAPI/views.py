@@ -13,6 +13,7 @@ from django.template.loader import render_to_string
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 import requests
+import traceback
 
 # Local application/library specific imports
 from accounts.decorators import allowed_users
@@ -21,8 +22,7 @@ from django_renderpdf.views import PDFView
 
 logger = logging.getLogger(__name__)
 
-@login_required
-@allowed_users(allowed_roles=["Admin"])
+
 def filter_transactions(data):
     filtered_transactions = []
     for transaction in data['items']:
@@ -32,8 +32,6 @@ def filter_transactions(data):
             filtered_transactions.append(transaction)
     return filtered_transactions
 
-@login_required
-@allowed_users(allowed_roles=["Admin"])
 def get_order_details(order_id):
     try:
         url = f"https://www.paroshiltex.com/wp-json/wc/v3/orders/{order_id}"
@@ -41,13 +39,11 @@ def get_order_details(order_id):
         response.raise_for_status()  # Raise an exception for non-2xx status codes
         order_details = response.json()
         return order_details
-    except requests.exceptions.RequestException as e:
+    except (requests.exceptions.RequestException, requests.exceptions.HTTPError) as e:
         # Handle exceptions related to the API request
         print(f"Error fetching order details: {e}")
         return None
 
-@login_required
-@allowed_users(allowed_roles=["Admin"])
 def transactions(request):
     try:
         logger.info('Starting transactions function')
@@ -148,9 +144,9 @@ def transactions(request):
         return JsonResponse({'error': str(e)}, status=500)
 
     except Exception as e:
-        logger.error(f"Unexpected error: {e}")
+        logger.error(f"Unexpected error: {e}\n{traceback.format_exc()}")
         return JsonResponse({'error': 'An unexpected error occurred'}, status=500)
-
+    
 @login_required
 @allowed_users(allowed_roles=["Admin"])   
 def payment_list(request):
