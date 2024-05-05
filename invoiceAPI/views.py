@@ -13,7 +13,6 @@ from django.template.loader import render_to_string
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 import requests
-from xhtml2pdf import pisa
 
 # Local application/library specific imports
 from accounts.decorators import allowed_users

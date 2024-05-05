@@ -50,7 +50,6 @@ typing_extensions==4.11.0
 tzlocal==5.2
 uritools==4.0.2
 urllib3==2.2.1
-weasyprint==62.0
 webencodings==0.5.1
 xhtml2pdf==0.2.15
 yarl==1.9.4
