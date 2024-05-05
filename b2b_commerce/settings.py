@@ -53,6 +53,8 @@ INSTALLED_APPS = [
     'stock',
     'administration',
     'cart',
+    'invoiceAPI',
+    'django_renderpdf',
 ]
 
 MIDDLEWARE = [
@@ -189,4 +191,7 @@ TWILIO_AUTH_TOKEN1 = os.getenv('TWILIO_AUTH_TOKEN1')
 TWILIO_PHONE_NUMBER = os.getenv('TWILIO_PHONE_NUMBER')
 
 SESSION_COOKIE_AGE = 60 * 12
-SESSION_TIMEOUT_REDIRECT = '/'
+LOGIN_URL = '/landing_page/'
+
+WOOCOMMERCE_API_KEY = os.getenv('WOOCOMMERCE_API_KEY')
+WOOCOMMERCE_API_SECRET = os.getenv('WOOCOMMERCE_API_SECRET')

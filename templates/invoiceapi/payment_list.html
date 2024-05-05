@@ -1,0 +1,31 @@
+{% extends './base.html' %}
+
+{% block content %}
+<div class="container mx-auto py-8">
+  <h1 class="text-3xl font-bold mb-6">Payment List</h1>
+  <table class="table-auto w-full">
+    <thead>
+      <tr>
+        <th class="px-4 py-2">Payment ID</th>
+        <th class="px-4 py-2">Amount</th>
+        <th class="px-4 py-2">Currency</th>
+        <th class="px-4 py-2">Status</th>
+        <th class="px-4 py-2">Order ID</th>
+        <th class="px-4 py-2">Created At</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for payment in payments %}
+      <tr>
+        <td class="border px-4 py-2">{{ payment.payment_id }}</td>
+        <td class="border px-4 py-2">{{ payment.amount }}</td>
+        <td class="border px-4 py-2">{{ payment.currency }}</td>
+        <td class="border px-4 py-2">{{ payment.status }}</td>
+        <td class="border px-4 py-2">{{ payment.order_id }}</td>
+        <td class="border px-4 py-2">{{ payment.created_at }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

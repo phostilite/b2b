@@ -1,0 +1,81 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Itease B2C Invoice Management{% endblock %}</title>
+    <link href="{% static 'dist/output.css' %}" rel="stylesheet" />
+</head>
+<body class="bg-gray-100">
+    <div class="container mx-auto py-8">
+    <div class="bg-white p-8 shadow-md">
+        <div class="flex justify-between items-center mb-8">
+        <div>
+            <img src="{% static 'img/icon.png' %}" alt="Company Logo" class="h-12">
+            <p class="text-gray-600">{{ company_address }}</p>
+            <p class="text-gray-600">{{ company_phone }}</p>
+        </div>
+        <div>
+            <h1 class="text-3xl font-bold">Invoice</h1>
+            <p class="text-gray-600">Invoice Number: {{ order.order_id }}</p>
+            <p class="text-gray-600">Date: {{ order.date_created }}</p>
+        </div>
+        </div>
+
+        <div class="mb-8">
+        <h2 class="text-xl font-bold mb-2">Bill To:</h2>
+        <p>{{ order.billing_details.first_name }} {{ order.billing_details.last_name }}</p>
+        <p>{{ order.billing_details.address_1 }}</p>
+        <p>{{ order.billing_details.address_2 }}</p>
+        <p>{{ order.billing_details.city }}, {{ order.billing_details.state }} {{ order.billing_details.postcode }}</p>
+        <p>{{ order.billing_details.country }}</p>
+        </div>
+
+        <table class="table-auto w-full">
+        <thead>
+            <tr>
+            <th class="px-4 py-2">Description</th>
+            <th class="px-4 py-2">Quantity</th>
+            <th class="px-4 py-2">Price</th>
+            <th class="px-4 py-2">Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for line_item in line_items %}
+            <tr>
+            <td class="border px-4 py-2">{{ line_item.name }}</td>
+            <td class="border px-4 py-2">{{ line_item.quantity }}</td>
+            <td class="border px-4 py-2">{{ line_item.price }}</td>
+            <td class="border px-4 py-2">{{ line_item.total }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+        <tfoot>
+            <tr>
+            <th colspan="3" class="text-right px-4 py-2">Subtotal:</th>
+            <td class="border px-4 py-2">{{ order.total }}</td>
+            </tr>
+            <tr>
+            <th colspan="3" class="text-right px-4 py-2">Tax:</th>
+            <td class="border px-4 py-2">{{ tax_amount }}</td>
+            </tr>
+            <tr>
+            <th colspan="3" class="text-right px-4 py-2">Total:</th>
+            <td class="border px-4 py-2 font-bold">{{ total_due }}</td>
+            </tr>
+        </tfoot>
+        </table>
+
+        <div class="mt-8">
+        <h2 class="text-xl font-bold mb-2">Payment Instructions:</h2>
+        <p>{{ payment_instructions }}</p>
+        </div>
+
+        <div class="mt-8 text-center">
+        <p class="text-gray-600">Thank you for your business!</p>
+        </div>
+    </div>
+    </div>
+</body>
+</html>

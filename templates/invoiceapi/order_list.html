@@ -1,0 +1,37 @@
+{% extends './base.html' %}
+
+{% block content %}
+<div class="container mx-auto py-8">
+  <h1 class="text-3xl font-bold mb-6">Order List</h1>
+  <table class="table-auto w-full">
+    <thead>
+      <tr>
+        <th class="px-4 py-2">Order ID</th>
+        <th class="px-4 py-2">Status</th>
+        <th class="px-4 py-2">Total</th>
+        <th class="px-4 py-2">Customer</th>
+        <th class="px-4 py-2">Date Created</th>
+        <th class="px-4 py-2">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for order in orders %}
+      <tr>
+        <td class="border px-4 py-2">{{ order.order_id }}</td>
+        <td class="border px-4 py-2">{{ order.status }}</td>
+        <td class="border px-4 py-2">{{ order.total }}</td>
+        <td class="border px-4 py-2">{{ order.customer_id }}</td>
+        <td class="border px-4 py-2">{{ order.date_created }}</td>
+        <td class="border px-4 py-2">
+            <div class="flex space-x-2">
+                <a href="{% url 'api_order_detail' order.order_id %}" class="text-blue-500 hover:text-blue-700">View</a>
+                <a href="{% url 'api_invoice' order.order_id %}" class="text-blue-500 hover:text-blue-700">Invoice</a>
+                <a href="{% url 'api_download_invoice' order.order_id %}" class="text-green-500 hover:text-green-700">Download Invoice</a>
+            </div>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

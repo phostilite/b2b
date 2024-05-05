@@ -1,0 +1,31 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}Itease B2C Invoice Management{% endblock %}</title>
+  <link href="{% static 'dist/output.css' %}" rel="stylesheet" />
+</head>
+<body class="bg-gray-100">
+  <nav class="bg-white shadow">
+    <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+      <a href="#" class="text-xl font-bold text-gray-800">Itease B2C Invoice Management</a>
+      <ul class="flex space-x-4">
+        <li><a href="{% url 'api_payment_list' %}" class="text-gray-800 hover:text-gray-600">Payments</a></li>
+        <li><a href="{% url 'api_order_list' %}" class="text-gray-800 hover:text-gray-600">Orders</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main>
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer class="bg-white py-4 mt-8">
+    <div class="container mx-auto px-4 text-center text-gray-600">
+      &copy; {% now "Y" %} Itease B2C Invoice Management
+    </div>
+  </footer>
+</body>
+</html>

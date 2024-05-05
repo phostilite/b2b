@@ -1,0 +1,39 @@
+{% extends './base.html' %}
+
+{% block content %}
+<div class="container mx-auto py-8">
+  <h1 class="text-3xl font-bold mb-6">Order Details</h1>
+  <div class="mb-6">
+    <h2 class="text-2xl font-bold">Order Information</h2>
+    <p>Order ID: {{ order.order_id }}</p>
+    <p>Status: {{ order.status }}</p>
+    <p>Total: {{ order.total }}</p>
+    <p>Customer ID: {{ order.customer_id }}</p>
+    <p>Date Created: {{ order.date_created }}</p>
+    <p>Date Paid: {{ order.date_paid|default:'N/A' }}</p>
+  </div>
+  <div>
+    <h2 class="text-2xl font-bold">Line Items</h2>
+    <table class="table-auto w-full">
+      <thead>
+        <tr>
+          <th class="px-4 py-2">Name</th>
+          <th class="px-4 py-2">Quantity</th>
+          <th class="px-4 py-2">Price</th>
+          <th class="px-4 py-2">Total</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for line_item in line_items %}
+        <tr>
+          <td class="border px-4 py-2">{{ line_item.name }}</td>
+          <td class="border px-4 py-2">{{ line_item.quantity }}</td>
+          <td class="border px-4 py-2">{{ line_item.price }}</td>
+          <td class="border px-4 py-2">{{ line_item.total }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}
