@@ -36,7 +36,7 @@ python manage.py makemigrations || { log "Failed to make database migrations"; e
 python manage.py migrate || { log "Failed to apply database migrations"; exit 1; }
 
 # Start Celery in the background and redirect logs to celery.log
-nohup celery -A b2b_commerce --loglevel=info &> celery.log &
+screen -dmS celery bash -c 'source env/bin/activate; celery -A b2b_commerce worker --loglevel=info' || { log "Failed to start Celery"; exit 1; }
 
 # Deactivate virtual environment
 deactivate
