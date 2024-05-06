@@ -65,25 +65,25 @@
 <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
   <div class="flex items-center justify-between mb-4">
     <h3 class="text-lg font-semibold text-gray-800 dark:text-white">Pending Orders</h3>
-    <span class="bg-yellow-100 text-yellow-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded-full dark:bg-yellow-900 dark:text-yellow-300">75</span>
+    <span class="bg-yellow-100 text-yellow-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded-full dark:bg-yellow-900 dark:text-yellow-300">0</span>
   </div>
   <div class="mt-4">
-    <h2 class="text-4xl font-bold text-gray-800 dark:text-white">250</h2>
+    <h2 id="pending-orders" class="text-4xl font-bold text-gray-800 dark:text-white">0</h2>
   </div>
   <div class="mt-6">
     <div class="flex items-center justify-between mb-2">
       <span class="text-sm font-medium text-gray-600 dark:text-gray-400">Approved Orders</span>
-      <span class="text-sm font-medium text-green-500 dark:text-green-400">125</span>
+      <span id="approved-orders" class="text-sm font-medium text-green-500 dark:text-green-400">0</span>
     </div>
     <div class="w-full bg-green-200 rounded-full h-2.5 mb-4 dark:bg-green-700">
-      <div class="bg-green-600 h-2.5 rounded-full" style="width: 50%"></div>
+      <div class="approved-progress bg-green-600 h-2.5 rounded-full" style="width: 50%"></div>
     </div>
     <div class="flex items-center justify-between mb-2">
       <span class="text-sm font-medium text-gray-600 dark:text-gray-400">Canceled Orders</span>
-      <span class="text-sm font-medium text-red-500 dark:text-red-400">50</span>
+      <span id="canceled-orders" class="text-sm font-medium text-red-500 dark:text-red-400">0</span>
     </div>
     <div class="w-full bg-red-200 rounded-full h-2.5 dark:bg-red-700">
-      <div class="bg-red-600 h-2.5 rounded-full" style="width: 20%"></div>
+      <div class="canceled-progress bg-red-600 h-2.5 rounded-full" style="width: 20%"></div>
     </div>
   </div>
 </div>
@@ -690,6 +690,15 @@
             document.getElementById('total-orders').textContent = data.total_orders;
             document.getElementById('todays-orders').textContent = data.todays_orders;
             document.getElementById('total-sales').textContent = '₹' + data.total_sales;
+            document.getElementById('pending-orders').textContent = data.pending_orders;
+            document.getElementById('approved-orders').textContent = data.approved_orders;
+            document.getElementById('canceled-orders').textContent = data.canceled_orders;
+
+            var approvedPercentage = (data.approved_orders / data.total_orders) * 100;
+            var canceledPercentage = (data.canceled_orders / data.total_orders) * 100;
+
+            document.querySelector('.approved-progress').style.width = approvedPercentage + '%';
+            document.querySelector('.canceled-progress').style.width = canceledPercentage + '%';
         })
         .catch((error) => {
             console.error('Error:', error);

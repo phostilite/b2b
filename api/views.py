@@ -87,10 +87,17 @@ def orders_summary_api(request):
     total_sales = Order.objects.filter(payment_status='Paid').aggregate(total_sales=Sum('grand_total_amount'))['total_sales']
     if total_sales is None:
         total_sales = 0
+        
+    pending_orders = Order.objects.filter(status='Pending Approval').count()
+    approved_orders = Order.objects.filter(status='Approved').count()
+    canceled_orders = Order.objects.filter(status='Canceled').count()
 
     data = {
         'total_orders': total_count,
         'todays_orders': todays_count,
-        'total_sales': total_sales
+        'total_sales': total_sales,
+        'pending_orders': pending_orders,
+        'approved_orders': approved_orders,
+        'canceled_orders': canceled_orders
     }
     return JsonResponse(data)
