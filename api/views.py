@@ -84,7 +84,7 @@ def orders_summary_api(request):
     total_count = Order.objects.count()
     today = timezone.now().date()
     todays_count = Order.objects.filter(order_date__date=today).count()
-    total_sales = Order.objects.filter(payment_status='paid').aggregate(total_sales=Sum('grand_total_amount'))['total_sales']
+    total_sales = Order.objects.filter(payment_status='Paid').aggregate(total_sales=Sum('grand_total_amount'))['total_sales']
     if total_sales is None:
         total_sales = 0
 
