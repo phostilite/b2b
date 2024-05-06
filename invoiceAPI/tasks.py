@@ -158,7 +158,7 @@ def create_payment_and_order(transaction):
             'vpa': transaction['vpa'],
             'email': transaction['email'],
             'contact': transaction['contact'],
-            'fee': transaction['fee'],
+            'fee': transaction['fee'] if line_item_data['sku'] else '',
             'created_at': datetime.fromtimestamp(transaction['created_at']),
             'acquirer_data': transaction['acquirer_data'],
             'upi_details': transaction['upi'],
@@ -240,4 +240,3 @@ def generate_and_send_invoice(invoice):
         invoice.save()
     except Exception as e:
         logger.error(f"Failed to send invoice email for order {invoice.order.order_id}: {e}")
-        # ... Consider adding retry logic or a notification mechanism ...
