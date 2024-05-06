@@ -1,0 +1,15 @@
+<h2>Generate API Token</h2>
+
+<form action="{% url 'create_token' %}" method="POST">
+    {% csrf_token %} 
+    <select name="user_id">
+        {% for user in users %} 
+            <option value="{{ user.id }}">{{ user.username }}</option>
+        {% endfor %}
+    </select>
+    <button type="submit">Generate Token</button>
+</form>
+
+{% if token %}
+    <p><strong>Token:</strong> {{ token }}</p>
+{% endif %}

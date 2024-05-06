@@ -79,6 +79,14 @@ def dealer_dashboard_view(request):
 
 def dealer_login_view(request):
     try:
+        if request.user.is_authenticated:
+            try:
+                dealer = Dealer.objects.get(user=request.user)
+                if dealer.agreement_accepted:
+                    return redirect('dealer_dashboard')
+            except Dealer.DoesNotExist:
+                logger.error('Dealer object does not exist for the authenticated user.')
+                
         if request.method == 'POST':
             username = request.POST.get('username')
             password = request.POST.get('password')

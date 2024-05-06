@@ -15,6 +15,9 @@ def admin_dashboard_view(request):
     return render(request, 'admin/dashboard.html')
 
 def admin_login_view(request):
+    if request.user.is_authenticated and request.user.groups.filter(name='Admin').exists():
+        return redirect('admin_dashboard')
+
     if request.method == 'POST':
             username = request.POST.get('username')
             password = request.POST.get('password')

@@ -12,8 +12,7 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 
 import os
 from pathlib import Path
-
-import os
+from datetime import timedelta
 from dotenv import load_dotenv
 load_dotenv()
 
@@ -55,6 +54,9 @@ INSTALLED_APPS = [
     'cart',
     'invoiceAPI',
     'django_renderpdf',
+    'rest_framework',
+    'rest_framework.authtoken',
+    'api',
 ]
 
 MIDDLEWARE = [
@@ -191,8 +193,8 @@ TWILIO_ACCOUNT_SID = os.getenv('TWILIO_ACCOUNT_SID')
 TWILIO_AUTH_TOKEN1 = os.getenv('TWILIO_AUTH_TOKEN1')
 TWILIO_PHONE_NUMBER = os.getenv('TWILIO_PHONE_NUMBER')
 
-SESSION_COOKIE_AGE = 60 * 30
-LOGIN_URL = '/landing_page/'
+# SESSION_COOKIE_AGE = 60 * 30
+# LOGIN_URL = '/landing_page/'
 
 WOOCOMMERCE_API_KEY = os.getenv('WOOCOMMERCE_API_KEY')
 WOOCOMMERCE_API_SECRET = os.getenv('WOOCOMMERCE_API_SECRET')
@@ -207,3 +209,16 @@ RATELIMIT_RATES = {
 
 CELERY_BROKER_URL = 'amqp://localhost'
 CELERY_RESULT_BACKEND = 'rpc://'
+
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
+    ],
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',
+    ],
+    'TOKEN_EXPIRATION_DELTA': timedelta(days=7), 
+}
