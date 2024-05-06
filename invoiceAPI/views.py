@@ -2,6 +2,8 @@
 from datetime import datetime
 import logging
 from decimal import Decimal
+import json
+import hmac
 
 # Related third party imports
 from dateutil.relativedelta import relativedelta
@@ -13,6 +15,7 @@ from django.template.loader import render_to_string
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django_ratelimit.decorators import ratelimit
+from django.views.decorators.csrf import csrf_exempt
 import requests
 import traceback
 
@@ -91,3 +94,31 @@ def download_invoice(request, order_id):
         generate_and_send_invoice.delay(invoice)
 
     return JsonResponse({'message': 'Invoice generation in progress'})
+
+@csrf_exempt
+def razorpay_webhook(request):
+    if request.method == 'POST':
+        payload = json.loads(request.body)
+        event = payload.get('event')
+
+        # Log the received event
+        logger.info(f'Received event: {event}')
+
+        # Signature Verification
+        secret = settings.RAZORPAY_WEBHOOK_SECRET
+        signature = request.headers.get('X-Razorpay-Signature')
+
+        if signature:
+            digest = hmac.new(secret.encode(), request.body, 'sha256').hexdigest()
+            if not hmac.compare_digest(digest, signature):
+                logger.warning('Invalid signature')
+                return HttpResponse(status=400)  # Invalid signature
+
+        # Process the payment event
+        if event == 'payment.authorized': 
+            logger.info('Processing new payments')
+            process_new_payments.delay()  
+        return HttpResponse(status=200)
+    else:
+        logger.warning('Received non-POST request')
+        return HttpResponse(status=400)
