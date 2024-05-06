@@ -35,5 +35,8 @@ python manage.py collectstatic --noinput || { log "Failed to collect static file
 python manage.py makemigrations || { log "Failed to make database migrations"; exit 1; }
 python manage.py migrate || { log "Failed to apply database migrations"; exit 1; }
 
+# Start Celery in the background and redirect logs to celery.log
+nohup celery -A b2b_commerce --loglevel=info &> celery.log &
+
 # Deactivate virtual environment
 deactivate
