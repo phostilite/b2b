@@ -49,10 +49,10 @@ class Order(models.Model):
 class Invoice(models.Model):
     order = models.OneToOneField(Order, on_delete=models.CASCADE)
     invoice_number = models.CharField(max_length=100, unique=True)
+    invoice_sent = models.BooleanField(default=False)
 
     def save(self, *args, **kwargs):
         if not self.invoice_number:
-            # Generate invoice number as YYYYMMDD + order_id
             self.invoice_number = timezone.now().strftime('%Y%m%d') + str(self.order.order_id)
         super().save(*args, **kwargs)
 

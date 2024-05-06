@@ -199,7 +199,10 @@ WOOCOMMERCE_API_SECRET = os.getenv('WOOCOMMERCE_API_SECRET')
 
 RATELIMIT_RATES = {
     'transactions_api': {
-        'rate': '15/m',  # 10 requests per minute for transactions view
+        'rate': '15/m', 
         'group': 'transactions_group'
     },
 }
+
+CELERY_BROKER_URL = 'amqp://localhost'
+CELERY_RESULT_BACKEND = 'rpc://'
