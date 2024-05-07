@@ -6,4 +6,5 @@ urlpatterns = [
     path('create-token/', views.CreateTokenView.as_view(), name='create_token'),
     
     path('orders-summary/', views.orders_summary_api, name='orders_summary_api'),
+    path('top-selling-products/', views.top_selling_products_api, name='top_selling_products_api'),
 ] 

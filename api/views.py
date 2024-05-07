@@ -4,7 +4,7 @@ from django.shortcuts import get_object_or_404
 from django.contrib.auth.models import User, Group
 from django.utils import timezone
 from django.conf import settings
-from django.db.models import Sum
+from django.db.models import Sum, Q, Prefetch
 
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
@@ -16,6 +16,7 @@ from rest_framework.authentication import TokenAuthentication
 from rest_framework.exceptions import AuthenticationFailed
 
 from orders.models import Order
+from stock.models import Product, ProductImage
 
 class GroupSerializer(serializers.ModelSerializer):
     class Meta:
@@ -101,3 +102,24 @@ def orders_summary_api(request):
         'canceled_orders': canceled_orders
     }
     return JsonResponse(data)
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def top_selling_products_api(request):
+    top_selling_products = Product.objects.annotate(
+        sales_count=Sum('orderitem__quantity', filter=Q(orderitem__order__payment_status='Paid'))
+    ).order_by('-sales_count')[:5].prefetch_related(
+        Prefetch('images', queryset=ProductImage.objects.filter(is_primary=True), to_attr='primary_images')
+    )
+
+    data = [
+        {
+            'id': product.id,
+            'name': product.title,
+            'sales_count': product.sales_count,
+            'image_url': product.primary_images[0].image.url if product.primary_images else None,
+        }
+        for product in top_selling_products
+    ]
+
+    return JsonResponse(data, safe=False)
