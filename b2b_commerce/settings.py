@@ -62,6 +62,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django_session_timeout.middleware.SessionTimeoutMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -153,6 +154,9 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+SESSION_EXPIRE_SECONDS = 900
+SESSION_EXPIRE_AFTER_LAST_ACTIVITY = True
+SESSION_TIMEOUT_REDIRECT = 'landing_page'  
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
@@ -192,9 +196,6 @@ DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 TWILIO_ACCOUNT_SID = os.getenv('TWILIO_ACCOUNT_SID')
 TWILIO_AUTH_TOKEN1 = os.getenv('TWILIO_AUTH_TOKEN1')
 TWILIO_PHONE_NUMBER = os.getenv('TWILIO_PHONE_NUMBER')
-
-# SESSION_COOKIE_AGE = 60 * 30
-# LOGIN_URL = '/landing_page/'
 
 WOOCOMMERCE_API_KEY = os.getenv('WOOCOMMERCE_API_KEY')
 WOOCOMMERCE_API_SECRET = os.getenv('WOOCOMMERCE_API_SECRET')
