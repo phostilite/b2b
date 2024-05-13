@@ -60,6 +60,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'honeybadger.contrib.DjangoHoneybadgerMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django_session_timeout.middleware.SessionTimeoutMiddleware',
@@ -223,3 +224,5 @@ REST_FRAMEWORK = {
     ],
     'TOKEN_EXPIRATION_DELTA': timedelta(days=7), 
 }
+
+HONEYBADGER_API_KEY = os.getenv('HONEYBADGER_API_KEY')
