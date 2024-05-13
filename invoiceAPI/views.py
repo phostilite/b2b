@@ -90,8 +90,8 @@ def download_invoice(request, order_id):
     order = get_object_or_404(Order, order_id=order_id)
     invoice = Invoice.objects.get(order=order)
 
-    if not invoice.invoice_sent:
-        generate_and_send_invoice.delay(invoice)
+    # if not invoice.invoice_sent:
+        # generate_and_send_invoice.delay(invoice)
 
     return JsonResponse({'message': 'Invoice generation in progress'})
 

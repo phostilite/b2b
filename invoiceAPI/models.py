@@ -70,45 +70,49 @@ class LineItem(models.Model):
     total = models.DecimalField(max_digits=10, decimal_places=2)
     sku = models.CharField(max_length=100)
     price = models.DecimalField(max_digits=10, decimal_places=2)
+    base_price = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
     image_data = models.JSONField(null=True, blank=True)
     meta_data = models.JSONField()
     order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name='line_items')
-    sgst = models.DecimalField(max_digits=10, decimal_places=3, null=True, blank=True)
-    cgst = models.DecimalField(max_digits=10, decimal_places=3, null=True, blank=True)
+    sgst = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+    cgst = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
     igst = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
     total_tax = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
     
-    def calculate_taxes(self):
-        total_product_amount = float(self.total)
+    def calculate_taxes_and_save(self):
+        price = float(self.price)
         shipping_state = self.order.shipping_details.get('state', '')
+        quantity = self.quantity
+        tax_threshold = 1000  
+        
+        if shipping_state == 'WB': 
+            if price < tax_threshold:
+                combined_rate = 0.05  # 2.5% SGST + 2.5% CGST
+            else:
+                combined_rate = 0.12  # 6% SGST + 6% CGST
 
+        else:  
+            if price < tax_threshold:
+                combined_rate = 0.05  # 5% IGST
+            else:
+                combined_rate = 0.12  # 12% IGST
+                
+        base_price = price / (1 + combined_rate)  
+        tax_amount = base_price * combined_rate  
+        
         if shipping_state == 'WB':
-            if total_product_amount < 1000:
-                sgst = total_product_amount * 0.025
-                cgst = total_product_amount * 0.025
-            else:
-                sgst = total_product_amount * 0.06
-                cgst = total_product_amount * 0.06
-
-            self.price = self.price - (sgst + cgst)
-            self.sgst = sgst
-            self.cgst = cgst
-            self.igst = None
-            self.total_tax = sgst + cgst
+            self.sgst = tax_amount / 2
+            self.cgst = tax_amount / 2
+            self.igst = 0  
         else:
-            if total_product_amount < 1000:
-                igst = total_product_amount * 0.05
-            else:
-                igst = total_product_amount * 0.12
-
-            self.price = self.price - igst
-            self.sgst = None
-            self.cgst = None
-            self.igst = igst
-            self.total_tax = igst
+            self.sgst = 0
+            self.cgst = 0
+            self.igst = tax_amount 
             
-        self.subtotal_2 = self.quantity * self.price
+        self.base_price = base_price  
+        self.total_tax = tax_amount  
+        
         self.save()
-    
+
     def __str__(self):
-        return str(self.line_item_id)
+        return f'{self.line_item_id} - {self.total}'

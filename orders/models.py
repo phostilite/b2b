@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models import Sum, Count
 
 from administration.models import AdminUser
 from retailers.models import Retailer
@@ -25,6 +26,8 @@ class Order(models.Model):
     retailer = models.ForeignKey(Retailer, on_delete=models.SET_NULL, null=True)
     employee = models.ForeignKey(Employee, on_delete=models.SET_NULL, null=True, blank=True)
     admin = models.ForeignKey(AdminUser, on_delete=models.SET_NULL, null=True)
+    
+    created_by = models.ForeignKey('auth.User', on_delete=models.CASCADE, related_name='orders', null=True, blank=True)
         
     order_date = models.DateTimeField(auto_now_add=True)
     order_number = models.CharField(max_length=100)
@@ -41,6 +44,28 @@ class Order(models.Model):
     
     def __str__(self):
         return self.order_number
+    
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)  # Call the "real" save() method.
+
+        # Calculate the sales and order data for the month and year of this order.
+        orders_in_month = Order.objects.filter(order_date__year=self.order_date.year, order_date__month=self.order_date.month)
+        sales_revenue = orders_in_month.aggregate(Sum('grand_total_amount'))['grand_total_amount__sum'] or 0
+        orders_received = orders_in_month.count()
+        orders_processed = orders_in_month.filter(status='processed').count()
+        orders_delivered = orders_in_month.filter(status='delivered').count()
+
+        # Update or create the SalesData record.
+        SalesData.objects.update_or_create(
+            year=self.order_date.year,
+            month=self.order_date.strftime('%B'),
+            defaults={
+                'sales_revenue': sales_revenue,
+                'orders_received': orders_received,
+                'orders_processed': orders_processed,
+                'orders_delivered': orders_delivered,
+            }
+        )
     
     
 class OrderItem(models.Model):
@@ -91,3 +116,15 @@ class ShippingAddress(models.Model):
     country = models.CharField(max_length=50)
     email = models.EmailField(null=True, blank=True)
     phone = models.CharField(max_length=50, null=True, blank=True)  
+    
+    
+class SalesData(models.Model):
+    year = models.IntegerField()
+    month = models.CharField(max_length=50)
+    sales_revenue = models.DecimalField(max_digits=10, decimal_places=2)
+    orders_received = models.IntegerField()
+    orders_processed = models.IntegerField()
+    orders_delivered = models.IntegerField()
+
+    class Meta:
+        unique_together = ('year', 'month')

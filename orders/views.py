@@ -64,6 +64,7 @@ def create_order(request):
                 order.dealer = request.user.dealer
                 order.employee = None  
                 order.admin = AdminUser.objects.first()  
+                order.created_by = request.user
                 order.order_date = timezone.now()
                 order.status = 'Pending Approval'
                 order.order_number = generate_order_number()  

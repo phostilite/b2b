@@ -158,7 +158,7 @@ def create_payment_and_order(transaction):
             'vpa': transaction['vpa'],
             'email': transaction['email'],
             'contact': transaction['contact'],
-            'fee': transaction['fee'] if line_item_data['sku'] else '',
+            'fee': transaction['fee'] if transaction['fee'] else '',
             'created_at': datetime.fromtimestamp(transaction['created_at']),
             'acquirer_data': transaction['acquirer_data'],
             'upi_details': transaction['upi'],
@@ -209,7 +209,8 @@ def create_payment_and_order(transaction):
                 image_data=line_item_data['image'],
                 meta_data=line_item_data['meta_data'],
             )
-            line_item.calculate_taxes()
+            # line_item.calculate_taxes()
+            line_item.calculate_taxes_and_save()
 
         logger.info(f'Created line items for transaction {transaction["id"]}')
     

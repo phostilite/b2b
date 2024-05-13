@@ -1,5 +1,6 @@
 {% extends '../_base.html' %}
 {% block content %}
+{% load static %}
 {% include './navbar.html' %}
 {% include './sidebar.html' %}
 
@@ -12,7 +13,7 @@
         <h3 class="text-lg font-semibold text-gray-800 dark:text-white">Total Sales</h3>
         <p class="text-sm text-gray-500 dark:text-gray-400">Current Period</p>
       </div>
-      <span class="bg-green-100 text-green-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">+12%</span>
+      <span class="bg-green-100 text-green-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">0%</span>
     </div>
     <div class="mt-4">
       <h2 id="total-sales" class="text-4xl font-bold text-gray-800 dark:text-white">0</h2>
@@ -26,7 +27,7 @@
         <h3 class="text-lg font-semibold text-gray-800 dark:text-white">Total Orders</h3>
         <p class="text-sm text-gray-500 dark:text-gray-400">Current Period</p>
       </div>
-      <span class="bg-red-100 text-red-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300">-5%</span>
+      <span class="bg-red-100 text-red-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300">0%</span>
     </div>
     <div class="mt-4">
       <h2 id="total-orders" class="text-4xl font-bold text-gray-800 dark:text-white">0</h2>
@@ -40,10 +41,10 @@
         <h3 class="text-lg font-semibold text-gray-800 dark:text-white">Revenue</h3>
         <p class="text-sm text-gray-500 dark:text-gray-400">Current Period</p>
       </div>
-      <span class="bg-green-100 text-green-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">+8%</span>
+      <span class="bg-green-100 text-green-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">0%</span>
     </div>
     <div class="mt-4">
-      <h2 class="text-4xl font-bold text-gray-800 dark:text-white">₹ 1,20,000</h2>
+      <h2 class="text-4xl font-bold text-gray-800 dark:text-white">₹ 0</h2>
     </div>
   </div>
 
@@ -54,7 +55,7 @@
         <h3 class="text-lg font-semibold text-gray-800 dark:text-white">New Orders</h3>
         <p class="text-sm text-gray-500 dark:text-gray-400">Today</p>
       </div>
-      <span class="bg-blue-100 text-blue-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded-full dark:bg-blue-900 dark:text-blue-300">+25</span>
+      <span class="bg-blue-100 text-blue-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded-full dark:bg-blue-900 dark:text-blue-300">+0</span>
     </div>
     <div class="mt-4">
       <h2 id="todays-orders" class="text-4xl font-bold text-gray-800 dark:text-white">0</h2>
@@ -143,7 +144,7 @@
                         <div data-popper-arrow></div>
                     </div>
                   </h5>
-                  <p class="text-gray-900 dark:text-white text-2xl leading-none font-bold">₹38,00k</p>
+                  <p id="sales-revenue" class="text-gray-900 dark:text-white text-2xl leading-none font-bold">₹0</p>
                 </div>
                 <div>
                   <h5 class="inline-flex items-center text-gray-500 dark:text-gray-400 leading-none font-normal mb-2">
@@ -164,7 +165,7 @@
                       <div data-popper-arrow></div>
                     </div>
                   </h5>
-                  <p class="text-gray-900 dark:text-white text-2xl leading-none font-bold">22,00</p>
+                  <p id="order-counts" class="text-gray-900 dark:text-white text-2xl leading-none font-bold">0</p>
                 </div>
               </div>
               <div>
@@ -215,11 +216,11 @@
                   <div class="grid grid-cols-2 py-3">
                     <dl>
                       <dt class="text-base font-normal text-gray-500 dark:text-gray-400 pb-1">Sales by Dealers</dt>
-                      <dd class="leading-none text-xl font-bold text-gray-900 dark:text-green-400">₹23,635</dd>
+                      <dd id="sales-by-dealer" class="leading-none text-xl font-bold text-gray-900 dark:text-green-400">₹23,635</dd>
                     </dl>
                     <dl>
                       <dt class="text-base font-normal text-gray-500 dark:text-gray-400 pb-1">Sales by Staff</dt>
-                      <dd class="leading-none text-xl font-bold text-green-900 dark:text-red-500">₹18,230</dd>
+                      <dd id="sales-by-employee" class="leading-none text-xl font-bold text-green-900 dark:text-red-500">₹18,230</dd>
                     </dl>
                   </div>
 
@@ -292,16 +293,9 @@
                     <dd class="leading-none text-3xl font-bold text-gray-900 dark:text-white">₹5,405</dd>
                   </div>
                   
-                  <div class="grid grid-cols-2 py-3">
-                    <dl>
-                      <dt class="text-base font-normal text-gray-500 dark:text-gray-400 pb-1">Sales by T-shirt</dt>
-                      <dd class="leading-none text-xl font-bold text-gray-900 dark:text-green-400">₹23,635</dd>
-                    </dl>
-                    <dl>
-                      <dt class="text-base font-normal text-gray-500 dark:text-gray-400 pb-1">Sales by Jeans</dt>
-                      <dd class="leading-none text-xl font-bold text-green-900 dark:text-red-500">₹18,230</dd>
-                    </dl>
+                  <div class="grid grid-cols-2 py-3" id="categorySalesContainer"> 
                   </div>
+                
 
                   <!-- Line Chart -->
                   <div class="py-6" id="pie-chart"></div>
@@ -354,382 +348,9 @@
             </div>
         
 </div>
-
 <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
-<script>
-  const options1 = {
-    chart: {
-      height: "100%",
-      maxWidth: "100%",
-      type: "line",
-      fontFamily: "Inter, sans-serif",
-      dropShadow: {
-        enabled: false,
-      },
-      toolbar: {
-        show: false,
-      },
-    },
-    tooltip: {
-      enabled: true,
-      x: {
-        show: false,
-      },
-      y: {
-        formatter: function(value) {
-          if (value >= 1000000) {
-            return "₹" + (value / 1000000).toFixed(2) + " M";
-          } else if (value >= 1000) {
-            return "₹" + (value / 1000).toFixed(2) + " K";
-          } else {
-            return "₹" + value;
-          }
-        }
-      }
-    },
-    dataLabels: {
-      enabled: false,
-    },
-    stroke: {
-      width: 6,
-    },
-    grid: {
-      show: true,
-      strokeDashArray: 4,
-      padding: {
-        left: 2,
-        right: 2,
-        top: -26,
-      },
-    },
-    series: [
-      {
-        name: "Sales Revenue",
-        data: [2500, 2800, 3100, 3000, 3200, 3500, 3700, 3800, 3600, 3300, 3400, 3800],
-        color: "#1A56DB",
-        yAxisID: 'sales-axis'
-      },
-      {
-        name: "Orders Received",
-        data: [1200, 1500, 1800, 1700, 2000, 2200, 2400, 2300, 2100, 1900, 2000, 2500],
-        color: "#7E3AF2",
-        yAxisID: 'order-axis'
-      },
-      {
-        name: "Orders Processed",
-        data: [1100, 1400, 1600, 1550, 1800, 2000, 2200, 2100, 1900, 1700, 1800, 2300],
-        color: "#FF6384",
-        yAxisID: 'order-axis'
-      },
-      {
-        name: "Orders Delivered",
-        data: [1000, 1300, 1500, 1450, 1700, 1900, 2100, 2000, 1800, 1600, 1700, 2200],
-        color: "#36A2EB",
-        yAxisID: 'order-axis'
-      },
-    ],
-    legend: {
-      show: true,
-    },
-    stroke: {
-      curve: 'smooth'
-    },
-    xaxis: {
-      categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-      labels: {
-        show: true,
-        style: {
-          fontFamily: "Inter, sans-serif",
-          cssClass: 'text-xs font-normal fill-gray-500 dark:fill-gray-400'
-        }
-      },
-      axisBorder: {
-        show: false,
-      },
-      axisTicks: {
-        show: false,
-      },
-    },
-    yaxis: [
-      {
-        id: 'sales-axis',
-        show: true,
-        title: {
-          text: 'Sales Revenue (₹ Thousand)',
-          style: {
-            fontFamily: "Inter, sans-serif",
-            fontSize: '12px',
-            fontWeight: 600,
-            cssClass: 'fill-gray-500 dark:fill-gray-400'
-          }
-        },
-        labels: {
-          formatter: function(value) {
-            return "₹" + value;
-          }
-        },
-      },
-      {
-        id: 'order-axis',
-        show: true,
-        opposite: true,
-        title: {
-          text: 'Order Counts',
-          style: {
-            fontFamily: "Inter, sans-serif",
-            fontSize: '12px',
-            fontWeight: 600,
-            cssClass: 'fill-gray-500 dark:fill-gray-400'
-          }
-        }
-      }
-    ]
-  }
-
-  if (document.getElementById("line-chart") && typeof ApexCharts !== 'undefined') {
-    const chart = new ApexCharts(document.getElementById("line-chart"), options1);
-    chart.render();
-  }
-</script>
-<script>
-  const options2 = {
-    series: [
-      {
-        name: "Dealers",
-        data: [11000, 17000, 15000, 21000, 14000, 17000],
-      },
-      {
-        name: "Sales Staff",
-        data: [21000, 32000, 27000, 38000, 16000, 24000],
-      },
-    ],
-    chart: {
-      sparkline: {
-        enabled: false,
-      },
-      type: "bar",
-      width: "100%",
-      height: 420,
-      toolbar: {
-        show: false,
-      },
-    },
-    fill: {
-      opacity: 1,
-    },
-    plotOptions: {
-      bar: {
-        horizontal: true,
-        columnWidth: "100%",
-        borderRadiusApplication: "end",
-        borderRadius: 6,
-        dataLabels: {
-          position: "top",
-        },
-      },
-    },
-    legend: {
-      show: true,
-      position: "bottom",
-    },
-    dataLabels: {
-      enabled: false,
-    },
-    tooltip: {
-      shared: true,
-      intersect: false,
-      formatter: function (value) {
-        return "₹" + value;
-      }
-    },
-    labels: {
-      show: true,
-      style: {
-        fontFamily: "Inter, sans-serif",
-        cssClass: "text-xs font-normal fill-gray-500 dark:fill-gray-400",
-      },
-      formatter: function (value) {
-        return "₹" + value;
-      },
-    },
-    xaxis: {
-      categories: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
-    },
-    yaxis: {
-      labels: {
-        show: true,
-        style: {
-          fontFamily: "Inter, sans-serif",
-          cssClass: "text-xs font-normal fill-gray-500 dark:fill-gray-400",
-        },
-      },
-    },
-    axisTicks: {
-      show: false,
-    },
-    axisBorder: {
-      show: false,
-    },
-    grid: {
-      show: true,
-      strokeDashArray: 4,
-      padding: {
-        left: 2,
-        right: 2,
-        top: -20,
-      },
-    },
-    fill: {
-      opacity: 1,
-    },
-  };
-  
-  if (document.getElementById("bar-chart") && typeof ApexCharts !== "undefined") {
-    const chart = new ApexCharts(document.getElementById("bar-chart"), options2);
-    chart.render();
-  }
-</script>
-<script>
-  const getChartOptions = () => {
-    return {
-      series: [45, 56], // Assuming these are the percentages for each product category
-      colors: ["#1C64F2", "#16BDCA"],
-      chart: {
-        height: 420,
-        width: "100%",
-        type: "pie",
-      },
-      stroke: {
-        colors: ["white"],
-        lineCap: "",
-      },
-      plotOptions: {
-        pie: {
-          labels: {
-            show: true,
-          },
-          size: "100%",
-          dataLabels: {
-            offset: -25
-          }
-        },
-      },
-      labels: ["T-Shirt", "Jeans"], // Replace with your product category names
-      dataLabels: {
-        enabled: true,
-        style: {
-          fontFamily: "Inter, sans-serif",
-        },
-      },
-      legend: {
-        position: "bottom",
-        fontFamily: "Inter, sans-serif",
-      },
-      yaxis: {
-        labels: {
-          formatter: function (value) {
-            return value + "%";
-          },
-        },
-      },
-      xaxis: {
-        labels: {
-          formatter: function (value) {
-            return value + "%";
-          },
-        },
-        axisTicks: {
-          show: false,
-        },
-        axisBorder: {
-          show: false,
-        },
-      },
-    }
-  }
-  
-  if (document.getElementById("pie-chart") && typeof ApexCharts !== 'undefined') {
-    const chart = new ApexCharts(document.getElementById("pie-chart"), getChartOptions());
-    chart.render();
-  }
-  </script>
-  <script>
-    var userToken = "{{ user.auth_token.key }}";  
-
-    function fetchData(apiEndpoint) {
-        fetch(apiEndpoint, {
-            method: 'GET',
-            headers: {
-                'Authorization': 'Token ' + userToken,
-                'Content-Type': 'application/json',
-            }
-        })
-        .then(response => response.json())
-        .then(data => {
-            document.getElementById('total-orders').textContent = data.total_orders;
-            document.getElementById('todays-orders').textContent = data.todays_orders;
-            document.getElementById('total-sales').textContent = '₹' + data.total_sales;
-            document.getElementById('pending-orders').textContent = data.pending_orders;
-            document.getElementById('approved-orders').textContent = data.approved_orders;
-            document.getElementById('canceled-orders').textContent = data.canceled_orders;
-
-            var approvedPercentage = (data.approved_orders / data.total_orders) * 100;
-            var canceledPercentage = (data.canceled_orders / data.total_orders) * 100;
-
-            document.querySelector('.approved-progress').style.width = approvedPercentage + '%';
-            document.querySelector('.canceled-progress').style.width = canceledPercentage + '%';
-        })
-        .catch((error) => {
-            console.error('Error:', error);
-        });
-    }
-    fetchData('/api/orders-summary/');
-    function fetchTopSellingProducts(apiEndpoint) {
-      fetch(apiEndpoint, {
-        method: 'GET',
-        headers: {
-          'Authorization': 'Token ' + userToken,
-          'Content-Type': 'application/json',
-        }
-      })
-      .then(response => response.json())
-      .then(data => {
-        const topProductsList = document.querySelector('.top-products-list');
-        topProductsList.innerHTML = ''; // Clear previous products
-    
-        data.slice(0, 4).forEach(product => {
-          const listItem = document.createElement('li');
-          listItem.classList.add('flex', 'items-center', 'justify-between', 'py-2');
-    
-          const productDetails = document.createElement('div');
-          productDetails.classList.add('flex', 'items-center');
-    
-          const productImage = document.createElement('img');
-          productImage.src = product.image_url || 'https://via.placeholder.com/50';
-          productImage.alt = 'Product Image';
-          productImage.classList.add('top-product-image', 'w-10', 'h-10', 'rounded-md', 'mr-3');
-    
-          const productName = document.createElement('span');
-          productName.textContent = product.name;
-          productName.classList.add('text-gray-800', 'dark:text-white');
-    
-          const salesCount = document.createElement('span');
-          salesCount.textContent = `${product.sales_count} Sold`;
-          salesCount.classList.add('text-gray-500', 'dark:text-gray-400');
-    
-          productDetails.appendChild(productImage);
-          productDetails.appendChild(productName);
-          listItem.appendChild(productDetails);
-          listItem.appendChild(salesCount);
-          topProductsList.appendChild(listItem);
-        });
-      })
-      .catch(error => {
-        console.error('Error fetching top-selling products:', error);
-      });
-    }
-    
-    // Call the function with the API endpoint URL
-    fetchTopSellingProducts('/api/top-selling-products/');
-</script>
+<script src="{% static 'js/admin/linechart.js' %}"></script>
+<script src="{% static 'js/admin/barchart.js' %}"></script>
+<script src="{% static 'js/admin/piechart.js' %}"></script>
+<script src="{% static 'js/admin/cards.js' %}"></script>
 {% endblock %}
