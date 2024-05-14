@@ -226,3 +226,9 @@ REST_FRAMEWORK = {
 }
 
 HONEYBADGER_API_KEY = os.getenv('HONEYBADGER_API_KEY')
+
+HONEYBADGER = {
+    'API_KEY': os.getenv('HONEYBADGER_API_KEY'),
+    'ENV': 'production' if os.getenv('FORCE_HONEYBADGER_REPORT', 'False') == 'True' else os.getenv('DJANGO_ENV', 'development'),
+}
+

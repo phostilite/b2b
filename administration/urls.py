@@ -15,15 +15,20 @@ urlpatterns = [
     path('dealers/', dealer_views.dealer_list_view, name='dealer_list'),
     path('employees/', sales_views.employee_list_view, name='employee_list'),
     path('retailers/', retailer_views.retailer_list_view, name='retailer_list'),
+    
     path('products/', stock_views.product_list_view, name='product_list'),
+    path('product/<int:pk>/', stock_views.product_detail_view, name='product_detail'),
     path('create-product/', stock_views.create_product, name='create_product'),
+    path('update-product/<int:product_id>/', stock_views.update_product, name='update_product'),
+
+    
     path('create-dealer/', dealer_views.create_dealer, name='create_dealer'),
     path('create-retailer/', retailer_views.create_retailer, name='create_retailer'),
     path('create-employee/', sales_views.create_employee, name='create_employee'),
+    
     path('order-list/', order_views.order_list_view, name='order_list'), 
     path('order/<int:order_id>/details/', order_views.order_details_view, name='order_details'),
     path('order/<int:order_id>/approve/', order_views.approve_order, name='approve_order'),
 
-    
     path('profile/', views.update_profile, name='adminuser_profile'),
 ]
