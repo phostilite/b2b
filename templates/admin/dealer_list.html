@@ -154,10 +154,10 @@
       }
     }
   </script>
-  <script>
-    function exportTableToExcel() {
-        $("#dealersTable").tableExport({ type: 'excel', filename: 'dealers' });
-    }
-    </script>
-
-  {% endblock %}
+<script>
+function exportTableToExcel() {
+    var wb = XLSX.utils.table_to_book(document.getElementById('dealersTable'), {sheet:"Sheet 1"});
+    XLSX.writeFile(wb, 'dealers.xlsx');
+}
+</script>
+{% endblock %}

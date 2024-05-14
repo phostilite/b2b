@@ -150,7 +150,8 @@
   </script>
   <script>
     function exportTableToExcel() {
-        $("#employeesTable").tableExport({ type: 'excel', filename: 'employees' });
+        var wb = XLSX.utils.table_to_book(document.getElementById('employeesTable'), {sheet:"Sheet 1"});
+        XLSX.writeFile(wb, 'employees.xlsx');
     }
     </script>
   {% endblock %}

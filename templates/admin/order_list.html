@@ -208,8 +208,9 @@
     }
 </script>
 <script>
-    function exportTableToExcel() {
-        $("#ordersTable").tableExport({ type: 'excel', filename: 'orders' });
-    }
-    </script>
+function exportTableToExcel() {
+    var wb = XLSX.utils.table_to_book(document.getElementById('ordersTable'), {sheet:"Sheet 1"});
+    XLSX.writeFile(wb, 'orders.xlsx');
+}
+</script>
 {% endblock %}

@@ -99,3 +99,10 @@ $("#productUpdateForm").submit(function (event) {
         },
     });
 });
+
+
+
+function exportTableToExcel() {
+    var wb = XLSX.utils.table_to_book(document.getElementById('productsTable'), {sheet:"Sheet 1"});
+    XLSX.writeFile(wb, 'products.xlsx');
+}
