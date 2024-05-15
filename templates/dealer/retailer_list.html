@@ -143,14 +143,16 @@
                         Address
                     </th>
                     <th scope="col" class="px-6 py-3">
+                        GSTIN
+                    </th>
+                    <th scope="col" class="px-6 py-3">
                         Action
                     </th>
                 </tr>
             </thead>
             <tbody>
-                <tr
-                    class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                    {% for retailer in retailers %}
+                {% for retailer in retailers %}
+                <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                     <td class="w-4 p-4">
                         <div class="flex items-center">
                             <input id="checkbox-table-search-2" type="checkbox"
@@ -171,21 +173,24 @@
                         {{ retailer.address }} {{ retailer.pincode }}
                     </td>
                     <td class="px-6 py-4">
-                        <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline" data-popover-target="popover-left" data-popover-placement="left">Edit</a>
-                        <div data-popover id="popover-left" role="tooltip" class="absolute z-10 invisible inline-block w-64 text-sm text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0 dark:text-gray-400 dark:border-gray-600 dark:bg-gray-800">
-                            <div class="px-3 py-2 bg-gray-100 border-b border-gray-200 rounded-t-lg dark:border-gray-600 dark:bg-gray-700">
-                                <h3 class="font-semibold text-gray-900 dark:text-white">Edit Retailer Details</h3>
-                            </div>
-                            <div class="px-3 py-2">
-                                <p>Click here to modify the details of {{ retailer.first_name }} {{ retailer.last_name }}. You can update information such as contact details, address, and more.</p>
-                            </div>
-                            <div data-popper-arrow></div>
-                        </div>
+                        {{ retailer.gstin }}
                     </td>
-                    {% endfor %}
+                    <td class="px-6 py-4">
+                        <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline" data-popover-target="popover-left" data-popover-placement="left">Edit</a>
+                    </td>
                 </tr>
+                {% endfor %}
             </tbody>
         </table>
+        <div data-popover id="popover-left" role="tooltip" class="absolute z-10 invisible inline-block w-64 text-sm text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0 dark:text-gray-400 dark:border-gray-600 dark:bg-gray-800">
+            <div class="px-3 py-2 bg-gray-100 border-b border-gray-200 rounded-t-lg dark:border-gray-600 dark:bg-gray-700">
+                <h3 class="font-semibold text-gray-900 dark:text-white">Edit Retailer Details</h3>
+            </div>
+            <div class="px-3 py-2">
+                <p>Click here to modify the details of {{ retailer.first_name }} {{ retailer.last_name }}. You can update information such as contact details, address, and more.</p>
+            </div>
+            <div data-popper-arrow></div>
+        </div>
     </div>
 </div>
 

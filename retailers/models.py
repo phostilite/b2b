@@ -7,6 +7,7 @@ class Retailer(models.Model):
     pincode = models.CharField(max_length=10)
     contact_number = models.CharField(max_length=20)
     email = models.EmailField(null=True, blank=True)
+    gstin = models.CharField(max_length=20, null=True, blank=True)
     created_by = models.ForeignKey('auth.User', on_delete=models.CASCADE, related_name='retailers', null=True, blank=True)
     created_at = models.DateTimeField(auto_now=True)
     updated_at = models.DateTimeField(auto_now=True)
