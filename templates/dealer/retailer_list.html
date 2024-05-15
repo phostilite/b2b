@@ -98,6 +98,10 @@
                     Create Retailer
                 </button>
             </a>
+            <button type="button" onclick="exportTableToExcel()"
+                class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
+                Export to Excel
+            </button>
             <div data-popover id="popover-bottom" role="tooltip" class="absolute z-10 invisible inline-block w-64 text-sm text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0 dark:text-gray-400 dark:border-gray-600 dark:bg-gray-800">
                 <div class="px-3 py-2 bg-gray-100 border-b border-gray-200 rounded-t-lg dark:border-gray-600 dark:bg-gray-700">
                     <h3 class="font-semibold text-gray-900 dark:text-white">Create Retailer</h3>
@@ -110,7 +114,7 @@
         </div>
     </div>
     <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-        <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+        <table id="dealerRetailersTable" class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
             <caption
                 class="p-5 text-lg font-semibold text-left rtl:text-right text-gray-900 bg-white dark:text-white dark:bg-gray-800">
                 List of Retailers
@@ -204,5 +208,11 @@
             }
         }
     }
+</script>
+<script>
+function exportTableToExcel() {
+    var wb = XLSX.utils.table_to_book(document.getElementById('dealerRetailersTable'), {sheet:"Sheet 1"});      
+    XLSX.writeFile(wb, 'dealer_retailers_list.xlsx');
+}
 </script>
 {% endblock %}
