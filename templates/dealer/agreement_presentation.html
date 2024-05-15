@@ -1,0 +1,257 @@
+{% extends '../_base.html' %}
+{% block content %}
+<style>
+    .stepper-container {
+        width: 100%;
+    }
+    .stepper-container ol {
+        width: 100%;
+        margin: auto;
+        margin-top: 20px;
+    }
+</style>
+
+<div class="w-full bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+<div class="stepper-container">
+    <ol class="flex item-center container">
+        <li class="relative w-full mb-6">
+            <div class="flex items-center">
+                <div class="z-10 flex items-center justify-center w-6 h-6 bg-blue-600 rounded-full ring-0 ring-white dark:bg-blue-900 sm:ring-8 dark:ring-gray-900 shrink-0">
+                    <svg class="w-2.5 h-2.5 text-blue-100 dark:text-blue-300" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 12">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5.917 5.724 10.5 15 1.5"/>
+                    </svg>
+                </div>
+                <div class="flex w-full bg-gray-200 h-0.5 dark:bg-gray-700"></div>
+            </div>
+            <div class="mt-3">
+                <h3 class="font-medium text-gray-900 dark:text-white"><a href="{% url 'dealer_logout' %}">Dealer Registration/Login</a></h3>
+            </div>
+        </li>
+        <li class="relative w-full mb-6">
+            <div class="flex items-center">
+                <div class="z-10 flex items-center justify-center w-6 h-6 bg-gray-200 rounded-full ring-0 ring-white dark:bg-gray-700 sm:ring-8 dark:ring-gray-900 shrink-0">
+                    <svg class="w-2.5 h-2.5 text-gray-900 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 12">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5.917 5.724 10.5 15 1.5"/>
+                    </svg>
+                </div>
+                <div class="flex w-full bg-gray-200 h-0.5 dark:bg-gray-700"></div>
+            </div>
+            <div class="mt-3">
+                <h3 class="font-medium text-gray-900 dark:text-white">Agreement Review</h3>
+            </div>
+        </li>
+        <li class="relative w-full mb-6">
+            <div class="flex items-center">
+                <div class="z-10 flex items-center justify-center w-6 h-6 bg-gray-200 rounded-full ring-0 ring-white dark:bg-gray-700 sm:ring-8 dark:ring-gray-900 shrink-0">
+                    <svg class="w-2.5 h-2.5 text-gray-900 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 12">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5.917 5.724 10.5 15 1.5"/>
+                    </svg>
+                </div>
+                <div class="flex w-full bg-gray-200 h-0.5 dark:bg-gray-700"></div>
+            </div>
+            <div class="mt-3">
+                <h3 class="font-medium text-gray-900 dark:text-white">Document Upload</h3>
+            </div>
+        </li>
+        <li class="relative w-full mb-6">
+            <div class="flex items-center">
+                <div class="z-10 flex items-center justify-center w-6 h-6 bg-gray-200 rounded-full ring-0 ring-white dark:bg-gray-700 sm:ring-8 dark:ring-gray-900 shrink-0">
+                    <svg class="w-2.5 h-2.5 text-gray-900 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 12">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5.917 5.724 10.5 15 1.5"/>
+                    </svg>
+                </div>
+                <div class="flex w-full bg-gray-200 h-0.5 dark:bg-gray-700"></div>
+            </div>
+            <div class="mt-3">
+                <h3 class="font-medium text-gray-900 dark:text-white">E-Signature</h3>
+            </div>
+        </li>
+        <li class="relative w-full mb-6">
+            <div class="flex items-center">
+                <div class="z-10 flex items-center justify-center w-6 h-6 bg-gray-200 rounded-full ring-0 ring-white dark:bg-gray-700 sm:ring-8 dark:ring-gray-900 shrink-0">
+                    <svg class="w-2.5 h-2.5 text-gray-900 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 12">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5.917 5.724 10.5 15 1.5"/>
+                    </svg>
+                </div>
+            </div>
+            <div class="mt-3">
+                <h3 class="font-medium text-gray-900 dark:text-white">Dashboard Access</h3>
+            </div>
+        </li>
+    </ol>
+</div>
+</div>
+
+<div class="relative w-full">
+    <!-- Modal content -->
+    <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+        <!-- Modal header -->
+        <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
+            <h3 class="text-xl font-medium text-gray-900 dark:text-white">
+                Agreement Review
+            </h3>
+        </div>
+        <!-- Modal body -->
+        <div class="p-4 md:p-5 space-y-4">
+
+            <h2 class="text-4xl font-bold dark:text-white">General Dealer Agreement for B2B Website</h2>
+            <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">
+                This General Dealer Agreement ("Agreement") is made and entered into as of [DATE] by and between [Your Company Name], a [Your State] corporation with a principal place of business at [Your Address] ("Company"), and [Dealer Name], a [Dealer Legal Entity (Corporation, LLC, etc.)] with a principal place of business at [Dealer Address] ("Dealer").
+            </p>
+            <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">
+                <strong>WHEREAS,</strong> Company desires to appoint Dealer as a non-exclusive dealer for the sale and distribution of certain of its products ("Products") on the terms and conditions set forth herein; and
+            </p>
+            <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">
+                <strong>WHEREAS,</strong> Dealer desires to be appointed as a non-exclusive dealer of the Products on the terms and conditions set forth herein.
+            </p>
+            <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">
+                <strong>NOW, THEREFORE,</strong> in consideration of the foregoing premises and the mutual covenants contained herein, the parties agree as follows:
+            </p>
+
+
+            <h3 class="text-3xl font-bold dark:text-white">1. Appointment.</h3>
+            <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">
+                Company hereby appoints Dealer, and Dealer hereby accepts such appointment, as a non-exclusive dealer for the sale and distribution of the Products within the following territory (the "Territory"): [Specify Territory (e.g., State of California) or leave blank for worldwide distribution].
+            </p>
+
+            <h3 class="text-3xl font-bold dark:text-white">2. Products.</h3>
+            <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">
+                Company agrees to sell and Dealer agrees to purchase the Products from Company in accordance with the terms and conditions set forth in Company's price lists and other policies as may be amended from time to time (collectively, "Price Lists").
+            </p>
+
+            <h3 class="text-3xl font-bold dark:text-white">3. Orders and Payment.</h3>
+            <ul class="ps-5 mt-2 text-gray-500 space-y-1 list-disc list-inside dark:text-gray-400">
+                <li>
+                    Dealer shall submit orders for the Products to Company in a form acceptable to Company.
+                </li>
+                <li>
+                    Payment terms for the Products shall be as set forth in the Price Lists or on invoices issued by Company.
+                </li>
+                <li>
+                    Dealer shall be responsible for all applicable taxes and duties associated with the purchase of the Products.
+                </li>
+            </ul>
+
+            <h3 class="text-3xl font-bold dark:text-white">4. Dealer Responsibilities.</h3>
+            <ul class="ps-5 mt-2 text-gray-500 space-y-1 list-disc list-inside dark:text-gray-400">
+                <li>
+                    Dealer shall use commercially reasonable efforts to promote and sell the Products within the Territory.
+                </li>
+                <li>
+                    Dealer shall comply with all applicable laws and regulations in the sale and distribution of the Products.
+                </li>
+                <li>
+                    Dealer shall maintain adequate inventory of the Products to meet the reasonable needs of its customers.
+                </li>
+                <li>
+                    Dealer shall not sell the Products to any unauthorized third party.
+                </li>
+                <li>
+                    Dealer shall not modify or alter the Products in any way without the prior written consent of Company.
+                </li>
+            </ul>
+
+            <h3 class="text-3xl font-bold dark:text-white">5. Company Responsibilities.</h3>
+            <ul class="ps-5 mt-2 text-gray-500 space-y-1 list-disc list-inside dark:text-gray-400">
+                <li>
+                    Company shall provide Dealer with product information, marketing materials, and training as Company deems necessary.
+                </li>
+                <li>
+                    Company shall use commercially reasonable efforts to fill Dealer's orders in a timely manner.
+                </li>
+            </ul>
+
+            <h3 class="text-3xl font-bold dark:text-white">6. Term and Termination.</h3>
+            <ul class="ps-5 mt-2 text-gray-500 space-y-1 list-disc list-inside dark:text-gray-400">
+                <li>
+                    This Agreement shall commence on the Effective Date and shall continue for a period of one (1) year (the "Initial Term").
+                </li>
+                <li>
+                    This Agreement shall automatically renew for successive one (1) year periods (each, a "Renewal Term") unless either party gives written notice to the other party at least thirty (30) days prior to the expiration of the then-current term.
+                </li>
+                <li>
+                    This Agreement may be terminated by either party upon written notice to the other party for any material breach of this Agreement which is not cured within thirty (30) days after written notice thereof.
+                </li>
+            </ul>
+
+            <h3 class="text-3xl font-bold dark:text-white">7. Confidentiality.</h3>
+            <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">
+                Each party agrees to hold in confidence all of the other party's confidential information and not to disclose such information to any third party without the prior written consent of the other party.
+            </p>
+
+            <h3 class="text-3xl font-bold dark:text-white">8. Limitation of Liability.</h3>
+            <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">
+                IN NO EVENT SHALL EITHER PARTY BE LIABLE TO THE OTHER PARTY FOR ANY INDIRECT, INCIDENTAL, SPECIAL, CONSEQUENTIAL, OR PUNITIVE DAMAGES, ARISING OUT OF OR IN CONNECTION WITH THIS AGREEMENT, EVEN IF SUCH PARTY HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.
+            </p>
+
+            <h3 class="text-3xl font-bold dark:text-white">9. Governing Law.</h3>
+            <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">
+                This Agreement shall be governed by and construed in accordance with the laws of the State of [Your State].
+            </p>
+
+            <h3 class="text-3xl font-bold dark:text-white">10. Entire Agreement.</h3>
+            <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">
+                This Agreement constitutes the entire agreement between the parties with respect to the subject matter hereof and supersedes all prior or contemporaneous communications, representations, or agreements, whether oral or written
+            </p>
+
+            <h3 class="text-3xl font-bold dark:text-white">11. Severability.</h3>
+            <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">
+                If any provision of this Agreement is held to be invalid or unenforceable, such provision shall be struck and the remaining provisions shall remain in full force and effect.
+            </p>
+
+            <h3 class="text-3xl font-bold dark:text-white">12. Waiver.</h3>
+            <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">
+                No waiver by either party of any breach of this Agreement shall be deemed a waiver of any subsequent breach.
+            </p>
+
+            <h3 class="text-3xl font-bold dark:text-white">13. Notices.</h3>
+            <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">
+                All notices and other communications hereunder shall be in writing and shall be deemed to have been duly given when delivered personally, sent by certified or registered mail, return receipt requested, postage prepaid, or sent by overnight courier, addressed as follows:
+            </p>
+
+            <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">
+                <strong>If to Company:</strong><br>
+                [Your Company Name]<br>
+                [Your Address]
+            </p>
+
+            <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">
+                <strong>If to Dealer:</strong><br>
+                [Dealer Name]<br>
+                [Dealer Address]
+            </p>
+
+            <h3 class="text-3xl font-bold dark:text-white">14. Counterparts.</h3>
+            <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">
+                This Agreement may be executed in one or more counterparts, each of which shall be deemed an original, but all of which together shall constitute one and the same instrument.
+            </p>
+
+        </div>
+        <!-- Modal footer -->
+        <div class="flex items-center p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">
+            <button data-modal-hide="top-left-modal" type="button" id="accept-button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">I accept</button>
+            <button data-modal-hide="top-left-modal" type="button" class="py-2.5 px-5 ms-3 text-sm font-medium text-white focus:outline-none bg-red-500 rounded-lg border border-red-600 hover:bg-red-700 hover:text-white focus:z-10 focus:ring-4 focus:ring-red-300 dark:focus:ring-red-700 dark:bg-red-800 dark:text-white dark:border-red-600 dark:hover:text-white dark:hover:bg-red-900">Decline</button>
+            <button data-modal-hide="top-left-modal" type="button" class="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Download</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function() {
+        $('#accept-button').click(function(e) {
+            e.preventDefault();
+            $.ajax({
+                type: 'POST',
+                url: '{% url "agreement_view" %}',
+                data: {
+                    'agreement': 'accept',
+                    'csrfmiddlewaretoken': '{{ csrf_token }}'
+                },
+                success: function() {
+                    window.location.href = '{% url "document_upload" %}';
+                }
+            });
+        });
+    });
+</script>
+{% endblock %}

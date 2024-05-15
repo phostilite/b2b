@@ -33,5 +33,7 @@ urlpatterns = [
     path('profile/', views.update_profile, name='dealer_profile'),
     
     path('agreement/', views.agreement_view, name='agreement_view'),
+    path('document-upload/', views.upload_documents, name='document_upload'),
+    path('esignature/', views.esignature_view, name='esignature_view'),
 
 ]

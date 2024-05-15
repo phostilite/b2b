@@ -12,14 +12,12 @@ from django.db.models.functions import ExtractWeekDay
 from django.views.decorators.csrf import csrf_exempt
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.cache import cache
+from django.forms import formset_factory
 
-
-
-
-from .models import Dealer
+from .models import Dealer, Document
 from orders.models import Order
 from payments.models import Payment
-from .forms import DealerForm, DealerProfileForm
+from .forms import DealerForm, DealerProfileForm, DocumentForm
 from accounts.decorators import allowed_users
 from django.http import JsonResponse
 from datetime import datetime, timedelta
@@ -108,26 +106,78 @@ def dealer_login_view(request):
         logger.error(f'An error occurred in dealer_login_view: {e}')
         return render(request, 'authentication/dealer_login.html')  
 
+# @csrf_exempt
+# def agreement_view(request):
+#     try:
+#         if request.method == 'POST':
+#             agreement = request.POST.get('agreement')
+#             if agreement == 'accept':
+#                 dealer = Dealer.objects.get(user=request.user)
+#                 dealer.agreement_accepted = True
+#                 dealer.save()
+#                 return redirect('dealer_dashboard')  
+#             elif agreement == 'decline':
+#                 logout(request)
+#                 return redirect('dealer_login')  
+#             else:
+#                 messages.error(request, 'Invalid agreement option.')
+#         return render(request, 'dealer/agreement.html')
+#     except Exception as e:
+#         logger.error(f'An error occurred in agreement_view: {e}')
+#         return render(request, 'dealer/agreement.html')  
+
 @csrf_exempt
 def agreement_view(request):
-    try:
-        if request.method == 'POST':
-            agreement = request.POST.get('agreement')
-            if agreement == 'accept':
-                dealer = Dealer.objects.get(user=request.user)
-                dealer.agreement_accepted = True
-                dealer.save()
-                return redirect('dealer_dashboard')  
-            elif agreement == 'decline':
-                logout(request)
-                return redirect('dealer_login')  
-            else:
-                messages.error(request, 'Invalid agreement option.')
-        return render(request, 'dealer/agreement.html')
-    except Exception as e:
-        logger.error(f'An error occurred in agreement_view: {e}')
-        return render(request, 'dealer/agreement.html')  
+    if request.method == 'POST':
+        agreement = request.POST.get('agreement')
+        if agreement == 'accept':
+            dealer = Dealer.objects.get(user=request.user)
+            dealer.agreement_accepted = True
+            dealer.save()
+            return redirect('document_upload')
+    return render(request, 'dealer/agreement_presentation.html')
 
+def upload_documents(request):
+    DocumentFormSet = formset_factory(DocumentForm, extra=0, min_num=1) 
+    if request.method == 'POST':
+        formset = DocumentFormSet(request.POST, request.FILES)
+        
+        if formset.is_valid():
+            dealer = request.user.dealer
+
+            for form in formset:
+                file = form.cleaned_data.get('file')
+                document_type = form.cleaned_data.get('document_type')
+
+                if file and document_type:
+                    document = Document(
+                        dealer=dealer,
+                        document_type=document_type,
+                        file=file,
+                    )
+                    document.save()
+                    logger.info(f'Document of type {document_type} uploaded for dealer {dealer.id}')
+
+            # After saving all documents, redirect or display a success message
+            return redirect('esignature_view')  # Replace with the actual URL
+
+    else:
+        formset = DocumentFormSet()
+
+    return render(request, 'dealer/document_upload.html', {'formset': formset})
+
+
+def esignature_view(request):
+    if request.method == 'POST':
+        if request.POST.get('agree_to_terms'):
+            dealer = request.user.dealer
+            # Mark the agreement as signed in your Dealer model
+            dealer.agreement_signed = True
+            dealer.save()
+            logger.info(f'Agreement signed by dealer {dealer.id}')
+            # Redirect to the dealer's dashboard or another appropriate page
+            return redirect('dealer_dashboard')
+    return render(request, 'dealer/esignature.html')
 
 def dealer_logout_view(request):
     logout(request)
@@ -160,8 +210,6 @@ def create_dealer(request):
         return render(request, 'admin/create_dealer.html', {'form': form})
     elif request.user.groups.filter(name='Sales').exists():
         return render(request, 'employee/create_dealer.html', {'form': form})
-    
-    
 
 login_required
 def update_profile(request):

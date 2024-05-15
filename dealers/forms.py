@@ -1,8 +1,10 @@
 from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.models import Group
+from django.forms import formset_factory
 
-from .models import Dealer
+from .models import Dealer, Document
+from .widgets import MultipleFileInput
 
 class DealerForm(forms.ModelForm):
     username = forms.CharField(max_length=150)
@@ -48,3 +50,15 @@ class DealerProfileForm(forms.ModelForm):
     class Meta:
         model = Dealer
         fields = ['first_name', 'last_name', 'phone', 'email']
+        
+class DocumentForm(forms.Form):
+    file = forms.FileField(required=False)
+    document_type = forms.ChoiceField(
+        choices=[
+            ('aadhaar', 'Aadhaar Card'),
+            ('pan', 'PAN Card'),
+            ('other', 'Other')
+        ],
+        required=False
+    )
+
