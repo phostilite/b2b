@@ -92,7 +92,7 @@
             </h3>
         </div>
         <!-- Modal body -->
-        <div class="p-4 md:p-5 space-y-4 max-w-screen-xl mx-auto">
+        <div id="agreement-body" class="p-4 md:p-5 space-y-4 max-w-screen-xl mx-auto">
 
             <h2 class="text-4xl font-bold dark:text-white">General Dealer Agreement for B2B Website</h2>
             <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">
@@ -231,7 +231,7 @@
         <div class="flex items-center p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600 max-w-screen-xl mx-auto">
             <button data-modal-hide="top-left-modal" type="button" id="accept-button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">I accept</button>
             <a href="{% url 'dealer_logout' %}" data-modal-hide="top-left-modal" type="button" class="py-2.5 px-5 ms-3 text-sm font-medium text-white focus:outline-none bg-red-500 rounded-lg border border-red-600 hover:bg-red-700 hover:text-white focus:z-10 focus:ring-4 focus:ring-red-300 dark:focus:ring-red-700 dark:bg-red-800 dark:text-white dark:border-red-600 dark:hover:text-white dark:hover:bg-red-900">Decline</a>
-            <button data-modal-hide="top-left-modal" type="button" class="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Download</button>
+            <button data-modal-hide="top-left-modal" type="button" id="download" class="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Download</button>
         </div>
     </div>
 </div>
@@ -254,4 +254,23 @@
         });
     });
 </script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.debug.js"></script>
+<script>
+    document.getElementById('download').addEventListener('click', function() {
+        var doc = new jsPDF();
+        var elementHTML = document.getElementById('agreement-body').innerHTML;
+        var specialElementHandlers = {
+            '#elementH': function (element, renderer) {
+                return true;
+            }
+        };
+        doc.fromHTML(elementHTML, 15, 15, {
+            'width': 170,
+            'elementHandlers': specialElementHandlers
+        });
+    
+        // Save the PDF
+        doc.save('dealer-agreement.pdf');
+    });
+    </script>
 {% endblock %}
