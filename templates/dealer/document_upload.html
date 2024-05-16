@@ -82,9 +82,9 @@
 </div>
 </div>
 
-<div class="relative w-full">
+<div class="relative w-full ">
     <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
-        <form method="POST" enctype="multipart/form-data">
+        <form method="POST" enctype="multipart/form-data" class="max-w-screen-xl mx-auto">
             {% csrf_token %}
             {{ formset.management_form }}  
             <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
@@ -93,12 +93,17 @@
             <div class="p-4 md:p-5 space-y-4">
                 <div id="document-container">
                     {% for form in formset %}
-                        <div class="w-full document-field">
-                            <div class="mr-4">{{ form.file.label_tag }}</div>
-                            {{ form.file }}
-                            <div class="ml-4">{{ form.document_type }}</div>
+                    <div class="w-full document-field flex items-center">
+                        <div class="flex-1">
+                            <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="{{ form.file.id_for_label }}">Upload file</label>
+                            <input class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" style="width: 50%;" aria-describedby="file_input_help" id="{{ form.file.id_for_label }}" name="{{ form.file.html_name }}" type="file">
+                            <p class="mt-1 text-sm text-gray-500 dark:text-gray-300" id="file_input_help">PDF, PNG, JPG (MAX. 2mb).</p>
+                        </div>
+                        <div class="ml-4 flex items-center">
+                            {{ form.document_type }}
                             <button type="button" class="remove-document ml-2 text-red-500 hover:text-red-700">&times;</button>
                         </div>
+                    </div>
                     {% endfor %}
                 </div>
                 <button id="add-document" type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700dark:focus:ring-blue-800">
@@ -116,13 +121,14 @@
               >
                 Next
               </button>
-              <button
+              <a
+              href="{% url 'agreement_view' %}"
                 data-modal-hide="top-left-modal"
                 type="button"
                 class="py-2.5 px-5 ms-3 text-sm font-medium text-white focus:outline-none bg-red-500 rounded-lg border border-red-600 hover:bg-red-700 hover:text-white focus:z-10 focus:ring-4 focus:ring-red-300 dark:focus:ring-red-700 dark:bg-red-800 dark:text-white dark:border-red-600 dark:hover:text-white dark:hover:bg-red-900"
               >
                 Decline
-              </button>
+            </a>
             </div>
         </form>
     </div>
@@ -134,64 +140,83 @@
     document.addEventListener('DOMContentLoaded', function() {
         const addDocumentButton = document.getElementById('add-document');
         const documentContainer = document.getElementById('document-container');
-        const templateDocumentField = documentContainer.querySelector('.document-field').cloneNode(true);
-        let totalFormsInput = document.getElementById('id_form-TOTAL_FORMS');
-        const formPrefix = 'form';  // Adjust if your formset prefix is different
-        
-      
-        function updateFormIndex(node, newIndex) {
-          for (let i = 0; i < node.children.length; i++) {
-            const child = node.children[i];
-            const currentName = child.name;
-            if (currentName) {
-              child.name = currentName.replace(/-\d+-/g, `-${newIndex}-`);
-              child.id = child.name; // Update ID for potential labels
-              if (child.tagName === "LABEL") {
-                  child.htmlFor = child.htmlFor.replace(/-\d+-/g, `-${newIndex}-`);
-              }
-            }
-            updateFormIndex(child, newIndex); // Recurse for nested elements
-          }
-        }
-      
-        addDocumentButton.addEventListener('click', function() {
-          const totalForms = parseInt(totalFormsInput.value);
-          const newDocumentField = templateDocumentField.cloneNode(true);
-      
-          // Update form index for all elements within the new form
-          updateFormIndex(newDocumentField, totalForms);
-      
-          totalFormsInput.value = totalForms + 1;
-          documentContainer.appendChild(newDocumentField);
-      
-          newDocumentField.querySelector('.remove-document').addEventListener('click', function() {
-            this.parentNode.remove();
-            totalFormsInput.value = parseInt(totalFormsInput.value) - 1;
-          });
-        });
-      
+        const totalFormsInput = document.getElementById('id_form-TOTAL_FORMS');
+        const formPrefix = 'form'; // Adjust if your formset prefix is different
+    
+        const firstDocumentField = documentContainer.querySelector('.document-field');
+    
+        addDocumentButton.addEventListener('click', addDocumentField);
+    
         documentContainer.addEventListener('click', function(event) {
-          if (event.target.classList.contains('remove-document')) {
-            const totalForms = parseInt(totalFormsInput.value);
-            if (totalForms > 1) { // Prevent removing the last form
-              event.target.parentNode.remove();
-              totalFormsInput.value -= 1;
-              // Update form indexes of remaining forms
-              const documentFields = documentContainer.querySelectorAll('.document-field');
-              for (let i = 0; i < documentFields.length; i++) {
-                updateFormIndex(documentFields[i], i);
-              }
+            if (event.target.classList.contains('remove-document')) {
+                const documentField = event.target.closest('.document-field');
+                if (documentField !== firstDocumentField) {
+                    removeDocumentField(documentField);
+                }
             }
-          }
         });
-      });
-      
-      
-</script>
-
-
-
-
-
+    
+        function addDocumentField() {
+            const totalForms = parseInt(totalFormsInput.value);
+            const newDocumentField = createDocumentFieldElement(totalForms);
+    
+            totalFormsInput.value = totalForms + 1;
+            documentContainer.appendChild(newDocumentField);
+        }
+    
+        function removeDocumentField(documentField) {
+            const totalForms = parseInt(totalFormsInput.value);
+            const index = Array.from(documentContainer.children).indexOf(documentField);
+            documentField.remove();
+            totalFormsInput.value = totalForms - 1;
+            // Update form indexes of remaining forms
+            const documentFields = documentContainer.querySelectorAll('.document-field');
+            for (let i = index; i < documentFields.length; i++) {
+                updateFormIndex(documentFields[i], i);
+            }
+        }
+    
+        function createDocumentFieldElement(index) {
+            const documentFieldElement = document.createElement('div');
+            documentFieldElement.classList.add('document-field', 'flex', 'items-center');
+            
+            const fileInputContainer = document.createElement('div');
+            fileInputContainer.classList.add('flex-1');
+            fileInputContainer.innerHTML = firstDocumentField.querySelector('.flex-1').innerHTML;
+            documentFieldElement.appendChild(fileInputContainer);
+    
+            const dropdownContainer = document.createElement('div');
+            dropdownContainer.classList.add('ml-4', 'flex', 'items-center');
+            dropdownContainer.innerHTML = firstDocumentField.querySelector('.ml-4.flex.items-center').innerHTML;
+            documentFieldElement.appendChild(dropdownContainer);
+    
+            updateFormIndex(documentFieldElement, index);
+            const removeButton = documentFieldElement.querySelector('.remove-document');
+            removeButton.addEventListener('click', function(event) {
+                event.preventDefault();
+                removeDocumentField(documentFieldElement);
+            });
+            return documentFieldElement;
+        }
+    
+        function updateFormIndex(node, newIndex) {
+            if (node.nodeType === Node.ELEMENT_NODE) {
+                const currentName = node.name;
+                if (currentName) {
+                    const newName = currentName.replace(/-\d+-/g, `-${newIndex}-`);
+                    node.name = newName;
+                    node.id = newName; // Update ID for potential labels
+                    if (node.tagName === "LABEL") {
+                        node.htmlFor = newName;
+                    }
+                }
+            }
+            const childNodes = node.childNodes;
+            for (let i = 0; i < childNodes.length; i++) {
+                updateFormIndex(childNodes[i], newIndex); // Recurse for child nodes
+            }
+        }
+    });
+    </script>
 
 {% endblock %}
