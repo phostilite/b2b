@@ -29,6 +29,8 @@ function fetchData(apiEndpoint) {
         });
 }
 fetchData('/api/orders-summary/');
+
+
 function fetchTopSellingProducts(apiEndpoint) {
     fetch(apiEndpoint, {
         method: 'GET',
@@ -41,6 +43,12 @@ function fetchTopSellingProducts(apiEndpoint) {
         .then(data => {
             const topProductsList = document.querySelector('.top-products-list');
             topProductsList.innerHTML = ''; // Clear previous products
+
+            // Check if data is an object with a message property
+            if (typeof data === 'object' && data.hasOwnProperty('message')) {
+                topProductsList.textContent = data.message;
+                return;
+            }
 
             data.slice(0, 4).forEach(product => {
                 const listItem = document.createElement('li');
@@ -76,3 +84,48 @@ function fetchTopSellingProducts(apiEndpoint) {
 
 // Call the function with the API endpoint URL
 fetchTopSellingProducts('/api/top-selling-products/');
+
+
+function fetchLowStockProducts(apiEndpoint) {
+    fetch(apiEndpoint, {
+        method: 'GET',
+        headers: {
+            'Authorization': 'Token ' + userToken,
+            'Content-Type': 'application/json',
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        var lowStockList = document.querySelector('.low-stock-list');
+        lowStockList.innerHTML = ''; // Clear the list
+
+        data.forEach(product => {
+            var listItem = document.createElement('li');
+            listItem.className = 'flex items-center justify-between py-2';
+
+            var productNameDiv = document.createElement('div');
+            productNameDiv.className = 'flex items-center';
+            var productNameSpan = document.createElement('span');
+            productNameSpan.className = 'text-gray-800 dark:text-white';
+            productNameSpan.textContent = product.title;
+            productNameDiv.appendChild(productNameSpan);
+
+            var productStockDiv = document.createElement('div');
+            productStockDiv.className = 'flex items-center';
+            var productStockSpan = document.createElement('span');
+            productStockSpan.className = 'text-gray-500 dark:text-gray-400';
+            productStockSpan.textContent = product.current_stock + ' units';
+            productStockDiv.appendChild(productStockSpan);
+
+            listItem.appendChild(productNameDiv);
+            listItem.appendChild(productStockDiv);
+
+            lowStockList.appendChild(listItem);
+        });
+    })
+    .catch((error) => {
+        console.error('Error:', error);
+    });
+}
+
+fetchLowStockProducts('/api/low-stock-alert/');

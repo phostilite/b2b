@@ -200,10 +200,13 @@ def orders_summary_api(request):
 @permission_classes([IsAuthenticated])
 def top_selling_products_api(request):
     top_selling_products = Product.objects.annotate(
-        sales_count=Sum('orderitem__quantity', filter=Q(orderitem__order__payment_status='Paid'))
+        sales_count=Coalesce(Sum('orderitem__quantity', filter=Q(orderitem__order__payment_status='Paid')), 0)
     ).order_by('-sales_count')[:5].prefetch_related(
         Prefetch('images', queryset=ProductImage.objects.filter(is_primary=True), to_attr='primary_images')
     )
+
+    if not top_selling_products.exists() or all(product.sales_count == 0 for product in top_selling_products):
+        return JsonResponse({'message': 'No products have been sold.'}, status=200)
 
     data = [
         {
@@ -214,6 +217,18 @@ def top_selling_products_api(request):
         }
         for product in top_selling_products
     ]
+
+    return JsonResponse(data, safe=False)
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def low_stock_alert_api(request):
+    low_stock_products = Product.objects.filter(current_stock__lt=10).values('id', 'title', 'current_stock')
+
+    if not low_stock_products.exists():
+        return JsonResponse({'message': 'No products have low stock.'}, status=200)
+
+    data = list(low_stock_products)
 
     return JsonResponse(data, safe=False)
 

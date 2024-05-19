@@ -9,47 +9,31 @@
     <div class="flex flex-column sm:flex-row flex-wrap space-y-4 sm:space-y-0 items-center justify-between pb-4 mt-14">
         <div>
             <button id="dropdownRadioButton" data-dropdown-toggle="dropdownRadio" class="inline-flex items-center text-gray-500 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-3 py-1.5 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700" type="button">
-                <svg class="w-3 h-3 text-gray-500 dark:text-gray-400 me-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-                        <path d="M10 0a10 10 0 1 0 10 10A10.011 10.011 0 0 0 10 0Zm3.982 13.982a1 1 0 0 1-1.414 0l-3.274-3.274A1.012 1.012 0 0 1 9 10V6a1 1 0 0 1 2 0v3.586l2.982 2.982a1 1 0 0 1 0 1.414Z"/>
-                    </svg>
-                Last 30 days
+                <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="24" height="24" viewBox="0 0 24 24">
+                    <path d="M 3 3 L 3 5 L 21 5 L 21 3 L 3 3 z M 5 7 L 10 13 L 10 21 L 14 21 L 14 13 L 19 7 L 5 7 z"></path>
+                </svg>
+                <span id="dropdownRadioText">All</span>
                 <svg class="w-2.5 h-2.5 ms-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
                 </svg>
             </button>
             <!-- Dropdown menu -->
-            <div id="dropdownRadio" class="z-10 hidden w-48 bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600" data-popper-reference-hidden="" data-popper-escaped="" data-popper-placement="top" style="position: absolute; inset: auto auto 0px 0px; margin: 0px; transform: translate3d(522.5px, 3847.5px, 0px);">
+            <div id="dropdownRadio" class="z-50 hidden w-48 bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600" data-popper-reference-hidden="" data-popper-escaped="" data-popper-placement="top" style="position: absolute; inset: auto auto 0px 0px; margin: 0px; transform: translate3d(522.5px, 3847.5px, 0px);">
                 <ul class="p-3 space-y-1 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownRadioButton">
                     <li>
                         <div class="flex items-center p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600">
-                            <input id="filter-radio-example-1" type="radio" value="" name="filter-radio" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                            <label for="filter-radio-example-1" class="w-full ms-2 text-sm font-medium text-gray-900 rounded dark:text-gray-300">Last day</label>
+                            <input id="filter-radio-example-1" type="radio" value="All" name="filter-radio" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                            <label for="filter-radio-example-1" class="w-full ms-2 text-sm font-medium text-gray-900 rounded dark:text-gray-300">All</label>
                         </div>
                     </li>
+                    {% for type_choice in product_types %}
                     <li>
                         <div class="flex items-center p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600">
-                            <input checked="" id="filter-radio-example-2" type="radio" value="" name="filter-radio" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                            <label for="filter-radio-example-2" class="w-full ms-2 text-sm font-medium text-gray-900 rounded dark:text-gray-300">Last 7 days</label>
+                            <input id="filter-radio-{{ type_choice.0 }}" type="radio" value="{{ type_choice.0 }}" name="filter-radio" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                            <label for="filter-radio-{{ type_choice.0 }}" class="w-full ms-2 text-sm font-medium text-gray-900 rounded dark:text-gray-300">{{ type_choice.1 }}</label>
                         </div>
                     </li>
-                    <li>
-                        <div class="flex items-center p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600">
-                            <input id="filter-radio-example-3" type="radio" value="" name="filter-radio" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                            <label for="filter-radio-example-3" class="w-full ms-2 text-sm font-medium text-gray-900 rounded dark:text-gray-300">Last 30 days</label>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="flex items-center p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600">
-                            <input id="filter-radio-example-4" type="radio" value="" name="filter-radio" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                            <label for="filter-radio-example-4" class="w-full ms-2 text-sm font-medium text-gray-900 rounded dark:text-gray-300">Last month</label>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="flex items-center p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600">
-                            <input id="filter-radio-example-5" type="radio" value="" name="filter-radio" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                            <label for="filter-radio-example-5" class="w-full ms-2 text-sm font-medium text-gray-900 rounded dark:text-gray-300">Last year</label>
-                        </div>
-                    </li>
+                    {% endfor %}
                 </ul>
             </div>
         </div>
@@ -91,6 +75,9 @@
                     Title
                 </th>
                 <th scope="col" class="px-6 py-3">
+                    Type
+                </th>
+                <th scope="col" class="px-6 py-3">
                     Colors
                 </th>
                 <th scope="col" class="px-6 py-3">
@@ -123,8 +110,11 @@
                 <td class="px-6 py-4 font-semibold text-gray-900 dark:text-white">
                     {{ product.design_number }}
                 </td>
-                <td class="px-6 py-4 font-semibold text-gray-900 dark:text-white">
+                <td class="px-6 py-4 font-semibold text-gray-900 dark:text-white" data-type="{{ product.type }}">
                     {{ product.title }}
+                </td>
+                <td class="px-6 py-4 font-semibold text-gray-900 dark:text-white">
+                    {{ product.type }}
                 </td>
                 <td class="px-6 py-4 font-semibold text-gray-900 dark:text-white">
                     {{ product.colors.all|join:", " }}
@@ -148,7 +138,7 @@
                             <path d="M47.16,21.221l-5.91-0.966c-0.346-1.186-0.819-2.326-1.411-3.405l3.45-4.917c0.279-0.397,0.231-0.938-0.112-1.282 l-3.889-3.887c-0.347-0.346-0.893-0.391-1.291-0.104l-4.843,3.481c-1.089-0.602-2.239-1.08-3.432-1.427l-1.031-5.886 C28.607,2.35,28.192,2,27.706,2h-5.5c-0.49,0-0.908,0.355-0.987,0.839l-0.956,5.854c-1.2,0.345-2.352,0.818-3.437,1.412l-4.83-3.45 c-0.399-0.285-0.942-0.239-1.289,0.106L6.82,10.648c-0.343,0.343-0.391,0.883-0.112,1.28l3.399,4.863 c-0.605,1.095-1.087,2.254-1.438,3.46l-5.831,0.971c-0.482,0.08-0.836,0.498-0.836,0.986v5.5c0,0.485,0.348,0.9,0.825,0.985 l5.831,1.034c0.349,1.203,0.831,2.362,1.438,3.46l-3.441,4.813c-0.284,0.397-0.239,0.942,0.106,1.289l3.888,3.891 c0.343,0.343,0.884,0.391,1.281,0.112l4.87-3.411c1.093,0.601,2.248,1.078,3.445,1.424l0.976,5.861C21.3,47.647,21.717,48,22.206,48 h5.5c0.485,0,0.9-0.348,0.984-0.825l1.045-5.89c1.199-0.353,2.348-0.833,3.43-1.435l4.905,3.441 c0.398,0.281,0.938,0.232,1.282-0.111l3.888-3.891c0.346-0.347,0.391-0.894,0.104-1.292l-3.498-4.857 c0.593-1.08,1.064-2.222,1.407-3.408l5.918-1.039c0.479-0.084,0.827-0.5,0.827-0.985v-5.5C47.999,21.718,47.644,21.3,47.16,21.221z M25,32c-3.866,0-7-3.134-7-7c0-3.866,3.134-7,7-7s7,3.134,7,7C32,28.866,28.866,32,25,32z"></path>
                         </svg>
                     </a>
-                    <a href="#" type="button" data-product-id="{{ product.id }}" class="update-product-images" data-modal-target="product-images-modal" data-modal-toggle="product-images-modal">
+                    <a href="#" type="button" data-product-id="{{ product.id }}" class="update-product-images" data-modal-target="product-images-modal" data-modal-toggle="product-images-modal" data-tooltip-target="tooltip-manage-images">
                         <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="30" height="30" viewBox="0 0 24 24">
                             <path fill="#303C42" d="M21,1H5C4.2628784,1,3.625,1.4050903,3.2781372,2H20c1.1030273,0,2,0.8969727,2,2v16.7218628 C22.5949097,20.375,23,19.7371216,23,19V3C23,1.8969727,22.1030273,1,21,1z"></path><circle cx="8.5" cy="9.5" r="2.5" fill="#303C42"></circle><path fill="#303C42" d="M19,3H3C1.8969727,3,1,3.8969727,1,5v16c0,1.1030273,0.8969727,2,2,2h16c1.1030273,0,2-0.8969727,2-2V5 C21,3.8969727,20.1030273,3,19,3z M3,4h16c0.5512695,0,1,0.4487305,1,1v11.2929688l-5.1464844-5.1464844 c-0.1953125-0.1953125-0.5117188-0.1953125-0.7070313,0l-4.3359375,4.3359375 c-0.1953125,0.1953125-0.1953125,0.5117188,0,0.7070313l1.25,1.25c0.0942383,0.0947266,0.1464844,0.2202148,0.1464844,0.3535156 s-0.0522461,0.2587891-0.1464844,0.3535156c-0.1894531,0.1884766-0.5175781,0.1884766-0.7070313,0l-3.5-3.5 c-0.1953125-0.1953125-0.5117188-0.1953125-0.7070313,0L2,18.7929688V5C2,4.4487305,2.4487305,4,3,4z"></path>
                         </svg>
@@ -169,6 +159,10 @@
 
 <div id="tooltip-edit" role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
     Edit Product
+    <div class="tooltip-arrow" data-popper-arrow></div>
+</div>
+<div id="tooltip-manage-images" role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
+    Manage Product Images
     <div class="tooltip-arrow" data-popper-arrow></div>
 </div>
 <div id="tooltip-delete" role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
@@ -287,6 +281,47 @@
       </div>
   </div>
   
+  <script>
+const filterRadios = document.querySelectorAll('input[name="filter-radio"]');
+const tableRows = document.querySelectorAll('#productsTable tbody tr');
+const dropdownRadioButton = document.getElementById('dropdownRadioButton');
+let dropdownRadioText = document.getElementById('dropdownRadioText');
 
+// If the span element doesn't exist, create it
+if (!dropdownRadioText) {
+    dropdownRadioText = document.createElement('span');
+    dropdownRadioText.id = 'dropdownRadioText';
+    dropdownRadioButton.insertBefore(dropdownRadioText, dropdownRadioButton.children[1]);
+    dropdownRadioText.textContent = 'All';
+}
+
+// Function to filter the table rows based on the selected type
+function filterTableRows(selectedType) {
+    tableRows.forEach(row => {
+        const productType = row.querySelector('td:nth-child(3)').dataset.type;
+        if (selectedType === 'All' || productType === selectedType) {
+            row.style.display = '';
+        } else {
+            row.style.display = 'none';
+        }
+    });
+}
+
+// Show all products by default
+filterTableRows('All');
+
+filterRadios.forEach(radio => {
+    radio.addEventListener('change', () => {
+        const selectedType = radio.value;
+        const selectedLabel = radio.nextElementSibling.textContent.trim();
+
+        // Update the dropdown button text
+        dropdownRadioText.textContent = selectedLabel;
+
+        // Filter the table rows based on the selected type
+        filterTableRows(selectedType);
+    });
+});
+</script>
 <script src="{% static 'js/admin/products.js' %}" ></script>
 {% endblock %}

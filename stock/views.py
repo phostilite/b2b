@@ -20,8 +20,9 @@ def product_list_view(request):
     try:
         if request.user.groups.filter(name='Admin').exists():
             products = Product.objects.all()
+            product_types = Product.PRODUCT_TYPES
             logger.info('Product list retrieved for Admin user %s', request.user.username)
-            return render(request, 'admin/product_list.html', {'products': products}) 
+            return render(request, 'admin/product_list.html', {'products': products, 'product_types': product_types}) 
         elif request.user.groups.filter(name='Dealer').exists():
             products = Product.objects.all()
             logger.info('Product list retrieved for Dealer user %s', request.user.username)
