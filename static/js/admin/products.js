@@ -34,73 +34,68 @@ $(".edit-product-link").click(function (event) {
             $('#id_mrp').val(data.mrp);
             $('#id_dealer_price').val(data.dealer_price);
 
-
-            // Populate colors
-            var colorsInput = $("#id_colors");
-            var colors = data.colors.join(", ");
-            colorsInput.val(colors);
-
-            // Populate size groups
-            var sizeGroupsInput = $("#id_size_groups");
-            var sizeGroupsText = [];
-
-            data.size_groups.forEach(function(sizeGroup) {
-                var groupText = sizeGroup.name + ": " + sizeGroup.sizes.join(", ");
-                sizeGroupsText.push(groupText);
+            var sizeGroupsInput = $("#id_available_size_groups");
+            sizeGroupsInput.empty(); 
+            data.all_size_groups.forEach(function(sizeGroup) {
+                var option = $('<option></option>').val(sizeGroup.name).text(sizeGroup.name);
+                if (sizeGroup.selected) {
+                    option.prop('selected', true);
+                }
+                sizeGroupsInput.append(option);
             });
 
-            sizeGroupsInput.val(sizeGroupsText.join(" | "));
-
-            // Populate images
-            var imagesContainer = $("#images-container");
-            imagesContainer.empty();
-            data.images.forEach(function(imageUrl) {
-                imagesContainer.append("<div class='relative'><img src='" + imageUrl + "' alt='Product Image' class='w-full h-auto'></div>");
+            var colorsInput = $("#id_colors");
+            colorsInput.empty();  
+            data.all_colors.forEach(function(color) {
+                var option = $('<option></option>').val(color.name).text(color.name);
+                if (color.selected) {
+                    option.prop('selected', true);
+                }
+                colorsInput.append(option);
             });
 
             $("#productUpdateForm").data("productId", productId);
             $("#editProductModal").modal("show");
-            },
+        },
     });
 });
 
 $("#productUpdateForm").submit(function (event) {
     event.preventDefault();
-    var formData = new FormData(this);
-    var productId = $(this).data("id");
+    var productId = $(this).data("productId");
+
+    var formData = {
+        'title': $("#id_title").val(),
+        'description': $("#id_description").val(),
+        'design_number': $('#id_design_number').val(),
+        'type': $('#id_type').val(),
+        'current_stock': $('#id_current_stock').val(),
+        'mrp': $('#id_mrp').val(),
+        'dealer_price': $('#id_dealer_price').val(),
+        'all_colors': $('#id_colors option:selected').map(function() {
+            return $(this).val();
+        }).get(),
+        'all_size_groups': $('#id_available_size_groups option:selected').map(function() {
+            return $(this).val();
+        }).get()
+    };
 
     $.ajax({
-        url: "/administration/update_product/" + productId + "/",
+        url: "/administration/product/update/" + productId + "/",
         type: "POST",
-        data: formData,
-        processData: false,
-        contentType: false,
-        beforeSend: function (xhr) {
-            xhr.setRequestHeader(
-                "X-CSRFToken",
-                $("input[name=csrfmiddlewaretoken]").val()
-            );
-        },
+        data: JSON.stringify(formData),
+        contentType: "application/json",
         success: function (data) {
-            if (data.success) {
-                var modal = document.querySelector("#editProductModal");
-                modal.classList.add("hidden");
-                modal.setAttribute("aria-hidden", "true");
-
-                alert("Product updated successfully!");
-                location.reload();
-            } else {
-                var errors = data.errors;
-                for (var field in errors) {
-                    var errorMessages = errors[field];
-                    alert("Error in " + field + ": " + errorMessages.join(", "));
-                }
-            }
+            alert("Product updated successfully!");
+            location.reload();
+            $("#editProductModal").modal("hide");
         },
+        error: function (xhr, status, error) {
+            console.error("Update failed:", error);
+            alert("An error occurred while updating the product: " + error);
+        }
     });
 });
-
-
 
 function exportTableToExcel() {
     var wb = XLSX.utils.table_to_book(document.getElementById('productsTable'), {sheet:"Sheet 1"});

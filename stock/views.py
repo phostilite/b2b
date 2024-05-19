@@ -4,6 +4,9 @@ from django.http import JsonResponse
 from django.forms import modelformset_factory
 from django.contrib import messages
 from django.shortcuts import get_object_or_404
+from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.http import require_POST
+import json
 
 from .models import Product, ProductImage, Size, SizeGroup, Color
 from .forms import ProductForm, ProductImageForm, ProductUpdateForm
@@ -28,9 +31,29 @@ def product_detail_view(request, pk):
     except Product.DoesNotExist:
         return JsonResponse({'error': 'Product not found'}, status=404)
     
-    colors = [color.name for color in product.colors.all()]
-    size_groups = [{'name': size_group.name, 'sizes': [size.name for size in size_group.sizes.all()]} for size_group in product.available_size_groups.all()]
-    images = [request.build_absolute_uri(image.image.url) for image in product.images.all()]
+    all_colors = product.colors.all()
+    selected_colors = [color.name for color in product.colors.all()]
+
+    all_size_groups = product.available_size_groups.all()
+    selected_size_groups = [size_group.name for size_group in product.available_size_groups.all()]
+        
+    all_colors = [
+        {
+            'name': color.name,
+            'hex_code': color.hex_code,
+            'selected': color.name in selected_colors
+        }
+        for color in Color.objects.all()
+    ]
+    
+    all_size_groups = [
+        {
+            'name': size_group.name, 
+            'sizes': [size.name for size in size_group.sizes.all()],
+            'selected': size_group.name in selected_size_groups
+        } 
+        for size_group in SizeGroup.objects.all()
+    ]
 
     data = {
         'id': product.id,
@@ -38,9 +61,8 @@ def product_detail_view(request, pk):
         'description': product.description,
         'design_number': product.design_number,
         'type': product.type,
-        'colors': colors,
-        'size_groups': size_groups,
-        'images': images,
+        'all_colors': all_colors,
+        'all_size_groups': all_size_groups,
         'current_stock': product.current_stock,
         'mrp': product.mrp,
         'dealer_price': product.dealer_price,
@@ -64,42 +86,39 @@ def create_product(request):
         image_form = ProductImageForm()
     return render(request, 'admin/create_product.html', {'form': form, 'image_form': image_form})
 
-
+@csrf_exempt
 @login_required
-def update_product(request, product_id):
-    product = get_object_or_404(Product, id=product_id)
-    ImageFormSet = modelformset_factory(ProductImage, form=ProductImageForm, extra=1)
+@require_POST
+def product_update_view(request, pk):
+    try:
+        product = Product.objects.get(pk=pk)
+    except Product.DoesNotExist:
+        return JsonResponse({'error': 'Product not found'}, status=404)
 
-    if request.method == "POST":
-        form = ProductUpdateForm(request.POST, instance=product)
-        formset = ImageFormSet(request.POST, request.FILES, queryset=ProductImage.objects.filter(product=product))
-        if (
-            "HTTP_X_REQUESTED_WITH" in request.META
-            and request.META["HTTP_X_REQUESTED_WITH"] == "XMLHttpRequest"
-        ):  # Handle AJAX form submission
-            if form.is_valid() and formset.is_valid():
-                form.save()
-                images = formset.save(commit=False)
-                for image in images:
-                    image.product = product
-                    image.save()
-                return JsonResponse({"success": True})
-            else:
-                errors = form.errors
-                for form_errors in formset.errors:
-                    errors.update(form_errors)
-                return JsonResponse({"success": False, "errors": errors})
-        else:
-            if form.is_valid() and formset.is_valid():
-                form.save()
-                images = formset.save(commit=False)
-                for image in images:
-                    image.product = product
-                    image.save()
-                messages.success(request, "Product updated successfully")
-                return redirect("product-list")
-    else:
-        form = ProductUpdateForm(instance=product)
-        formset = ImageFormSet(queryset=ProductImage.objects.filter(product=product))
+    data = json.loads(request.body)
 
-    return render(request, "admin/product_list.html", {"form": form, "formset": formset})
+    product.title = data.get('title', product.title)
+    product.description = data.get('description', product.description)
+    product.design_number = data.get('design_number', product.design_number)
+    product.type = data.get('type', product.type)
+    product.current_stock = data.get('current_stock', product.current_stock)
+    product.mrp = data.get('mrp', product.mrp)
+    product.dealer_price = data.get('dealer_price', product.dealer_price)
+
+    # Update colors
+    selected_colors = data.get('all_colors', [])
+    product.colors.clear()
+    for color_name in selected_colors:
+        color, created = Color.objects.get_or_create(name=color_name)
+        product.colors.add(color)
+
+    # Update size groups
+    selected_size_groups = data.get('all_size_groups', [])
+    product.available_size_groups.clear()
+    for size_group_name in selected_size_groups:
+        size_group, created = SizeGroup.objects.get_or_create(name=size_group_name)
+        product.available_size_groups.add(size_group)
+
+    product.save()
+
+    return JsonResponse({'status': 'success', 'message': 'Product updated successfully'})
