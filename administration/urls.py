@@ -21,7 +21,8 @@ urlpatterns = [
     path('create-product/', stock_views.create_product, name='create_product'),
     path('product/update/<int:pk>/', stock_views.product_update_view, name='update_product'),
     path('product/delete/<int:product_id>/', stock_views.delete_product_view, name='delete_product'),
-
+    path('products/<int:product_id>/delete-image/<int:image_id>/', stock_views.delete_product_image, name='delete_product_image'),
+    path('products/<int:product_id>/upload-images/', stock_views.upload_product_images, name='upload_product_images'),
     
     path('create-dealer/', dealer_views.create_dealer, name='create_dealer'),
     path('dealer/delete/<int:dealer_id>/', dealer_views.delete_dealer_view, name='delete_dealer'),

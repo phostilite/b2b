@@ -46,6 +46,8 @@ def product_detail_view(request, pk):
 
     all_size_groups = product.available_size_groups.all()
     selected_size_groups = [size_group.name for size_group in product.available_size_groups.all()]
+    
+    images = [{'id': image.id, 'url': request.build_absolute_uri(image.image.url)} for image in product.images.all()]
         
     all_colors = [
         {
@@ -76,6 +78,7 @@ def product_detail_view(request, pk):
         'current_stock': product.current_stock,
         'mrp': product.mrp,
         'dealer_price': product.dealer_price,
+        'images': images,
     }
     logger.info('Product details for id %s retrieved successfully', pk)
     return JsonResponse(data)
@@ -147,3 +150,28 @@ def delete_product_view(request, product_id):
     except Exception as e:
         logger.error('An error occurred while deleting the product with id %s: %s', product_id, str(e))
         return HttpResponseServerError({'status': 'error', 'message': 'An error occurred while deleting the product: ' + str(e)})
+    
+    
+def delete_product_image(request, product_id, image_id):
+    if request.method == 'POST':
+        try:
+            product = Product.objects.get(id=product_id)
+            image = ProductImage.objects.get(id=image_id, product=product)
+            image.delete()
+            return JsonResponse({'success': True})
+        except:
+            return JsonResponse({'success': False, 'error': 'Error deleting image'})
+    else:
+        return JsonResponse({'success': False, 'error': 'Invalid request method'})
+    
+    
+def upload_product_images(request, product_id):
+    if request.method == 'POST':
+        product = Product.objects.get(id=product_id)
+        images = request.FILES.getlist('images')
+        for image in images:
+            ProductImage.objects.create(product=product, image=image)
+        return JsonResponse({'success': True})
+    else:
+        return JsonResponse({'success': False, 'error': 'Invalid request method'})
+
