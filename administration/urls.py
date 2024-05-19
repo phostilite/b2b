@@ -24,7 +24,12 @@ urlpatterns = [
 
     
     path('create-dealer/', dealer_views.create_dealer, name='create_dealer'),
+    path('dealer/delete/<int:dealer_id>/', dealer_views.delete_dealer_view, name='delete_dealer'),
+
+    
     path('create-retailer/', retailer_views.create_retailer, name='create_retailer'),
+    path('retailer/delete/<int:retailer_id>/', retailer_views.delete_retailer_view, name='delete_retailer'),
+    
     path('create-employee/', sales_views.create_employee, name='create_employee'),
     
     path('order-list/', order_views.order_list_view, name='order_list'), 

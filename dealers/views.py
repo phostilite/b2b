@@ -13,6 +13,9 @@ from django.views.decorators.csrf import csrf_exempt
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.cache import cache
 from django.forms import formset_factory
+from django.http import JsonResponse, HttpResponseServerError
+from django.views.decorators.http import require_POST
+from django.shortcuts import get_object_or_404
 
 from .models import Dealer, Document
 from orders.models import Order
@@ -233,3 +236,16 @@ def update_profile(request):
     })
     
 
+@require_POST
+@login_required
+def delete_dealer_view(request, dealer_id):
+    try:
+        dealer = get_object_or_404(Dealer, pk=dealer_id)
+        user = dealer.user
+        dealer.delete()
+        user.delete()
+        logger.info('Dealer with id %s and associated user deleted successfully', dealer_id)
+        return JsonResponse({'status': 'success', 'message': 'Dealer and associated user deleted successfully'})
+    except Exception as e:
+        logger.error('An error occurred while deleting the dealer with id %s and associated user: %s', dealer_id, str(e))
+        return HttpResponseServerError({'status': 'error', 'message': 'An error occurred while deleting the dealer and associated user: ' + str(e)})
