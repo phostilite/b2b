@@ -20,6 +20,7 @@ urlpatterns = [
     path('product/<int:pk>/', stock_views.product_detail_view, name='product_detail'),
     path('create-product/', stock_views.create_product, name='create_product'),
     path('product/update/<int:pk>/', stock_views.product_update_view, name='update_product'),
+    path('product/delete/<int:product_id>/', stock_views.delete_product_view, name='delete_product'),
 
     
     path('create-dealer/', dealer_views.create_dealer, name='create_dealer'),

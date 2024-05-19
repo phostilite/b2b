@@ -101,3 +101,41 @@ function exportTableToExcel() {
     var wb = XLSX.utils.table_to_book(document.getElementById('productsTable'), {sheet:"Sheet 1"});
     XLSX.writeFile(wb, 'products.xlsx');
 }
+
+
+$(".delete-product-link").click(function (event) {
+    event.preventDefault();
+    var productId = $(this).data("productId");
+
+    if (confirm("Are you sure you want to delete this product?")) {
+        $.ajax({
+            url: "/administration/product/delete/" + productId + "/",
+            type: "POST",
+            beforeSend: function(xhr) {
+                xhr.setRequestHeader('X-CSRFToken', getCookie('csrftoken'));
+            },
+            success: function (data) {
+                alert("Product deleted successfully!");
+                location.reload();
+            },
+            error: function (xhr, status, error) {
+                alert("An error occurred while deleting the product: " + error);
+            }
+        });
+    }
+});
+
+function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = jQuery.trim(cookies[i]);
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}

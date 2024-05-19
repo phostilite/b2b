@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponseServerError
 from django.forms import modelformset_factory
 from django.contrib import messages
 from django.shortcuts import get_object_or_404
@@ -17,18 +17,28 @@ logger = logging.getLogger(__name__)
 
 @login_required
 def product_list_view(request):
-    if request.user.groups.filter(name='Admin').exists():
-        products = Product.objects.all()
-        return render(request, 'admin/product_list.html', {'products': products}) 
-    elif request.user.groups.filter(name='Dealer').exists():
-        products = Product.objects.all()
-        return render(request, 'dealer/product_list.html', {'products': products})
+    try:
+        if request.user.groups.filter(name='Admin').exists():
+            products = Product.objects.all()
+            logger.info('Product list retrieved for Admin user %s', request.user.username)
+            return render(request, 'admin/product_list.html', {'products': products}) 
+        elif request.user.groups.filter(name='Dealer').exists():
+            products = Product.objects.all()
+            logger.info('Product list retrieved for Dealer user %s', request.user.username)
+            return render(request, 'dealer/product_list.html', {'products': products})
+        else:
+            logger.error('User %s does not belong to either Admin or Dealer groups', request.user.username)
+            return render(request, 'error.html', {'message': 'You do not have permission to view this page.'})
+    except Exception as e:
+        logger.error('An error occurred while retrieving product list for user %s: %s', request.user.username, str(e))
+        return render(request, 'error.html', {'message': 'An error occurred: ' + str(e)})
     
 @login_required    
 def product_detail_view(request, pk):
     try:
         product = Product.objects.get(pk=pk)
     except Product.DoesNotExist:
+        logger.error('Product with id %s not found', pk)
         return JsonResponse({'error': 'Product not found'}, status=404)
     
     all_colors = product.colors.all()
@@ -67,6 +77,7 @@ def product_detail_view(request, pk):
         'mrp': product.mrp,
         'dealer_price': product.dealer_price,
     }
+    logger.info('Product details for id %s retrieved successfully', pk)
     return JsonResponse(data)
 
 @login_required
@@ -93,6 +104,7 @@ def product_update_view(request, pk):
     try:
         product = Product.objects.get(pk=pk)
     except Product.DoesNotExist:
+        logger.error('Product with id %s not found', pk)
         return JsonResponse({'error': 'Product not found'}, status=404)
 
     data = json.loads(request.body)
@@ -120,5 +132,18 @@ def product_update_view(request, pk):
         product.available_size_groups.add(size_group)
 
     product.save()
+    logger.info('Product with id %s updated successfully', pk)
 
     return JsonResponse({'status': 'success', 'message': 'Product updated successfully'})
+
+
+@require_POST
+def delete_product_view(request, product_id):
+    try:
+        product = get_object_or_404(Product, pk=product_id)
+        product.delete()
+        logger.info('Product with id %s deleted successfully', product_id)
+        return JsonResponse({'status': 'success', 'message': 'Product deleted successfully'})
+    except Exception as e:
+        logger.error('An error occurred while deleting the product with id %s: %s', product_id, str(e))
+        return HttpResponseServerError({'status': 'error', 'message': 'An error occurred while deleting the product: ' + str(e)})
