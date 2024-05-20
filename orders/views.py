@@ -12,8 +12,10 @@ from sales.models import Employee
 from retailers.models import Retailer
 from cart.models import Cart, CartItem
 from administration.models import AdminUser
+from django.http import HttpResponseForbidden
+from django.core.exceptions import ObjectDoesNotExist
 
-from .forms import OrderForm, BillingAddressFormSet, ShippingAddressFormSet
+from .forms import DealerOrderForm, EmployeeOrderForm, BillingAddressFormSet, ShippingAddressFormSet
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
@@ -32,7 +34,7 @@ def order_list_view(request):
         elif request.user.groups.filter(name='Sales').exists():
             try:
                 employee = Employee.objects.get(user=request.user)
-                orders = Order.objects.filter(sales=employee)
+                orders = Order.objects.filter(created_by=employee.user)
             except Employee.DoesNotExist:
                 return render(request, 'error.html', {'message': 'Employee does not exist.'})
             return render(request, 'employee/order_list.html', {'orders': orders})
@@ -52,17 +54,44 @@ def order_list_view(request):
 
 
 @login_required
-@allowed_users(allowed_roles=["Dealer"])
+@allowed_users(allowed_roles=["Dealer", "Sales"])
 def create_order(request):
+    logger.info(f'Creating order for user {request.user.username}')
     try:
         if request.method == 'POST':
-            form = OrderForm(request.user, request.POST)
+            logger.debug('Before form creation')
+            if request.user.groups.filter(name="Dealer").exists():
+                dealer = Dealer.objects.get(user=request.user)
+                form = DealerOrderForm(dealer, request.POST)
+            elif request.user.groups.filter(name="Sales").exists():
+                employee = Employee.objects.get(user=request.user)
+                form = EmployeeOrderForm(employee, request.POST)
+            else:
+                return HttpResponseForbidden("You do not have permission to create an order.")
+            logger.debug('After form creation')
             billing_formset = BillingAddressFormSet(request.POST, prefix='billing')
             shipping_formset = ShippingAddressFormSet(request.POST, prefix='shipping')
             if form.is_valid() and billing_formset.is_valid() and shipping_formset.is_valid():
                 order = form.save(commit=False)
-                order.dealer = request.user.dealer
-                order.employee = None  
+                
+                try:
+                    if request.user.groups.filter(name="Dealer").exists():
+                            dealer = Dealer.objects.get(user=request.user)
+                            order.dealer = dealer
+                except Dealer.DoesNotExist:
+                    order.dealer = None
+
+                try:
+                    if request.user.groups.filter(name="Sales").exists():
+                        employee = Employee.objects.get(user=request.user)
+                        order.employee = employee
+                    else:
+                        order.employee = None
+                except Employee.DoesNotExist:
+                    order.employee = None
+                    
+                logger.info(f'Order created by user {request.user.username}')
+                    
                 order.admin = AdminUser.objects.first()  
                 order.created_by = request.user
                 order.order_date = timezone.now()
@@ -92,7 +121,8 @@ def create_order(request):
                         quantity=item.quantity, 
                         item_size_group=item.size_groups.first(),
                         unit_price = item.product_price,
-                        net_amount=item.product_price_by_size_group
+                        total_amount=item.product_price_by_size_group,
+                        net_amount=item.product_price * item.quantity
                     )
                     grand_total += order_item.net_amount
 
@@ -101,7 +131,10 @@ def create_order(request):
                 
                 cart_items.delete()  
 
-                return redirect('dealer_order_list')  
+                if order.created_by.groups.filter(name="Dealer").exists():
+                    return redirect('order_confitmation')  
+                else:
+                    return redirect('employee_order_confirmation')
             else:
                 logger.debug("Form errors:")
                 logger.debug(form.errors)
@@ -113,11 +146,22 @@ def create_order(request):
                 logger.debug("POST data:")
                 logger.debug(request.POST)
         else:
-            form = OrderForm(request.user)
+            try:
+                if request.user.groups.filter(name="Dealer").exists():
+                    dealer = Dealer.objects.get(user=request.user)
+                    form = DealerOrderForm(dealer)
+                elif request.user.groups.filter(name="Sales").exists():
+                    employee = Employee.objects.get(user=request.user)
+                    form = EmployeeOrderForm(employee)
+                else:
+                    return HttpResponseForbidden("You do not have permission to create an order.")
+            except ObjectDoesNotExist:
+                return HttpResponseForbidden("You do not have an associated Dealer or Employee object.")
             billing_formset = BillingAddressFormSet(prefix='billing')
             shipping_formset = ShippingAddressFormSet(prefix='shipping')
-        return render(request, 'dealer/create_order.html', {
-            'form': form, 
+        template_path = 'dealer/create_order.html' if request.user.groups.filter(name="Dealer").exists() else 'employee/create_order.html'
+        return render(request, template_path, {
+            'form': form,
             'billing_formset': billing_formset,
             'shipping_formset': shipping_formset,
         })
@@ -170,4 +214,42 @@ def approve_order(request, order_id):
 
     except Exception as e:
         logger.error(f'Error in approve_order: {e}')
+        return render(request, 'error.html', {'message': 'An error occurred.'})
+    
+    
+def order_confirmation_view(request):
+    try:
+        order_id = request.session.get('order_id')
+        order = Order.objects.get(id=order_id)
+
+        billing_address = order.billing_addresses.first()
+        shipping_address = order.shipping_addresses.first()
+        order_items = order.orderitem_set.all()
+
+        is_dealer = request.user.groups.filter(name="Dealer").exists()
+        is_employee = request.user.groups.filter(name="Sales").exists()
+
+        context = {
+            'order': order,
+            'billing_address': billing_address,
+            'shipping_address': shipping_address,
+            'order_items': order_items,
+            'is_dealer': is_dealer,
+            'is_employee': is_employee,
+        }
+
+        if is_dealer:
+            return render(request, 'dealer/order_confirmation.html', context)
+        elif is_employee:
+            return render(request, 'employee/order_confirmation.html', context)
+        else:
+            # Handle the case when the user is not a Dealer or Employee
+            return render(request, 'error.html', {'message': 'Access denied.'})
+
+    except Order.DoesNotExist:
+        logger.error(f'Order with id {order_id} does not exist.')
+        return render(request, 'error.html', {'message': 'Order does not exist.'})
+
+    except Exception as e:
+        logger.error(f'Error in order_confirmation_view: {e}')
         return render(request, 'error.html', {'message': 'An error occurred.'})

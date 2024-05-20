@@ -27,6 +27,10 @@ def product_list_view(request):
             products = Product.objects.all()
             logger.info('Product list retrieved for Dealer user %s', request.user.username)
             return render(request, 'dealer/product_list.html', {'products': products})
+        elif request.user.groups.filter(name='Sales').exists():
+            products = Product.objects.all()
+            logger.info('Product list retrieved for Sales user %s', request.user.username)
+            return render(request, 'employee/product_list.html', {'products': products})
         else:
             logger.error('User %s does not belong to either Admin or Dealer groups', request.user.username)
             return render(request, 'error.html', {'message': 'You do not have permission to view this page.'})

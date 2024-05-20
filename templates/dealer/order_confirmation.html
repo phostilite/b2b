@@ -1,0 +1,126 @@
+{% extends '../_base.html' %}
+{% block content %}
+{% include './navbar.html' %}
+{% include './sidebar.html' %}
+{% include './cart.html' %}
+
+<div class="p-4 sm:ml-64 mt-14">
+    <div class="w-full h-full bg-white rounded-lg shadow dark:bg-gray-800 p-4 md:p-6">
+        <div class="flex justify-between pb-4 mb-4 border-b border-gray-200 dark:border-gray-700">
+            <div class="flex items-center">
+                <div class="w-12 h-12 rounded-lg dark:bg-gray-700 flex items-center justify-center me-3">
+                    <svg class="w-6 h-6 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M14.5 0A3.987 3.987 0 0 0 11 2.1a4.977 4.977 0 0 1 3.9 5.858A3.989 3.989 0 0 0 14.5 0ZM9 13h2a4 4 0 0 1 4 4v2H5v-2a4 4 0 0 1 4-4Z" />
+                        <path d="M5 19h10v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2ZM5 7a5.008 5.008 0 0 1 4-4.9 3.988 3.988 0 1 0-3.9 5.859A4.974 4.974 0 0 1 5 7Zm5 3a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm5-1h-.424a5.016 5.016 0 0 1-1.942 2.232A6.007 6.007 0 0 1 17 17h2a1 1 0 0 0 1-1v-2a5.006 5.006 0 0 0-5-5ZM5.424 9H5a5.006 5.006 0 0 0-5 5v2a1 1 0 0 0 1 1h2a6.007 6.007 0 0 1 4.366-5.768A5.016 5.016 0 0 1 5.424 9Z" />
+                    </svg>
+                </div>
+                <div>
+                    <h5 class="leading-none text-2xl font-bold text-gray-900 dark:text-white pb-1">Order Confirmation</h5>
+                    <p class="text-sm font-normal text-gray-500 dark:text-gray-400">View and manage order details</p>
+                </div>
+            </div>
+            <a href="{% url 'dealer_order_list' %}" type="button" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                Proceed
+            </a>
+        </div>
+
+        <div class="grid grid-cols-4 lg:grid-cols-2 gap-4">
+            <div>
+                <h6 class="text-xl font-semibold text-gray-900 dark:text-white mb-2">Order Information</h6>
+                <div class="text-gray-600 dark:text-gray-400">
+                    <p><span class="font-semibold">Order Number:</span> {{ order.order_number }}</p>
+                    <p><span class="font-semibold">Order Date:</span> {{ order.order_date }}</p>
+                    <p><span class="font-semibold">Order Status:</span> {{ order.status }}</p>
+                    <p><span class="font-semibold">Grand Total:</span> &#8377;{{ order.grand_total_amount }}</p>
+                    <p><span class="font-semibold">Payment Status:</span> {{ order.payment_status }}</p>
+                    {% if order.is_approved %}
+                    <p class="text-green-600 font-semibold">Order Approved</p>
+                    {% else %}
+                    <p class="text-red-600 font-semibold">Order Not Approved</p>
+                    {% endif %}
+                </div>
+            </div>
+            
+            <div>
+                <h6 class="text-xl font-semibold text-gray-900 dark:text-white mb-2">Billing Address</h6>
+                <div class="text-gray-600 dark:text-gray-400">
+                    <p>{{ order.retailer.first_name }} {{ order.retailer.last_name }}</p>
+                    <p>{{ billing_address.address_1 }}</p>
+                    <p>{{ billing_address.address_2 }}</p>
+                    <p>{{ billing_address.city }}, {{ billing_address.state }} {{ billing_address.zip_code }}</p>
+                    <p>{{ billing_address.country }}</p>
+                    <p>{{ order.retailer.contact_number }}</p>
+                    <p>{{ order.retailer.email }}</p>
+                    <p>{{ order.retailer.gstin }}</p>
+                </div>
+            </div>
+            <div>
+                <h6 class="text-xl font-semibold text-gray-900 dark:text-white mb-2">Dealer Details</h6>
+                <div class="text-gray-600 dark:text-gray-400">
+                    <p>{{ order.dealer.first_name }} {{ order.dealer.last_name }}</p>
+                    <p>{{ order.dealer.phone }}</p>
+                    <p>{{ order.dealer.email }}</p>
+                </div>
+            </div>
+            <div>
+                <h6 class="text-xl font-semibold text-gray-900 dark:text-white mb-2">Shipping Address</h6>
+                <div class="text-gray-600 dark:text-gray-400">
+                    <p>{{ shipping_address.address_1 }}</p>
+                    <p>{{ shipping_address.address_2 }}</p>
+                    <p>{{ shipping_address.city }}, {{ shipping_address.state }} {{ shipping_address.zip_code }}</p>
+                    <p>{{ shipping_address.country }}</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-8">
+            <h6 class="text-xl font-semibold text-gray-900 dark:text-white mb-4">Order Items</h6>
+            <div class="overflow-x-auto relative">
+                <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                    <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                        <tr>
+                            <th scope="col" class="py-3 px-6">
+                                Product
+                            </th>
+                            <th scope="col" class="py-3 px-6">
+                                Quantity
+                            </th>
+                            <th scope="col" class="py-3 px-6">
+                                Size Group
+                            </th>
+                            <th scope="col" class="py-3 px-6">
+                                Unit Price
+                            </th>
+                            <th scope="col" class="py-3 px-6">
+                                Net Price
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for order_item in order_items %}
+                        <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                            <th scope="row" class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                {{ order_item.product.title }}
+                            </th>
+                            <td class="py-4 px-6">
+                                {{ order_item.quantity }}
+                            </td>
+                            <td class="py-4 px-6">
+                                {{ order_item.item_size_group }}
+                            </td>
+                            <td class="py-4 px-6">
+                                &#8377;{{ order_item.unit_price }}
+                            </td>
+                            <td class="py-4 px-6">
+                                &#8377;{{ order_item.net_amount }}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

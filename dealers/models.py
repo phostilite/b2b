@@ -10,6 +10,9 @@ class Dealer(models.Model):
     agreement_accepted = models.BooleanField(default=False)
     profile_pic = models.ImageField(upload_to='profile_pics/', null=True, blank=True)
     
+    def __str__(self):
+        return f"{self.first_name} {self.last_name}"
+        
 class Document(models.Model):
     dealer = models.ForeignKey('Dealer', on_delete=models.CASCADE, related_name='documents')
     document_type = models.CharField(max_length=50)

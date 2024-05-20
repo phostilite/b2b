@@ -14,7 +14,7 @@ from django.contrib.auth.decorators import login_required
 logger = logging.getLogger(__name__)
 
 @login_required
-@allowed_users(allowed_roles=["Dealer"])
+@allowed_users(allowed_roles=["Dealer", "Sales"])
 def add_to_cart(request):
     if request.method == 'POST':
         form = CartItemForm(request.POST)
@@ -51,17 +51,17 @@ def add_to_cart(request):
                 cart_item.product_price_by_size_group = product.dealer_price * total_sizes  * cart_item.quantity
             else:
                 logger.error(f'dealer_price is None for product: {product}')
-                return render(request, 'dealer/product_list.html', {'form': form, 'error': 'Dealer price is not set for the product.'})
+                return render(request, 'dealer/product_list.html' if request.user.groups.filter(name="Dealer").exists() else 'employee/product_list.html', {'form': form, 'error': 'Dealer price is not set for the product.'})
             
             cart_item.save()
             
-            return redirect('dealer_product_list')  
+            return redirect('dealer_product_list' if request.user.groups.filter(name="Dealer").exists() else 'employee_product_list')
         else:
             logger.error(f'Form validation errors: {form.errors}')
     return render(request, 'dealer/product_list.html')
 
 @login_required
-@allowed_users(allowed_roles=["Dealer"])
+@allowed_users(allowed_roles=["Dealer", "Sales"])
 def view_cart(request):
     try:
         cart = Cart.objects.get(user=request.user)

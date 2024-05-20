@@ -77,6 +77,7 @@ class OrderItem(models.Model):
     item_size_group = models.CharField(max_length=255, null=True, blank=True)  
     unit_price = models.DecimalField(max_digits=10, decimal_places=2, default=0.00, null=True, blank=True)
     net_amount = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
+    total_amount = models.DecimalField(max_digits=10, decimal_places=2, default=0.00, null=True, blank=True)
     
     def __str__(self):
         return f"{self.order.order_number} - {self.product.title}"
