@@ -123,18 +123,17 @@
             </caption>
             <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                 <tr>
-                    <th scope="col" class="p-4">
-                        <div class="flex items-center">
-                            <input id="checkbox-all-search" type="checkbox"
-                                class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                            <label for="checkbox-all-search" class="sr-only">checkbox</label>
-                        </div>
-                    </th>
                     <th scope="col" class="px-6 py-3">
                         Order Number
                     </th>
                     <th scope="col" class="px-6 py-3">
                         Order Date
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        Created By
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        Retailer
                     </th>
                     <th scope="col" class="px-6 py-3">
                         Order Status
@@ -149,20 +148,22 @@
             </thead>
             <tbody>
             {% for order in orders %}
-                <tr
-                    class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                    <td class="w-4 p-4">
-                        <div class="flex items-center">
-                            <input id="checkbox-table-search-2" type="checkbox"
-                                class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                            <label for="checkbox-table-search-2" class="sr-only">checkbox</label>
-                        </div>
-                    </td>
+                <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                     <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                         #{{ order.order_number }}
                     </th>
                     <td class="px-6 py-4">
                         {{ order.order_date }}
+                    </td>
+                    <td class="px-6 py-4">
+                        {% if order.created_by == request.user %}
+                            You ({{ order.created_by.first_name }} {{ order.created_by.last_name }})
+                        {% else %}
+                            {{ order.created_by.first_name }} {{ order.created_by.last_name }}
+                        {% endif %}
+                    </td>
+                    <td class="px-6 py-4">
+                        {{ order.retailer.first_name }} {{ order.retailer.last_name }}
                     </td>
                     <td class="px-6 py-4">
                         {{ order.status }}
@@ -171,24 +172,7 @@
                         ₹{{ order.grand_total_amount }}
                     </td>
                     <td class="px-6 py-4">
-                        {% if order.payment_status == 'Paid' %}
-                            <span class="text-green-600 font-semibold">Payment Completed</span>
-                        {% elif order.payment_status == 'Failed' %}
-                            <a href="{% url 'payment_view' order.id %}" class="text-red-600 hover:text-red-700 font-semibold">Retry Payment</a>
-                        {% elif order.is_approved %}
-                            <a href="{% url 'payment_view' order.id %}" class="text-blue-600 hover:text-blue-700 font-semibold" data-popover-target="popover-left-10" data-popover-placement="left">Make Payment</a>
-                            <div data-popover id="popover-left-10" role="tooltip" class="absolute z-10 invisible inline-block w-64 text-sm text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0 dark:text-gray-400 dark:border-gray-600 dark:bg-gray-800">
-                                <div class="px-3 py-2 bg-gray-100 border-b border-gray-200 rounded-t-lg dark:border-gray-600 dark:bg-gray-700">
-                                    <h3 class="font-semibold text-gray-900 dark:text-white">Edit Order Details</h3>
-                                </div>
-                                <div class="px-3 py-2">
-                                    <p>Click here to view the details of {{ order.order_number }}. You can get a detailed information here.</p>
-                                </div>
-                                <div data-popper-arrow></div>
-                            </div>
-                        {% else %}
-                            <span class="text-red-600 font-semibold">Payment Link Disabled</span>
-                        {% endif %}
+                        <a href="#">View</a>
                     </td>
                 </tr>
                 {% endfor %}
