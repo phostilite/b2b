@@ -96,14 +96,24 @@ def create_product(request):
         if form.is_valid() and image_form.is_valid():
             product = form.save()
             ProductImage.objects.create(product=product, **image_form.cleaned_data)
-            return redirect('product_list')
+            success_message = 'Product created successfully.'
+            return render(request, 'admin/create_product.html', {'form': form, 'image_form': image_form, 'success_message': success_message})
         else:
-            logger.error(f'ProductForm errors: {form.errors}')
-            logger.error(f'ProductImageForm errors: {image_form.errors}')
+            form_errors = []
+            for field, errors in form.errors.items():
+                for error in errors:
+                    form_errors.append(f'{field.title()}: {error}')
+            image_form_errors = []
+            for field, errors in image_form.errors.items():
+                for error in errors:
+                    image_form_errors.append(f'{field.title()}: {error}')
     else:
         form = ProductForm()
         image_form = ProductImageForm()
-    return render(request, 'admin/create_product.html', {'form': form, 'image_form': image_form})
+        form_errors = []
+        image_form_errors = []
+
+    return render(request, 'admin/create_product.html', {'form': form, 'image_form': image_form, 'form_errors': form_errors, 'image_form_errors': image_form_errors})
 
 @csrf_exempt
 @login_required
