@@ -19,17 +19,27 @@ def employee_dashboard_view(request):
     return render(request, 'employee/dashboard.html')
 
 def employee_login_view(request):
-    if request.method == 'POST':
+    form_errors = []
+
+    try:
+        if request.user.is_authenticated and request.user.groups.filter(name='Sales').exists():
+            messages.success(request, 'You are already logged in.')
+            return redirect('employee_dashboard')
+        
+        if request.method == 'POST':
             username = request.POST.get('username')
             password = request.POST.get('password')
-            
+
             user = authenticate(request, username=username, password=password)
             if user is not None:
                 login(request, user)
                 return redirect('employee_dashboard')
             else:
-                messages.error(request, 'Invalid username or password.')
-    return render(request, 'authentication/sales_login.html')
+                form_errors.append('Username or Password: Invalid username or password.')
+        return render(request, 'authentication/sales_login.html', {'form_errors': form_errors})
+    except Exception as e:
+        logger.error(f'An error occurred in employee_login_view: {e}')
+        return render(request, 'authentication/sales_login.html', {'form_errors': form_errors})
 
 def employee_logout_view(request):
     logout(request)

@@ -15,20 +15,25 @@ def admin_dashboard_view(request):
     return render(request, 'admin/dashboard.html')
 
 def admin_login_view(request):
+    form_errors = []
+
     if request.user.is_authenticated and request.user.groups.filter(name='Admin').exists():
+        messages.success(request, 'You are already logged in.')
         return redirect('admin_dashboard')
 
     if request.method == 'POST':
-            username = request.POST.get('username')
-            password = request.POST.get('password')
-            
-            user = authenticate(request, username=username, password=password)
-            if user is not None:
-                login(request, user)
-                return redirect('admin_dashboard')
-            else:
-                messages.error(request, 'Invalid username or password.')
-    return render(request, 'authentication/admin_login.html')
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            messages.success(request, 'Login successful. Welcome to the admin dashboard.')
+            return redirect('admin_dashboard')
+        else:
+            form_errors.append('Username or Password: Invalid username or password.')
+
+    return render(request, 'authentication/admin_login.html', {'form_errors': form_errors})
 
 def admin_logout_view(request):
     logout(request)

@@ -79,6 +79,8 @@ def dealer_dashboard_view(request):
   
 
 def dealer_login_view(request):
+    form_errors = []
+
     try:
         if request.user.is_authenticated:
             try:
@@ -103,11 +105,11 @@ def dealer_login_view(request):
                 except ObjectDoesNotExist:
                     logger.error('Dealer object does not exist for the authenticated user.')
             else:
-                messages.error(request, 'Invalid username or password.')
-        return render(request, 'authentication/dealer_login.html')
+                form_errors.append('Username or Password: Invalid username or password.')
+        return render(request, 'authentication/dealer_login.html', {'form_errors': form_errors})
     except Exception as e:
         logger.error(f'An error occurred in dealer_login_view: {e}')
-        return render(request, 'authentication/dealer_login.html')  
+        return render(request, 'authentication/dealer_login.html', {'form_errors': form_errors})
 
 # @csrf_exempt
 # def agreement_view(request):
