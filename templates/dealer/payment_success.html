@@ -24,8 +24,8 @@
                 <ul class="mt-2 text-gray-600 dark:text-gray-400">
                     <li>Order ID: {{ order.order_number }}</li>
                     <li>Order Date: {{ order.order_date }}</li>
-                    <li>Retailer: {{ order.retailer.first_name }} {{ order.retailer.last_name }} ({{ order.retailer.email }}, {{ order.retailer.phone }})</li>
-                    <li>Dealer: {{ order.dealer.first_name }} {{ order.dealer.last_name }} ({{ order.dealer.email }}, {{ order.dealer.phone }})</li>
+                    <li>Retailer: {{ order.retailer.full_name }} ({{ order.retailer.email }}, {{ order.retailer.phone }})</li>
+                    <li>Dealer: {{ order.dealer.full_name }} ({{ order.dealer.email }}, {{ order.dealer.phone }})</li>
                 </ul>
             </div>
             <div>
@@ -42,7 +42,7 @@
             <div>
                 <h6 class="text-xl font-semibold text-gray-900 dark:text-white">Billing Address</h6>
                 <ul class="mt-2 text-gray-600 dark:text-gray-400">
-                    <li>{{ billing_address.first_name }} {{ billing_address.last_name }}</li>
+                    <li>{{ billing_address.full_name }}</li>
                     {% if billing_address.company %}
                     <li>{{ billing_address.company }}</li>
                     {% endif %}
@@ -61,7 +61,7 @@
             <div>
                 <h6 class="text-xl font-semibold text-gray-900 dark:text-white">Shipping Address</h6>
                 <ul class="mt-2 text-gray-600 dark:text-gray-400">
-                    <li>{{ shipping_address.first_name }} {{ shipping_address.last_name }}</li>
+                    <li>{{ shipping_address.full_name }}</li>
                     {% if shipping_address.company %}
                     <li>{{ shipping_address.company }}</li>
                     {% endif %}

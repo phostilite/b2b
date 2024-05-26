@@ -71,8 +71,8 @@ def update_profile(request):
         form = EmployeeProfileForm(request.POST, request.FILES, instance=request.user.employee)
         if form.is_valid():
             employee = form.save(commit=False)
-            employee.user.first_name = employee.first_name
-            employee.user.last_name = employee.last_name
+            employee.user.first_name = employee.full_name.split(' ')[0]
+            employee.user.last_name = employee.full_name.split(' ')[1]
             employee.user.email = employee.email
             employee.user.save()
             employee.save()

@@ -222,8 +222,8 @@ def update_profile(request):
         form = DealerProfileForm(request.POST, request.FILES, instance=request.user.dealer)
         if form.is_valid():
             dealer = form.save(commit=False)
-            dealer.user.first_name = dealer.first_name
-            dealer.user.last_name = dealer.last_name
+            dealer.user.first_name = dealer.full_name.split(' ')[0]
+            dealer.user.last_name = dealer.full_name.split(' ')[1]
             dealer.user.email = dealer.email
             dealer.user.save()
             dealer.save()

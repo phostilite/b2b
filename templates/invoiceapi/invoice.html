@@ -32,7 +32,7 @@
 
             <div class="mb-8 border p-4">
                 <h2 class="text-xl font-bold mb-2">Bill To:</h2>
-                <p>{{ order.billing_details.first_name }} {{ order.billing_details.last_name }}</p>
+                <p>{{ order.billing_details.full_name }}</p>
                 <p>{{ order.billing_details.address_1 }}</p>
                 <p>{{ order.billing_details.address_2 }}</p>
                 <p>{{ order.billing_details.city }}, {{ order.billing_details.state }} {{ order.billing_details.postcode }}</p>

@@ -53,7 +53,7 @@
                     <!-- First Row: Employee Details -->
                     <h6 class="text-xl font-semibold text-gray-900 dark:text-white mb-2">Employee Details</h6>
                     <div class="text-gray-600 dark:text-gray-400">
-                        <p>{{ order.employee.first_name }} {{ order.employee.last_name }}</p>
+                        <p>{{ order.employee.full_name }}</p>
                         <p>{{ order.employee.phone }}</p>
                         <p>{{ order.employee.email }}</p>
                     </div>
@@ -62,7 +62,7 @@
                     <!-- Second Row: Dealer Details -->
                     <h6 class="text-xl font-semibold text-gray-900 dark:text-white mb-2">Dealer Details</h6>
                     <div class="text-gray-600 dark:text-gray-400">
-                        <p>{{ order.dealer.first_name }} {{ order.dealer.last_name }}</p>
+                        <p>{{ order.dealer.full_name }}</p>
                         <p>{{ order.dealer.phone }}</p>
                         <p>{{ order.dealer.email }}</p>
                     </div>
@@ -75,7 +75,7 @@
                     <!-- First Row: Billing Address -->
                     <h6 class="text-xl font-semibold text-gray-900 dark:text-white mb-2">Billing Address</h6>
                     <div class="text-gray-600 dark:text-gray-400">
-                        <p>{{ order.retailer.first_name }} {{ order.retailer.last_name }}</p>
+                        <p>{{ order.retailer.full_name }}</p>
                         <p>{{ billing_address.address_1 }}</p>
                         <p>{{ billing_address.address_2 }}</p>
                         <p>{{ billing_address.city }}, {{ billing_address.state }} {{ billing_address.zip_code }}</p>

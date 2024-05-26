@@ -5,13 +5,14 @@ class Dealer(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
+    full_name = models.CharField(max_length=200, blank=True)
     phone = models.CharField(max_length=13)
     email = models.EmailField(null=True, blank=True)
     agreement_accepted = models.BooleanField(default=False)
     profile_pic = models.ImageField(upload_to='profile_pics/', null=True, blank=True)
     
     def __str__(self):
-        return f"{self.first_name} {self.last_name}"
+        return f"{self.full_name}"
         
 class Document(models.Model):
     dealer = models.ForeignKey('Dealer', on_delete=models.CASCADE, related_name='documents')

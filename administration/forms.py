@@ -6,4 +6,4 @@ from .models import AdminUser
 class AdminUserProfileForm(forms.ModelForm):
     class Meta:
         model = AdminUser
-        fields = ['first_name', 'last_name', 'phone', 'email']
+        fields = ['full_name', 'phone', 'email']

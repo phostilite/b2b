@@ -11,7 +11,7 @@ class EmployeeForm(forms.ModelForm):
 
     class Meta:
         model = Employee
-        fields = ['first_name', 'last_name', 'phone', 'email', 'profile_pic']
+        fields = ['full_name', 'phone', 'email', 'profile_pic']
 
     def clean_username(self):
         username = self.cleaned_data.get('username')
@@ -31,8 +31,8 @@ class EmployeeForm(forms.ModelForm):
         user = User.objects.create_user(
             username=self.cleaned_data['username'],
             password=self.cleaned_data['password1'],
-            first_name=self.cleaned_data['first_name'],
-            last_name=self.cleaned_data['last_name'],
+            first_name=self.cleaned_data['full_name'].split()[0],
+            last_name=self.cleaned_data['full_name'].split()[1],
             email=self.cleaned_data['email']
         )
         Employee = super().save(commit=False)
@@ -46,4 +46,4 @@ class EmployeeForm(forms.ModelForm):
 class EmployeeProfileForm(forms.ModelForm):
     class Meta:
         model = Employee
-        fields = ['first_name', 'last_name', 'phone', 'email']
+        fields = ['full_name', 'phone', 'email']

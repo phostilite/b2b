@@ -161,7 +161,7 @@
                         </div>
                     </td>
                     <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                        {{ retailer.first_name }} {{ retailer.last_name }}
+                        {{ retailer.full_name }}
                     </th>
                     <td class="px-6 py-4">
                         {{ retailer.contact_number }}
@@ -187,7 +187,7 @@
                 <h3 class="font-semibold text-gray-900 dark:text-white">Edit Retailer Details</h3>
             </div>
             <div class="px-3 py-2">
-                <p>Click here to modify the details of {{ retailer.first_name }} {{ retailer.last_name }}. You can update information such as contact details, address, and more.</p>
+                <p>Click here to modify the details of {{ retailer.full_name }}. You can update information such as contact details, address, and more.</p>
             </div>
             <div data-popper-arrow></div>
         </div>

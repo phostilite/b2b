@@ -45,8 +45,8 @@ def update_profile(request):
         form = AdminUserProfileForm(request.POST, request.FILES, instance=request.user.adminuser)
         if form.is_valid():
             adminuser = form.save(commit=False)
-            adminuser.user.first_name = adminuser.first_name
-            adminuser.user.last_name = adminuser.last_name
+            adminuser.user.first_name = adminuser.full_name.split(' ')[0]
+            adminuser.user.last_name = adminuser.full_name.split(' ')[1]
             adminuser.user.email = adminuser.email
             adminuser.user.save()
             adminuser.save()
