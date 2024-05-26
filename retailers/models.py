@@ -1,8 +1,8 @@
 from django.db import models
 
 class Retailer(models.Model):
-    first_name = models.CharField(max_length=200)
-    last_name = models.CharField(max_length=200)
+    first_name = models.CharField(max_length=200, null=True, blank=True)
+    last_name = models.CharField(max_length=200, null=True, blank=True)
     full_name = models.CharField(max_length=400, blank=True)
     address = models.TextField()
     pincode = models.CharField(max_length=10)
