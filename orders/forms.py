@@ -7,11 +7,11 @@ from retailers.models import Retailer
 from dealers.models import Dealer
 
 BillingAddressFormSet = inlineformset_factory(Order, BillingAddress, 
-    fields=('full_name', 'company', 'address_1', 'address_2', 'city', 'state', 'postcode', 'country', 'email', 'phone'), 
+    fields=('full_name', 'address_1', 'address_2', 'city', 'state', 'postcode', 'country', 'email', 'phone'), 
     extra=1, can_delete=False)
 
 ShippingAddressFormSet = inlineformset_factory(Order, ShippingAddress, 
-    fields=('full_name', 'company', 'address_1', 'address_2', 'city', 'state', 'postcode', 'country', 'email', 'phone'), 
+    fields=('full_name', 'address_1', 'address_2', 'city', 'state', 'postcode', 'country', 'email', 'phone'), 
     extra=1, can_delete=False)
 
 class DealerOrderForm(forms.ModelForm):

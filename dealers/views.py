@@ -20,7 +20,7 @@ from django.shortcuts import get_object_or_404
 from .models import Dealer, Document
 from orders.models import Order
 from payments.models import Payment
-from .forms import DealerForm, DealerProfileForm, DocumentForm, OTPForm
+from .forms import DealerForm, DealerProfileForm, DocumentForm, OTPForm, DealerAddressForm
 from accounts.decorators import allowed_users
 from django.http import JsonResponse
 from datetime import datetime, timedelta
@@ -98,7 +98,8 @@ def dealer_login_view(request):
                 login(request, user)
                 try:
                     dealer = Dealer.objects.get(user=user)
-                    if dealer.agreement_accepted:  
+                    if dealer.agreement_accepted: 
+                        request.session['dealer_id'] = dealer.id 
                         return redirect('dealer_dashboard')  
                     else:
                         return redirect('agreement_view')  
@@ -214,18 +215,28 @@ def dealer_list_view(request):
 def create_dealer(request):
     if request.method == 'POST':
         form = DealerForm(request.POST, request.FILES)
-        if form.is_valid():
-            form.save()
+        address_form = DealerAddressForm(request.POST)
+
+        if form.is_valid() and (not address_form.has_changed() or address_form.is_valid()):
+            dealer = form.save()
+
+            if address_form.has_changed() and address_form.is_valid():
+                address = address_form.save(commit=False)
+                address.dealer = dealer
+                address.save()
+
             return redirect('dealer_list')
         else:
             logger.error(f'DealerForm errors: {form.errors}')
+            logger.error(f'DealerAddressForm errors: {address_form.errors}')
     else:
         form = DealerForm()
-        
+        address_form = DealerAddressForm()
+
     if request.user.groups.filter(name='Admin').exists():
-        return render(request, 'admin/create_dealer.html', {'form': form})
+        return render(request, 'admin/create_dealer.html', {'form': form, 'address_form': address_form})
     elif request.user.groups.filter(name='Sales').exists():
-        return render(request, 'employee/create_dealer.html', {'form': form})
+        return render(request, 'employee/create_dealer.html', {'form': form, 'address_form': address_form})
 
 login_required
 def update_profile(request):
@@ -262,3 +273,29 @@ def delete_dealer_view(request, dealer_id):
     except Exception as e:
         logger.error('An error occurred while deleting the dealer with id %s and associated user: %s', dealer_id, str(e))
         return HttpResponseServerError({'status': 'error', 'message': 'An error occurred while deleting the dealer and associated user: ' + str(e)})
+    
+
+def get_dealer_data(request):
+    dealer_id = request.session.get('dealer_id')
+    dealer = get_object_or_404(Dealer, id=dealer_id)
+    addresses = dealer.addresses.all()
+
+    dealer_data = {
+        'full_name': dealer.full_name,
+        'phone': dealer.phone,
+        'email': dealer.email,
+        'agreement_accepted': dealer.agreement_accepted,
+        'gstin': dealer.gstin,
+        'addresses': [
+            {
+                'address_line_1': address.address_line_1,
+                'address_line_2': address.address_line_2,
+                'city': address.city,
+                'state': address.state,
+                'zip_code': address.zip_code,
+                'country': address.country,
+            }
+            for address in addresses
+        ],
+    }
+    return JsonResponse(dealer_data)

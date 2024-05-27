@@ -44,14 +44,10 @@
             <div>
                 <h6 class="text-xl font-semibold text-gray-900 dark:text-white mb-2">Billing Address</h6>
                 <div class="text-gray-600 dark:text-gray-400">
-                    <p>{{ order.retailer.full_name }}</p>
                     <p>{{ billing_address.address_1 }}</p>
                     <p>{{ billing_address.address_2 }}</p>
                     <p>{{ billing_address.city }}, {{ billing_address.state }} {{ billing_address.zip_code }}</p>
                     <p>{{ billing_address.country }}</p>
-                    <p>{{ order.retailer.contact_number }}</p>
-                    <p>{{ order.retailer.email }}</p>
-                    <p>{{ order.retailer.gstin }}</p>
                 </div>
             </div>
             <div>

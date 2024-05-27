@@ -28,6 +28,54 @@
           <label for="helper-checkbox" class="font-medium text-gray-900 dark:text-gray-300">Use shipping address for billing</label>
       </div>
   </div>
+    <h4 class="text-2xl mt-2.5 font-bold dark:text-white">Billing Address</h4>
+    {{ billing_formset.management_form }}
+    {% for form in billing_formset %}
+      <div class="billing-form">
+        <div class="mb-5 mt-5">
+            <label for="{{ form.full_name.id_for_label }}" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Name</label>
+            <input type="text" name="{{ form.full_name.html_name }}" id="{{ form.full_name.id_for_label }}" class="bf1-fullname bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required />
+        </div>
+        <div class="grid md:grid-cols-2 md:gap-6">
+          <div class="mb-5">
+            <label for="{{ form.email.id_for_label }}" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your email</label>
+            <input type="email" name="{{ form.email.html_name }}" id="{{ form.email.id_for_label }}" class="bf2-email bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required />
+          </div>
+          <div class="mb-5">
+            <label for="{{ form.phone.id_for_label }}" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Phone</label>
+            <input type="text" name="{{ form.phone.html_name }}" id="{{ form.phone.id_for_label }}" class="bf3-phone bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required />
+          </div>
+        </div>  
+        <div class="mb-5">
+          <label for="{{ form.address_1.id_for_label }}" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Address Line 1</label>
+          <input type="text" name="{{ form.address_1.html_name }}" id="{{ form.address_1.id_for_label }}" class="bf5-address1 block w-full p-4 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-base focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required />
+        </div>
+        <div class="mb-5">
+          <label for="{{ form.address_2.id_for_label }}" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Address Line 2</label>
+          <input type="text" name="{{ form.address_2.html_name }}" id="{{ form.address_2.id_for_label }}" class="bf6-address2 block w-full p-4 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-base focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+        </div>
+        <div class="grid md:grid-cols-2 md:gap-6">
+          <div class="mb-5">
+            <label for="{{ form.city.id_for_label }}" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">City</label>
+            <input type="text" name="{{ form.city.html_name }}" id="{{ form.city.id_for_label }}" class="bf7-city block w-full p-2.5 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-base focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required />
+          </div>
+          <div class="mb-5">
+            <label for="{{ form.state.id_for_label }}" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">State</label>
+            <input type="text" name="{{ form.state.html_name }}" id="{{ form.state.id_for_label }}" class="bf8-state block w-full p-2.5 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-base focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required />
+          </div>
+        </div>
+        <div class="grid md:grid-cols-2 md:gap-6">
+          <div class="mb-5">
+            <label for="{{ form.postcode.id_for_label }}" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Postcode</label>
+            <input type="text" name="{{ form.postcode.html_name }}" id="{{ form.postcode.id_for_label }}" class="bf9-zipcode block w-full p-2.5 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-base focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required />
+          </div>
+          <div class="mb-5">
+            <label for="{{ form.country.id_for_label }}" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Country</label>
+            <input type="text" name="{{ form.country.html_name }}" id="{{ form.country.id_for_label }}" class="bf10-country block w-full p-2.5 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-base focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required />
+          </div>
+        </div>
+      </div>
+    {% endfor %}
     <h4 class="text-2xl mt-2.5 font-bold dark:text-white">Shipping Address</h4>
     {{ shipping_formset.management_form }}
     {% for form in shipping_formset %}
@@ -46,10 +94,6 @@
           <input type="text" name="{{ form.phone.html_name }}" id="{{ form.phone.id_for_label }}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value="{{ form.phone.value|default:'' }}" required />
         </div>
       </div>  
-      <div class="mb-5">
-        <label for="{{ form.company.id_for_label }}" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Company</label>
-        <input type="text" name="{{ form.company.html_name }}" id="{{ form.company.id_for_label }}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value="{{ form.company.value|default:'' }}" required />
-      </div>
       <div class="mb-5">
         <label for="{{ form.address_1.id_for_label }}" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Address Line 1</label>
         <input type="text" name="{{ form.address_1.html_name }}" id="{{ form.address_1.id_for_label }}" class="block w-full p-4 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-base focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value="{{ form.address_1.value|default:'' }}" required />
@@ -80,58 +124,6 @@
       </div>
     </div>
     {% endfor %}
-    <h4 class="text-2xl mt-2.5 font-bold dark:text-white">Billing Address</h4>
-    {{ billing_formset.management_form }}
-    {% for form in billing_formset %}
-      <div class="billing-form">
-        <div class="mb-5 mt-5">
-            <label for="{{ form.full_name.id_for_label }}" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Name</label>
-            <input type="text" name="{{ form.full_name.html_name }}" id="{{ form.full_name.id_for_label }}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value="{{ form.full_name.value|default:'' }}" required />
-        </div>
-        <div class="grid md:grid-cols-2 md:gap-6">
-          <div class="mb-5">
-            <label for="{{ form.email.id_for_label }}" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your email</label>
-            <input type="email" name="{{ form.email.html_name }}" id="{{ form.email.id_for_label }}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value="{{ form.email.value|default:'' }}" required />
-          </div>
-          <div class="mb-5">
-            <label for="{{ form.phone.id_for_label }}" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Phone</label>
-            <input type="text" name="{{ form.phone.html_name }}" id="{{ form.phone.id_for_label }}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value="{{ form.phone.value|default:'' }}" required />
-          </div>
-        </div>  
-        <div class="mb-5">
-          <label for="{{ form.company.id_for_label }}" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Company</label>
-          <input type="text" name="{{ form.company.html_name }}" id="{{ form.company.id_for_label }}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value="{{ form.company.value|default:'' }}" required />
-        </div>
-        <div class="mb-5">
-          <label for="{{ form.address_1.id_for_label }}" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Address Line 1</label>
-          <input type="text" name="{{ form.address_1.html_name }}" id="{{ form.address_1.id_for_label }}" class="block w-full p-4 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-base focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value="{{ form.address_1.value|default:'' }}" required />
-        </div>
-        <div class="mb-5">
-          <label for="{{ form.address_2.id_for_label }}" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Address Line 2</label>
-          <input type="text" name="{{ form.address_2.html_name }}" id="{{ form.address_2.id_for_label }}" class="block w-full p-4 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-base focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value="{{ form.address_2.value|default:'' }}">
-        </div>
-        <div class="grid md:grid-cols-2 md:gap-6">
-          <div class="mb-5">
-            <label for="{{ form.city.id_for_label }}" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">City</label>
-            <input type="text" name="{{ form.city.html_name }}" id="{{ form.city.id_for_label }}" class="block w-full p-2.5 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-base focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value="{{ form.city.value|default:'' }}" required />
-          </div>
-          <div class="mb-5">
-            <label for="{{ form.state.id_for_label }}" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">State</label>
-            <input type="text" name="{{ form.state.html_name }}" id="{{ form.state.id_for_label }}" class="block w-full p-2.5 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-base focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value="{{ form.state.value|default:'' }}" required />
-          </div>
-        </div>
-        <div class="grid md:grid-cols-2 md:gap-6">
-          <div class="mb-5">
-            <label for="{{ form.postcode.id_for_label }}" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Postcode</label>
-            <input type="text" name="{{ form.postcode.html_name }}" id="{{ form.postcode.id_for_label }}" class="block w-full p-2.5 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-base focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value="{{ form.postcode.value|default:'' }}" required />
-          </div>
-          <div class="mb-5">
-            <label for="{{ form.country.id_for_label }}" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Country</label>
-            <input type="text" name="{{ form.country.html_name }}" id="{{ form.country.id_for_label }}" class="block w-full p-2.5 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-base focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value="{{ form.country.value|default:'' }}" required />
-          </div>
-        </div>
-      </div>
-    {% endfor %}
     <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 w-full dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
       <p class="text-xl text-white dark:text-white">Place Order</p>
     </button>
@@ -140,23 +132,63 @@
 
 <script>
   const useShippingForBillingCheckbox = document.getElementById('use-shipping-for-billing');
-  const shippingForms = document.querySelectorAll('.shipping-form');
-  const billingForms = document.querySelectorAll('.billing-form');
+  const shippingForm = document.querySelector('.shipping-form');
+  const billingForm = document.querySelector('.billing-form');
 
   useShippingForBillingCheckbox.addEventListener('change', function() {
-    billingForms.forEach((billingForm, index) => {
-      const shippingForm = shippingForms[index];
-      const billingInputs = billingForm.querySelectorAll('input');
-      const shippingInputs = shippingForm.querySelectorAll('input');
+    const billingInputs = billingForm.querySelectorAll('input');
+    const shippingInputs = shippingForm.querySelectorAll('input');
 
-      billingInputs.forEach((billingInput, i) => {
-        if (this.checked) {
-          billingInput.value = shippingInputs[i].value;
-        } else {
-          billingInput.value = '';
-        }
-      });
+    shippingInputs.forEach((shippingInput, i) => {
+      const billingInput = billingInputs[i];
+      if (this.checked) {
+        shippingInput.value = billingInput.value;
+      } else {
+        shippingInput.value = '';
+      }
     });
   });
+
+  // Function to disable billing form fields
+  function disableBillingFormFields() {
+    const billingInputs = billingForm.querySelectorAll('input');
+    billingInputs.forEach(input => {
+      input.readOnly = true; 
+    });
+  }
+</script>
+<script>
+  // Function to fetch dealer data and populate the billing form
+  function fetchDealerData() {
+    const url = '/dealers/data/';
+
+    fetch(url)
+      .then(response => response.json())
+      .then(data => {
+        const dealerData = data;
+        console.log(dealerData);
+        const addressData = dealerData.addresses[0] || {}; 
+        console.log(addressData);
+
+        // Fill form fields with dealer data
+        document.querySelector('.bf1-fullname').value = dealerData.full_name;
+        document.querySelector('.bf2-email').value = dealerData.email;
+        document.querySelector('.bf3-phone').value = dealerData.phone;
+        document.querySelector('.bf5-address1').value = addressData.address_line_1 || '';
+        document.querySelector('.bf6-address2').value = addressData.address_line_2 || '';
+        document.querySelector('.bf7-city').value = addressData.city || '';
+        document.querySelector('.bf8-state').value = addressData.state || '';
+        document.querySelector('.bf9-zipcode').value = addressData.zip_code || '';
+        document.querySelector('.bf10-country').value = addressData.country || ''; 
+
+        disableBillingFormFields();
+      })
+      .catch(error => {
+        console.error('Error fetching dealer data:', error);
+      });
+  }
+
+  // Call the fetchDealerData function on page load
+  document.addEventListener('DOMContentLoaded', fetchDealerData);
 </script>
 {% endblock %}

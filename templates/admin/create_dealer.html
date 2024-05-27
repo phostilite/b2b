@@ -6,52 +6,65 @@
 <div class="p-4 sm:ml-64">
     <form class="max-w-screen-md mx-auto" style="margin-top: 64px;" method="post">
         <h2 class="text-4xl font-extrabold">Create Dealer</h2>
+        <h4 class="text-2xl font-bold dark:text-white mt-5">Profile Details:</h4>
         {% csrf_token %}
-        <div class="relative z-0 w-full mb-5 mt-10 group">
-            <input type="text" name="full_name" id="id_full_name"
-                class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                placeholder=" " required />
-            <label for="id_full_name"
-                class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Name</label>
+        <div class="mb-5 mt-5">
+            <label for="{{ form.full_name.id_for_label }}" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Name:</label>
+            <input type="text" id="{{ form.full_name.id_for_label }}" name="{{ form.full_name.html_name }}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 w-full">
         </div>
-        <div class="relative z-0 w-full mb-5 group">
-            <input type="text" name="username" id="id_username"
-                class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                placeholder=" " required />
-            <label for="id_username"
-                class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Username</label>
+        <div class="mb-5 mt-5">
+            <label for="{{ form.username.id_for_label }}" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Username:</label>
+            <input type="text" id="{{ form.username.id_for_label }}" name="{{ form.username.html_name }}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 w-full">
         </div>
-        <div class="relative z-0 w-full mb-5 group">
-            <input type="password" name="password1" id="id_password1"
-                class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                placeholder=" " required />
-            <label for="id_password1"
-                class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Enter Password</label>
+        <div class="mb-5 mt-5">
+            <label for="{{ form.password1.id_for_label }}" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Enter Password:</label>
+            <input type="password" id="{{ form.password1.id_for_label }}" name="{{ form.password1.html_name }}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 w-full">
         </div>
-        <div class="relative z-0 w-full mb-5 group">
-            <input type="password" name="password2" id="id_password2"
-                class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                placeholder=" " required />
-            <label for="id_password2"
-                class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Confirm Password</label>
+        <div class="mb-5 mt-5">
+            <label for="{{ form.password2.id_for_label }}" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Confirm Password:</label>
+            <input type="password" id="{{ form.password2.id_for_label }}" name="{{ form.password2.html_name }}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 w-full">
         </div>
-
         <div class="grid md:grid-cols-2 md:gap-6">
-            <div class="relative z-0 w-full mb-5 group">
-                <input type="tel" pattern="^\+\d{2}-?\d{10}$" name="phone" id="id_phone"
-                    class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                    placeholder=" " required />
-                <label for="id_phone"
-                    class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Phone
-                    number (+91) 1234567890</label>
+            <div class="mb-5">
+              <label for="{{ form.phone.id_for_label }}" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Phone:</label>
+              <input type="tel" name="{{ form.phone.html_name }}" id="{{ form.phone.id_for_label }}" class="block w-full p-2.5 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-base focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required />
             </div>
-            <div class="relative z-0 w-full mb-5 group">
-                <input type="email" name="email" id="id_email"
-                    class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                    placeholder=" " required />
-                <label for="id_email"
-                    class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Email
-                    address</label>
+            <div class="mb-5">
+              <label for="{{ form.email.id_for_label }}" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email:</label>
+              <input type="email" name="{{ form.email.html_name }}" id="{{ form.email.id_for_label }}" class="block w-full p-2.5 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-base focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required />
+            </div>
+        </div>
+        <div class="mb-5">
+            <label for="{{ form.gstin.id_for_label }}" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">GSTIN:</label>
+            <input type="text" id="{{ form.gstin.id_for_label }}" name="{{ form.gstin.html_name }}" class="block w-full p-2.5 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-base focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+        </div>
+        <h4 class="text-2xl font-bold dark:text-white">Address Details: </h4>
+        <div class="mb-5 mt-5">
+            <label for="{{ address_form.address_line_1.id_for_label }}" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Address Line 1:</label>
+            <input type="text" id="{{ address_form.address_line_1.id_for_label }}" name="{{ address_form.address_line_1.html_name }}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-4 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 w-full">
+        </div>
+        <div class="mb-5 mt-5">
+            <label for="{{ address_form.address_line_2.id_for_label }}" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Address Line 2:</label>
+            <input type="text" id="{{ address_form.address_line_2.id_for_label }}" name="{{ address_form.address_line_2.html_name }}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-4 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 w-full">
+        </div>
+        <div class="grid md:grid-cols-2 md:gap-6">
+            <div class="mb-5">
+                <label for="{{ address_form.city.id_for_label }}" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">City:</label>
+                <input type="text" id="{{ address_form.city.id_for_label }}" name="{{ address_form.city.html_name }}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 w-full">
+            </div>
+            <div class="mb-5">
+                <label for="{{ address_form.state.id_for_label }}" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">State:</label>
+                <input type="text" id="{{ address_form.state.id_for_label }}" name="{{ address_form.state.html_name }}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 w-full">
+            </div>
+        </div>
+        <div class="grid md:grid-cols-2 md:gap-6">
+            <div class="mb-5">
+                <label for="{{ address_form.zip_code.id_for_label }}" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Zip Code:</label>
+                <input type="number" id="{{ address_form.zip_code.id_for_label }}" name="{{ address_form.zip_code.html_name }}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 w-full">
+            </div>
+            <div class="mb-5">
+                <label for="{{ address_form.country.id_for_label }}" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Country:</label>
+                <input type="number" id="{{ address_form.country.id_for_label }}" name="{{ address_form.country.html_name }}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 w-full">
             </div>
         </div>
         <button type="submit"

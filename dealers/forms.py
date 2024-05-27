@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.models import Group
 from django.forms import formset_factory
 
-from .models import Dealer, Document
+from .models import Dealer, Document, Address
 from .widgets import MultipleFileInput
 
 class DealerForm(forms.ModelForm):
@@ -13,7 +13,7 @@ class DealerForm(forms.ModelForm):
 
     class Meta:
         model = Dealer
-        fields = ['full_name', 'phone', 'email', 'profile_pic']
+        fields = ['full_name', 'phone', 'email', 'profile_pic', 'gstin']
 
     def clean_username(self):
         username = self.cleaned_data.get('username')
@@ -62,7 +62,11 @@ class DocumentForm(forms.Form):
         required=False
     )
 
-
-
 class OTPForm(forms.Form):
     otp = forms.CharField(max_length=6)
+    
+
+class DealerAddressForm(forms.ModelForm):
+    class Meta:
+        model = Address
+        fields = ['address_line_1', 'address_line_2', 'city', 'state', 'zip_code', 'country']
