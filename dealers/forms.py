@@ -62,3 +62,7 @@ class DocumentForm(forms.Form):
         required=False
     )
 
+
+
+class OTPForm(forms.Form):
+    otp = forms.CharField(max_length=6)

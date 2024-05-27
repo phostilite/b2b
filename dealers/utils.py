@@ -1,5 +1,4 @@
 import random
-from twilio.rest import Client
 from django.core.mail import send_mail
 from django.conf import settings
 
@@ -8,25 +7,21 @@ def generate_otp():
     return random.randint(100000, 999999)
 
 def send_otp(dealer):
-    """Generate an OTP and send it to the dealer's phone and email."""
+    """Generate an OTP and send it to the dealer's email."""
     otp = generate_otp()
-
-    # Send OTP via SMS
-    client = Client(settings.TWILIO_ACCOUNT_SID, settings.TWILIO_AUTH_TOKEN1)
-    message = client.messages.create(
-        body=f'Your OTP is {otp}',
-        from_=settings.TWILIO_PHONE_NUMBER,
-        to=dealer.phone,  # Make sure this is in E.164 format
-    )
-
-    # Send OTP via email
     send_mail(
-        'Your OTP',
-        f'Your OTP is {otp}',
+        'Your OTP for Agreement Signing',
+        f'Dear {dealer.user.first_name},\n\n'
+        'You have requested to sign the agreement. '
+        'Please use the following One-Time Password (OTP) to proceed:\n\n'
+        f'{otp}\n\n'
+        'This OTP is valid for a short period of time for security reasons. '
+        'If it expires, please request a new one.\n\n'
+        'Best regards,\n'
+        'Itease B2B Platform Team\n',
         settings.DEFAULT_FROM_EMAIL,
         [dealer.user.email],
     )
-
     return otp
 
 def verify_otp(session_otp, user_otp):

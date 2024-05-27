@@ -20,11 +20,11 @@ from django.shortcuts import get_object_or_404
 from .models import Dealer, Document
 from orders.models import Order
 from payments.models import Payment
-from .forms import DealerForm, DealerProfileForm, DocumentForm
+from .forms import DealerForm, DealerProfileForm, DocumentForm, OTPForm
 from accounts.decorators import allowed_users
 from django.http import JsonResponse
 from datetime import datetime, timedelta
-from .utils import send_otp, verify_otp  # You need to implement these functions
+from .utils import send_otp, verify_otp, generate_otp
 
 
 logger = logging.getLogger(__name__)
@@ -111,26 +111,6 @@ def dealer_login_view(request):
         logger.error(f'An error occurred in dealer_login_view: {e}')
         return render(request, 'authentication/dealer_login.html', {'form_errors': form_errors})
 
-# @csrf_exempt
-# def agreement_view(request):
-#     try:
-#         if request.method == 'POST':
-#             agreement = request.POST.get('agreement')
-#             if agreement == 'accept':
-#                 dealer = Dealer.objects.get(user=request.user)
-#                 dealer.agreement_accepted = True
-#                 dealer.save()
-#                 return redirect('dealer_dashboard')  
-#             elif agreement == 'decline':
-#                 logout(request)
-#                 return redirect('dealer_login')  
-#             else:
-#                 messages.error(request, 'Invalid agreement option.')
-#         return render(request, 'dealer/agreement.html')
-#     except Exception as e:
-#         logger.error(f'An error occurred in agreement_view: {e}')
-#         return render(request, 'dealer/agreement.html')  
-
 @csrf_exempt
 def agreement_view(request):
     if request.method == 'POST':
@@ -171,18 +151,49 @@ def upload_documents(request):
 
     return render(request, 'dealer/document_upload.html', {'formset': formset})
 
-
+@login_required
 def esignature_view(request):
+    form_errors = []
+
+    if request.method == 'GET':
+        # Generate and send OTP when dealer enters the view
+        otp = send_otp(request.user.dealer)
+        # Store the OTP in the session
+        request.session['otp'] = otp
+        logger.info(f'OTP sent to dealer {request.user.dealer.id}: {otp}')
+        messages.success(request, 'OTP has been sent to your email.')
+        form = OTPForm()
+        return render(request, 'dealer/esignature.html', {'form': form, 'messages': messages.get_messages(request)})
+
     if request.method == 'POST':
-        if request.POST.get('agree_to_terms'):
-            dealer = request.user.dealer
-            # Mark the agreement as signed in your Dealer model
-            dealer.agreement_signed = True
-            dealer.save()
-            logger.info(f'Agreement signed by dealer {dealer.id}')
-            # Redirect to the dealer's dashboard or another appropriate page
-            return redirect('dealer_dashboard')
-    return render(request, 'dealer/esignature.html')
+        form = OTPForm(request.POST)
+
+        if form.is_valid():
+            user_otp = form.cleaned_data.get('otp')
+            session_otp = request.session.get('otp')
+            logger.info(f'OTP received from dealer {request.user.dealer.id}: {user_otp}')
+
+            # Verify the OTP entered by the user
+            if verify_otp(session_otp, user_otp):
+                if request.POST.get('agree_to_terms'):
+                    # Mark the agreement as signed in your Dealer model
+                    request.user.dealer.agreement_accepted = True
+                    request.user.dealer.save()
+                    logger.info(f'Agreement signed by dealer {request.user.dealer.id}')
+                    messages.success(request, 'Agreement successfully signed.')
+                    # Redirect to the dealer's dashboard or another appropriate page
+                    return redirect('dealer_dashboard')
+                else:
+                    messages.error(request, 'Please agree to the terms and conditions.')
+            else:
+                messages.error(request, 'Invalid OTP. Please try again.')
+                logger.warning(f'Invalid OTP entered by dealer {request.user.dealer.id}')
+        else:
+            for field, errors in form.errors.items():
+                for error in errors:
+                    form_errors.append(f'{field.title()}: {error}')
+
+        return render(request, 'dealer/esignature.html', {'form': form, 'form_errors': form_errors, 'messages': messages.get_messages(request)})
 
 def dealer_logout_view(request):
     logout(request)

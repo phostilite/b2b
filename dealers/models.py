@@ -10,6 +10,7 @@ class Dealer(models.Model):
     email = models.EmailField(null=True, blank=True)
     agreement_accepted = models.BooleanField(default=False)
     profile_pic = models.ImageField(upload_to='profile_pics/', null=True, blank=True)
+    otp_hash = models.CharField(max_length=100, null=True, blank=True)
     
     def __str__(self):
         return f"{self.full_name}"
