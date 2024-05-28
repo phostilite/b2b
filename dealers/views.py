@@ -95,8 +95,7 @@ def dealer_login_view(request):
                 if dealer.agreement_accepted:
                     return redirect('dealer_dashboard')
             except Dealer.DoesNotExist:
-                logger.error(
-                    'Dealer object does not exist for the authenticated user.')
+                logger.error('Dealer object does not exist for the authenticated user.')
 
         if request.method == 'POST':
             username = request.POST.get('username')
@@ -112,19 +111,13 @@ def dealer_login_view(request):
                     else:
                         return redirect('agreement_view')
                 except ObjectDoesNotExist:
-                    logger.error(
-                        'Dealer object does not exist for the authenticated user.')
+                    logger.error('Dealer object does not exist for the authenticated user.')
             else:
-                form_errors.append(
-                    'Username or Password: Invalid username or password.')
-        return render(request,
-                      'authentication/dealer_login.html',
-                      {'form_errors': form_errors})
+                form_errors.append('Username or Password: Invalid username or password.')
+        return render(request, 'authentication/dealer_login.html', {'form_errors': form_errors})
     except Exception as e:
         logger.error(f'An error occurred in dealer_login_view: {e}')
-        return render(request,
-                      'authentication/dealer_login.html',
-                      {'form_errors': form_errors})
+        return render(request, 'authentication/dealer_login.html', {'form_errors': form_errors})
 
 
 @csrf_exempt
@@ -151,10 +144,7 @@ def agreement_view(request):
                     document_type='Agreement',
                     file=None
                 )
-                document.file.save(
-                    f'dealer_{
-                        dealer.id}_agreement.pdf',
-                    tmp.file)
+                document.file.save(f'dealer_{dealer.id}_agreement.pdf', tmp.file)
 
             dealer.save()
             return redirect('document_upload')
@@ -181,9 +171,7 @@ def upload_documents(request):
                         file=file,
                     )
                     document.save()
-                    logger.info(
-                        f'Document of type {document_type} uploaded for dealer {
-                            dealer.id}')
+                    logger.info(f'Document of type {document_type} uploaded for dealer { dealer.id}')
 
             return redirect('esignature_view')
 
@@ -203,8 +191,7 @@ def esignature_view(request):
         logger.info(f'OTP sent to dealer {request.user.dealer.id}: {otp}')
         messages.success(request, 'OTP has been sent to your email.')
         form = OTPForm()
-        return render(request, 'dealer/esignature.html',
-                      {'form': form, 'messages': messages.get_messages(request)})
+        return render(request, 'dealer/esignature.html', {'form': form, 'messages': messages.get_messages(request)})
 
     if request.method == 'POST':
         form = OTPForm(request.POST)
@@ -213,16 +200,13 @@ def esignature_view(request):
             user_otp = form.cleaned_data.get('otp')
             session_otp = request.session.get('otp')
             logger.info(
-                f'OTP received from dealer {
-                    request.user.dealer.id}: {user_otp}')
+                f'OTP received from dealer {request.user.dealer.id}: {user_otp}')
 
             if verify_otp(session_otp, user_otp):
                 if request.POST.get('agree_to_terms'):
                     request.user.dealer.agreement_accepted = True
                     request.user.dealer.save()
-                    logger.info(
-                        f'Agreement signed by dealer {
-                            request.user.dealer.id}')
+                    logger.info(f'Agreement signed by dealer {request.user.dealer.id}')
                     messages.success(request, 'Agreement successfully signed.')
                     return redirect('dealer_dashboard')
                 else:
@@ -230,9 +214,7 @@ def esignature_view(request):
                         request, 'Please agree to the terms and conditions.')
             else:
                 messages.error(request, 'Invalid OTP. Please try again.')
-                logger.warning(
-                    f'Invalid OTP entered by dealer {
-                        request.user.dealer.id}')
+                logger.warning(f'Invalid OTP entered by dealer {request.user.dealer.id}')
         else:
             for field, errors in form.errors.items():
                 for error in errors:
@@ -258,9 +240,7 @@ def dealer_list_view(request):
         return render(request, 'admin/dealer_list.html', {'dealers': dealers})
     elif request.user.groups.filter(name='Sales').exists():
         dealers = Dealer.objects.all()
-        return render(request,
-                      'employee/dealer_list.html',
-                      {'dealers': dealers})
+        return render(request, 'employee/dealer_list.html', {'dealers': dealers})
 
 
 @login_required
@@ -292,11 +272,9 @@ def create_dealer(request):
         address_form = DealerAddressForm()
 
     if request.user.groups.filter(name='Admin').exists():
-        return render(request, 'admin/create_dealer.html',
-                      {'form': form, 'address_form': address_form, 'form_errors': form_errors})
+        return render(request, 'admin/create_dealer.html', {'form': form, 'address_form': address_form, 'form_errors': form_errors})
     elif request.user.groups.filter(name='Sales').exists():
-        return render(request, 'employee/create_dealer.html',
-                      {'form': form, 'address_form': address_form, 'form_errors': form_errors})
+        return render(request, 'employee/create_dealer.html', {'form': form, 'address_form': address_form, 'form_errors': form_errors})
 
 
 @login_required
@@ -332,18 +310,11 @@ def delete_dealer_view(request, dealer_id):
         user = dealer.user
         dealer.delete()
         user.delete()
-        logger.info(
-            'Dealer with id %s and associated user deleted successfully',
-            dealer_id)
-        return JsonResponse(
-            {'status': 'success', 'message': 'Dealer and associated user deleted successfully'})
+        logger.info('Dealer with id %s and associated user deleted successfully', dealer_id)
+        return JsonResponse({'status': 'success', 'message': 'Dealer and associated user deleted successfully'})
     except Exception as e:
-        logger.error(
-            'An error occurred while deleting the dealer with id %s and associated user: %s',
-            dealer_id,
-            str(e))
-        return HttpResponseServerError(
-            {'status': 'error', 'message': 'An error occurred while deleting the dealer and associated user: ' + str(e)})
+        logger.error('An error occurred while deleting the dealer with id %s and associated user: %s', dealer_id, str(e))
+        return HttpResponseServerError({'status': 'error', 'message': 'An error occurred while deleting the dealer and associated user: ' + str(e)})
 
 
 def get_dealer_data(request):
@@ -378,9 +349,7 @@ def dealer_documents_list(request):
     dealer_id = request.session.get('dealer_id')
     dealer = get_object_or_404(Dealer, id=dealer_id)
     documents = dealer.documents.all()
-    return render(request,
-                  'dealer/documents_list.html',
-                  {'documents': documents})
+    return render(request, 'dealer/documents_list.html', {'documents': documents})
 
 
 @login_required
