@@ -39,4 +39,8 @@ urlpatterns = [
     path('esignature/', views.esignature_view, name='esignature_view'),
     
     path('data/', views.get_dealer_data, name='get_dealer_data'),
+    
+    path('documents/', views.dealer_documents_list, name='dealer_documents'),
+    path('delete_document/<int:document_id>/', views.delete_document, name='delete_document'),
+    path('download_document/<int:document_id>/', views.download_document, name='download_document'),
 ]

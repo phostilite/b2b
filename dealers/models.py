@@ -5,7 +5,7 @@ class Dealer(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     full_name = models.CharField(max_length=200, blank=True)
     phone = models.CharField(max_length=13)
-    email = models.EmailField(null=True, blank=True)
+    email = models.EmailField(null=True, blank=True, unique=True)
     agreement_accepted = models.BooleanField(default=False)
     profile_pic = models.ImageField(upload_to='profile_pics/', null=True, blank=True)
     gstin = models.CharField(max_length=15, null=True, blank=True)
